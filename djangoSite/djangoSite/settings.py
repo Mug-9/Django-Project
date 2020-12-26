@@ -26,12 +26,11 @@ SECRET_KEY = 'a#q4ud2vop(0w-$iv_@9^gj5=uc1z*h2l$0bt&_2fgdgwp4f2j'
 DEBUG = True
 
 ALLOWED_HOSTS = [
+    '192.168.0.100',
     '127.0.0.1',
-    'localhost',
-    '123.56.252.111',
     '0.0.0.0',
+    'localhost',
 ]
-
 
 # Application definition
 
@@ -42,20 +41,21 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'corsheaders',
+    'backend',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',  # 添加cors，在第三行，位置不能改
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-CORS_ORIGIN_ALLOW_ALL = True
 
 ROOT_URLCONF = 'djangoSite.urls'
 
@@ -128,5 +128,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "fonter/dist/static"),
+     os.path.join(BASE_DIR, "fonter/dist/static"),
 ]
+
+CORS_ORIGIN_ALLOW_ALL = True
