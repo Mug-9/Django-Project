@@ -1,15 +1,9 @@
 import { request } from './request'
 
-export function getBooks () {
-  return request({
-    url: 'books'
-  })
-}
-
-export function postLogin (config) {
+export function formRegister (config) {
   return request({
     method: 'post',
-    url: 'books',
+    url: 'register',
     data: config,
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded'

@@ -3,12 +3,11 @@ import qs from 'qs'
 
 export function request (config) {
   const instance = axios.create({
-    baseURL: 'http://192.168.0.100:8888/api/',
+    baseURL: 'http://192.168.0.105:8888/api/',
     timeout: 5000,
   })
 
   instance.interceptors.request.use(config => {
-    console.log(config)
     if (config.method == "POST") {
       config.data = qs.stringify(config.data)
     }
