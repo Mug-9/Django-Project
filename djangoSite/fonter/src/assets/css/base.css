@@ -1,4 +1,4 @@
-@import './normalize.css';
+@import "./normalize.css";
 
 :root {
   --color-text: #666;
@@ -19,9 +19,6 @@
 }
 
 body {
-  font-family: 'Cascadia Code';
+  font-family: "Cascadia Code";
   user-select: none;
-  background: var(--color-background);
-  color: var(--color-text);
-  width: 100vw;
 }

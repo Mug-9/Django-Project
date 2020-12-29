@@ -35,6 +35,7 @@ class SpiderProxy():
         #         self.proxies_list.append(tmp_proxy)
 
     def get_proxy(self):
+        self.header = user_agent_list.getheaders()
         while 1:
             try:
                 self.proxy = eval(random.choice(self.proxies_list))
@@ -43,6 +44,7 @@ class SpiderProxy():
                     return
             except Exception as e:
                 print("getProxy ------> ERROR", e)
+
 
     def run(self):
         for url in self.url:

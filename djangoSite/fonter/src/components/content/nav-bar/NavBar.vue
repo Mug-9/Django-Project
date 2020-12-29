@@ -11,7 +11,7 @@
       menu-trigger="hover"
     >
       <el-menu-item index="/home">
-        <img src="~assets/img/logo.png" alt="" />
+        <img src="@/assets/img/logo.png" alt="" />
       </el-menu-item>
       <el-menu-item></el-menu-item>
       <el-menu-item index="/home">首页</el-menu-item>
