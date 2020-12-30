@@ -2,7 +2,7 @@ import spider_online_num
 import datetime
 import threading
 
-time_list = [0, 15, 30, 45, 60]
+time_list = [0, 30, 60]
 
 
 class onTime(object):

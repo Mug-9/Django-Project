@@ -3,7 +3,12 @@ from django.http.response import JsonResponse, HttpResponse
 from django.core import serializers
 from .models import *
 
+
 # Create your views here.
+def books(request):
+    book = ['abcd']
+    return HttpResponse('books')
+
 
 def login(request):
     if request.method == 'POST':

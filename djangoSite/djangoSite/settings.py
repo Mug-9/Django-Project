@@ -25,7 +25,10 @@ SECRET_KEY = 'a#q4ud2vop(0w-$iv_@9^gj5=uc1z*h2l$0bt&_2fgdgwp4f2j'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+STATIC_ROOT = '/root/djangoSite/static'
+
 ALLOWED_HOSTS = [
+    '123.56.252.111',
     '192.168.0.105',
     '127.0.0.1',
     '0.0.0.0:8000',
@@ -136,4 +139,4 @@ STATICFILES_DIRS = [
 ]
 
 CORS_ORIGIN_ALLOW_ALL = True
-APPEND_SLASH=False
+APPEND_SLASH = False
