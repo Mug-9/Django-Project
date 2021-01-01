@@ -60,9 +60,12 @@ export default {
   font-size: 1em;
 }
 .nav-bar-item {
+  margin-top: 4px;
   display: flex;
+  align-content: center;
 }
 .nav-avatar {
   display: inline-flex;
+  height: 100%;
 }
 </style>
