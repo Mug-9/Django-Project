@@ -18,10 +18,10 @@
       <el-menu-item index="/ranklist">排行榜</el-menu-item>
     </el-menu>
     <div class="nav-user">
-      <div v-if="isLogin" class="nav-user-item">
-        <login-nav-bar></login-nav-bar>
+      <div v-if="isLogin">
+        <login-nav-bar ></login-nav-bar>
       </div>
-      <div class="nav-user-item" v-else>
+      <div v-else>
         <un-login-nav-bar></un-login-nav-bar>
       </div>
     </div>
@@ -54,51 +54,19 @@ export default {
 </script>
 
 <style scoped>
-#nav-bar {
-  display: flex;
-}
-
-.el-menu-demo {
-  flex: 1;
-}
-
-.nav-user {
-  width: 120px;
-  background-color: #324157;
-  margin-bottom: 1px;
-  display: flex;
-}
-
-.nav-user-item {
-  align-self: center;
-}
-
-.el-menu-demo img {
-  width: 50px;
-  height: 50px;
-  margin-left: 10px;
-  border-bottom: none;
-}
-
-.el-submenu-title:hover {
-  background-color: rgba(50, 65, 87, 0) !important;
-}
-
-.el-menu-item:hover {
-  background-color: rgba(50, 65, 87, 0) !important;
-}
-.el-menu el-menu-item {
-  color: #0000;
-}
+@import "~@/assets/css/navbar.css";
 .el-menu--horizontal > .el-menu-item.is-active {
   border-bottom: none;
 }
 .el-menu-item {
   transition: none;
-  font-size: 16px;
+  font-size: 1.1em;
 }
-
-.el-menu {
-  line-height: 100px;
+.nav-user {
+  height: 61px;
+  background-color: #324157;
+  border-bottom: solid 1px #e6e6e6;
+  display: flex;
+  align-content: center;
 }
 </style>

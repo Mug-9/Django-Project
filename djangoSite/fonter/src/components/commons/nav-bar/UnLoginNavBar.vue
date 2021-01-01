@@ -1,14 +1,12 @@
 <template>
-  <div>
-    <el-dropdown>
+  <div class="nav-bar-item">
+    <div class="nav-avatar">
       <el-avatar @click="itemClick" :size="52" src=""></el-avatar>
-      <template #dropdown>
-        <el-dropdown-menu>
-          <el-dropdown-item @click="loginClick">登录</el-dropdown-item>
-          <el-dropdown-item @click="registerClick">注册</el-dropdown-item>
-        </el-dropdown-menu>
-      </template>
-    </el-dropdown>
+    </div>
+    <div class="login_register">
+      <el-button type="primary" round>登录</el-button>
+      <el-button type="warning" round>注册</el-button>
+    </div>
   </div>
 </template>
 
@@ -17,10 +15,18 @@ import { ElMessage } from 'element-plus'
 
 export default {
   name: "nav-user",
+  props: {
+    width: {
+      type: String,
+      defalut: "240px"
+    }
+  },
   data () {
     return {
       path: '/profile'
     }
+  },
+  computed: {
   },
   methods: {
     itemClick () {
@@ -43,4 +49,20 @@ export default {
 </script>
 
 <style scoped>
+.login_register {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
+.login_register button {
+  height: 2.5em;
+  margin: auto 7px;
+  font-size: 1em;
+}
+.nav-bar-item {
+  display: flex;
+}
+.nav-avatar {
+  display: inline-flex;
+}
 </style>
