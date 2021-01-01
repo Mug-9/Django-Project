@@ -4,8 +4,8 @@
       <el-avatar @click="itemClick" :size="52" src=""></el-avatar>
     </div>
     <div class="login_register">
-      <el-button type="primary" round>登录</el-button>
-      <el-button type="warning" round>注册</el-button>
+      <el-button type="primary" round @click="loginClick">登录</el-button>
+      <el-button type="warning" round @click="registerClick">注册</el-button>
     </div>
   </div>
 </template>

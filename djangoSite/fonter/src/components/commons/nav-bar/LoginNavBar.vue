@@ -1,10 +1,11 @@
 <template>
-  <div>
+  <div class="user-avatar">
     <el-dropdown>
       <el-avatar
         @click="itemClick"
         :size="52"
         src="https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png"
+        class="el-avatar"
       ></el-avatar>
       <template #dropdown>
         <el-dropdown-menu>
@@ -15,6 +16,9 @@
         </el-dropdown-menu>
       </template>
     </el-dropdown>
+    <i @click="messageClick">
+      <img src="~assets/img/message.svg" alt="" />
+    </i>
   </div>
 </template>
 
@@ -33,10 +37,27 @@ export default {
     },
     logoutClick () {
       this.$router.push('/logout')
+    },
+    messageClick () {
+      this.$router.push('/message')
     }
   }
 }
 </script>
 
 <style scoped>
+.user-avatar {
+  margin-right: 2em;
+  margin-top: 8px;
+  display: flex;
+  align-content: center;
+}
+.user-avatar img {
+  width: 27px;
+  height: 27px;
+  margin-top: 20px;
+}
+.el-avatar {
+  margin-right: 2em;
+}
 </style>
