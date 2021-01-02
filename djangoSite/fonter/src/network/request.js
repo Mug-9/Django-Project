@@ -5,11 +5,16 @@ export function request (config) {
   const instance = axios.create({
     baseURL: 'http://192.168.0.105:8888/api/',
     timeout: 5000,
+    withCredentials: true
   })
 
   instance.interceptors.request.use(config => {
     if (config.method == "POST") {
       config.data = qs.stringify(config.data)
+    }
+    if (!(/^(get|head|options|trace)$/.test(config['method']))) {
+      config['xsrfCookieName'] = 'csrftoken'
+      config['xsrfHeaderName'] = 'X-CSRFTOKEN'
     }
     return config
   }, err => {
@@ -17,6 +22,7 @@ export function request (config) {
   })
 
   instance.interceptors.response.use(res => {
+    console.log(res)
     return res.data
   }, err => {
     console.log(err)

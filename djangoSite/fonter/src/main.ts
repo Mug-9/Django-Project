@@ -5,9 +5,13 @@ import store from "./store";
 import ElementPlus from "element-plus";
 import "element-plus/lib/theme-chalk/index.css";
 
-const app = createApp(App);
-// app.prototype.$echarts = Echarts
+let Echarts: any = require("echarts");
+import cookies from "vue-cookies";
 
+const app = createApp(App);
+
+app.provide("Echarts", Echarts);
+app.provide("Cookies", cookies);
 app
   .use(store)
   .use(router)

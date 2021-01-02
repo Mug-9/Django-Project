@@ -10,3 +10,13 @@ export function formLogin (config) {
     }
   })
 }
+
+export function getToken() {
+  return request({
+    method: 'get',
+    url: 'login',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded'
+    }
+  })
+}

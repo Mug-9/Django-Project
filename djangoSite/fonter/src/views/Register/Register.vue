@@ -11,10 +11,10 @@
           label-width="8em"
           class="form-el"
         >
-          <el-form-item label="邮箱" prop="email">
+          <el-form-item label="邮箱" prop="account">
             <el-input
               type="email"
-              v-model="form.email"
+              v-model="form.account"
               autocomplete="off"
             ></el-input>
           </el-form-item>
@@ -52,7 +52,7 @@ import * as func from '@/store/mutations-type.ts'
 export default {
   name: "Register",
   data () {
-    var validataEmail = (rule, value, callback) => {
+    var validataAccount = (rule, value, callback) => {
       console.log(this.form)
       if (value == '') {
         callback(new Error("账号不能为空"))
@@ -88,16 +88,16 @@ export default {
     }
     return {
       form: {
-        email: '',
+        account: '',
         password: '',
         passwordAgain: '',
       },
       formCheck: {
-        emailExits: false
+        accountExits: false
       },
       rules: {
-        email: [
-          { validator: validataEmail, trigger: 'change' },
+        account: [
+          { validator: validataAccount, trigger: 'change' },
           { required: true, whitespace: true }
         ],
         password: [
@@ -116,24 +116,26 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           let formData = new FormData()
-          let email_tmp = this.form.email
+          let account_tmp = this.form.account
           for (let key in this.form) {
             formData.append(key, this.form[key])
+            console.log(key, this.form[key])
           }
-          this.form.email = email_tmp + ' '
+          this.form.account = account_tmp + ' '
           formRegister(formData).then(res => {
-            this.form.email = email_tmp
+            this.form.account = account_tmp
             console.log(res)
             if (res == "账号已存在!") {
               ElMessage.error(res)
-              this.formCheck.emailExits = true
+              this.formCheck.accountExits = true
             } else if (res == "注册成功!") {
               ElMessage.success({
                 message: res,
                 type: 'success'
               })
-              this.$store.commit(func.SETEMAIL, this.form.email)
+              this.$store.commit(func.SETEMAIL, this.form.account)
               this.$store.commit(func.SETPASSWORD, this.form.password)
+              this.$store.commit(func.SETACCOUNT, this.form.account)
               this.$router.replace('/login')
             }
           })

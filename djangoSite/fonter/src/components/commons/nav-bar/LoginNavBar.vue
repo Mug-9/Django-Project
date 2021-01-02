@@ -40,7 +40,7 @@ export default {
     },
     messageClick () {
       this.$router.push('/message')
-    }
+    } 
   }
 }
 </script>

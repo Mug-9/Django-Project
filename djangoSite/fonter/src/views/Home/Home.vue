@@ -4,8 +4,8 @@
       <echarts-time
         v-if="props_flag"
         echartsTime_id="echarts"
-        echartsTime_width="700px"
-        echartsTime_height="600px"
+        echartsTime_width="1000px"
+        echartsTime_height="800px"
         :echartsTime_data="onlineNumbers"
         :echartsTime_date="now_date"
         @dateChange="dateChange"

@@ -5,61 +5,64 @@
 </template>
 
 <script>
-const echarts = require('echarts')
+// const echarts = require('echarts')
+
+import { inject } from "vue"
 
 export default {
   name: "Echarts",
+  inject: ["Echarts"],
   props: {
     echarts_id: {
-      type: String
+      type: String,
     },
     width: {
       type: String,
-      default: "1000px"
+      default: "1000px",
     },
     height: {
       type: String,
-      default: "800px"
+      default: "800px",
     },
     options: {
       type: Object,
       default () {
         return {
           title: {
-            text: "vue-Echarts"
+            text: "vue-Echarts",
           },
           legend: {
-            data: ["销量"]
+            data: ["销量"],
           },
           xAxis: {
-            data: ["衬衫", "羊毛衫", "雪纺衫", "裤子", "高跟鞋", "袜子"]
+            data: ["衬衫", "羊毛衫", "雪纺衫", "裤子", "高跟鞋", "袜子"],
           },
           yAxis: [
             {
-              type: "value"
-            }
+              type: "value",
+            },
           ],
           series: [
             {
               name: "销量",
               type: "line",
-              data: [5, 20, 36, 10, 10, 70]
-            }
-          ]
+              data: [5, 20, 36, 10, 10, 70],
+            },
+          ],
         }
-      }
-    }
+      },
+    },
   },
   data () {
     return {
-      charts: ""
+      charts: "",
     }
   },
   computed: {
     style () {
       return {
         height: this.height,
-        width: this.width
+        width: this.width,
       }
     },
   },
@@ -67,32 +70,33 @@ export default {
     options: {
       handler (newV, oldV) {
         console.log(newV)
-        if (this.charts) {
+        if (this.echarts) {
           if (newV) {
-            this.charts.clear()
-            this.charts.setOption(newV)
+            this.echarts.clear()
+            this.echarts.setOption(newV)
           } else {
-            this.charts.clear()
-            this.charts.setOption(oldV)
+            this.echarts.clear()
+            this.echarts.setOption(oldV)
           }
         } else {
           this.init()
         }
       },
-      deep: true
-    }
+      deep: true,
+    },
   },
   methods: {
     init () {
-      console.log(this.echarts_id)
-      this.charts = echarts.init(document.getElementById(this.echarts_id))
-      this.charts.setOption(this.options)
+      this.echarts = this.Echarts.init(
+        document.getElementById(this.echarts_id)
+      )
+      this.echarts.setOption(this.options)
     },
   },
   mounted () {
     this.init()
-  }
-}
+  },
+};
 </script>
 
 <style scoped>

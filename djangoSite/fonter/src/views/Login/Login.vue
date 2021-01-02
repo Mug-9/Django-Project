@@ -11,8 +11,8 @@
           status-icon
           ref="rulerForm"
         >
-          <el-form-item label="账号" prop="email">
-            <el-input v-model="rulerForm.email" autocomplete="off"></el-input>
+          <el-form-item label="账号" prop="account">
+            <el-input v-model="rulerForm.account" autocomplete="off"></el-input>
           </el-form-item>
           <el-form-item label="密码" prop="password">
             <el-input
@@ -33,17 +33,16 @@
 
 <script>
 import { ElMessage } from 'element-plus'
-import { formLogin } from 'network/login.js'
+import { formLogin, getToken } from 'network/login.js'
 export default {
   name: "Login",
   data () {
-    var validataEmail = (rule, value, callback) => {
-      console.log(this.rulerForm)
+    var validataAccount = (rule, value, callback) => {
       if (value === '') {
         callback(new Error("账号不能为空"))
-      } else if (this.formCheck.emailNotExist) {
+      } else if (this.formCheck.accountNotExist) {
         callback(new Error("账号不存在"))
-        this.formCheck.emailNotExist = false
+        this.formCheck.accountNotExist = false
       } else {
         callback()
       }
@@ -60,17 +59,16 @@ export default {
     }
     return {
       rulerForm: {
-        email: this.$store.state.email,
+        account: this.$store.state.account,
         password: this.$store.state.password,
-
       },
       formCheck: {
-        emailNotExist: false,
+        accountNotExist: false,
         passwordWrong: false,
       },
       rules: {
-        email: [
-          { validator: validataEmail, trigger: 'change' },
+        account: [
+          { validator: validataAccount, trigger: 'change' },
           { required: true, whitespace: true }
         ],
         password: [
@@ -83,32 +81,34 @@ export default {
   methods: {
     formLogin () {
       let formData = new FormData()
-      let email_tmp = this.rulerForm.email
+      let account_tmp = this.rulerForm.account
       let password_tmp = this.rulerForm.password
       for (let key in this.rulerForm) {
         formData.append(key, this.rulerForm[key])
       }
       console.log(formData)
-      this.rulerForm.email = email_tmp + ' '
+      this.rulerForm.account = account_tmp + ' '
       this.rulerForm.password = password_tmp.slice(1) + ' '
       formLogin(formData).then(res => {
         console.log(res)
-        this.rulerForm.email = email_tmp
+        this.rulerForm.account = account_tmp
         this.rulerForm.password = password_tmp
-        if (res == "账户不存在") {
-          ElMessage.error(res)
+        if (res.message == "账户不存在") {
+          ElMessage.error(res.message)
           this.formCheck.emailNotExist = true
-          this.rulerForm.email = email_tmp
-        } else if (res == "密码错误") {
-          ElMessage.error(res)
+          this.rulerForm.account = account_tmp
+        } else if (res.message == "密码错误") {
+          ElMessage.error(res.message)
           this.formCheck.passwordWrong = true
           this.rulerForm.password = password_tmp
         } else {
           ElMessage.success({
-            message: res,
+            message: res.message,
             type: 'success'
           })
           this.$store.state.isLogin = true
+          this.$store.state.token = res.token
+          console.log(res.token)
           this.$router.replace('/home')
         }
       })
@@ -116,8 +116,8 @@ export default {
     cancelLogin (formName) {
       this.$refs[formName].resetFields()
       this.$router.push('/home')
-    }
-  }
+    },
+  },
 }
 </script>
 
