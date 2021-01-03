@@ -6,6 +6,7 @@ export function request (config) {
     baseURL: 'http://192.168.0.105:8888/api/',
     timeout: 5000,
     withCredentials: true
+    
   })
 
   instance.interceptors.request.use(config => {
@@ -22,7 +23,6 @@ export function request (config) {
   })
 
   instance.interceptors.response.use(res => {
-    console.log(res)
     return res.data
   }, err => {
     console.log(err)

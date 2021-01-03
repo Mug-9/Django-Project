@@ -43,54 +43,51 @@ def Token(headers, payloads):
     token = "%s.%s.%s" % (header, payload, signature)
     return token
 
-# @csrf_exempt
-# def login(request):
-#     if request.method == "POST":
-#         account = request.POST.get('account', '')
-#         password = request.POST.get('password', '')
-#         try:
-#             user = User.objects.get(account=account)
-#             if user.password == password:
-#                 headers = HEADER
-#                 data = {'account': account, 'email': account}
-#                 payloads = {'iss': account, 'iat': time.time()}
-#                 token = Token(headers, payloads)
-#                 info = {'token': token, 'code': 200, 'data': data, 'message': "登录成功"}
-#                 return JsonResponse(info)
-#             else:
-#                 info = {'message': "密码错误"}
-#                 return JsonResponse(info)
-#         except Exception as e:
-#             info = {'message': "账户不存在"}
-#             return JsonResponse(info)
-#     else:
-#         info = {'message': "错误地址"}
-#         return HttpResponse(info)
-
-
 @csrf_exempt
 def login(request):
-    if request.method == 'POST':
+    if request.method == "POST":
         account = request.POST.get('account', '')
         password = request.POST.get('password', '')
-        response = HttpResponse()
         try:
             user = User.objects.get(account=account)
             if user.password == password:
-                response.content = "登录成功"
-                request.session['login'] = account
-                request.session['isLogin'] = True
-                response.set_cookie('login', account+','+password, path='/login', max_age=24*60*60)
-                response['Access-Control-Allow-Origin'] = 'http://localhost:8080/'
-                response['Access-Control-Allow-Credentials'] = "true"
-                return response
+                headers = HEADER
+                data = {'account': account, 'email': account}
+                payloads = {'iss': account, 'iat': time.time()}
+                token = Token(headers, payloads)
+                info = {'token': token, 'code': 200, 'data': data, 'message': "登录成功"}
+                return JsonResponse(info)
             else:
-                return HttpResponse('密码错误')
+                info = {'message': "密码错误"}
+                return JsonResponse(info)
         except Exception as e:
-            print(e)
-            return HttpResponse("账户不存在")
+            info = {'message': "账户不存在"}
+            return JsonResponse(info)
     else:
-        return HttpResponse("GET")
+        info = {'message': "错误地址"}
+        return HttpResponse(info)
+
+
+# @csrf_exempt
+# def login(request):
+#     if request.method == 'POST':
+#         account = request.POST.get('account', '')
+#         password = request.POST.get('password', '')
+#         response = HttpResponse()
+#         try:
+#             user = User.objects.get(account=account)
+#             if user.password == password:
+#                 response.content = "登录成功"
+#                 request.session['login'] = account
+#                 request.session['isLogin'] = True
+#                 return response
+#             else:
+#                 return HttpResponse('密码错误')
+#         except Exception as e:
+#             print(e)
+#             return HttpResponse("账户不存在")
+#     else:
+#         return HttpResponse("GET")
 
 
 @csrf_exempt
@@ -120,7 +117,7 @@ def online_number(request):
         print(date)
         count = OnlineNumber.objects.filter(date=date).count()
         print(count)
-        numbers = None
+        numbers = []
         if count == 0:
             numbers = []
         elif count == 1:

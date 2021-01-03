@@ -18,8 +18,8 @@
       <el-menu-item index="/ranklist">排行榜</el-menu-item>
     </el-menu>
     <div class="nav-user">
-      <div v-if="isLogin">
-        <login-nav-bar ></login-nav-bar>
+      <div v-if="$store.getters.isLogin">
+        <login-nav-bar></login-nav-bar>
       </div>
       <div v-else>
         <un-login-nav-bar></un-login-nav-bar>

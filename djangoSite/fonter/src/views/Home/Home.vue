@@ -17,6 +17,7 @@
 <script>
 import { getOnlineNumbers } from 'network/onlineNumber.js'
 import EchartsTime from './EchartsTime.vue'
+import * as func from '@/store/mutations-type.ts'
 
 export default {
   name: "Home",
@@ -43,6 +44,7 @@ export default {
       this.onlineNumbers.numbers = []
       let query_date = this.now_date.getFullYear() + '-' + (this.now_date.getMonth() + 1) + '-'
         + this.now_date.getDate()
+      
       getOnlineNumbers({ date: query_date }).then(res => {
         let results = JSON.parse(res)
         for (let result of results) {

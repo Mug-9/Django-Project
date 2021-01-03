@@ -34,8 +34,10 @@
 <script>
 import { ElMessage } from 'element-plus'
 import { formLogin, getToken } from 'network/login.js'
+import * as func from '@/store/mutations-type.ts'
 export default {
   name: "Login",
+  inject: ['Cookies'],
   data () {
     var validataAccount = (rule, value, callback) => {
       if (value === '') {
@@ -86,13 +88,13 @@ export default {
       for (let key in this.rulerForm) {
         formData.append(key, this.rulerForm[key])
       }
-      console.log(formData)
       this.rulerForm.account = account_tmp + ' '
       this.rulerForm.password = password_tmp.slice(1) + ' '
       formLogin(formData).then(res => {
         console.log(res)
         this.rulerForm.account = account_tmp
         this.rulerForm.password = password_tmp
+
         if (res.message == "账户不存在") {
           ElMessage.error(res.message)
           this.formCheck.emailNotExist = true
@@ -102,13 +104,16 @@ export default {
           this.formCheck.passwordWrong = true
           this.rulerForm.password = password_tmp
         } else {
+          localStorage.setItem('token', res.token)
+          let date = new Date()
+          date.setDate(date.getDate() + 14)
+          console.log(date)
+          localStorage.setItem('expires', JSON.stringify(date))
+          this.$store.commit(func.SETTOKEN, res.token)
           ElMessage.success({
             message: res.message,
             type: 'success'
           })
-          this.$store.state.isLogin = true
-          this.$store.state.token = res.token
-          console.log(res.token)
           this.$router.replace('/home')
         }
       })

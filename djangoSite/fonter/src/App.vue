@@ -7,6 +7,7 @@
 
 <script>
 import NavBar from 'content/nav-bar/NavBar.vue'
+import * as func from '@/store/mutations-type.ts'
 
 export default {
   name: 'App',
@@ -18,6 +19,9 @@ export default {
   },
   components: {
     NavBar,
+  },
+  created () {
+    this.$store.commit(func.GETTOKEN)
   }
 }
 </script>

@@ -23,6 +23,8 @@
 </template>
 
 <script>
+
+import * as func from '@/store/mutations-type.ts'
 export default {
   name: "login-nav-bar",
   methods: {
@@ -36,11 +38,13 @@ export default {
       this.$router.push('/log')
     },
     logoutClick () {
-      this.$router.push('/logout')
+      window.localStorage.clear()
+      this.$store.commit(func.CLEARTOKEN)
+      this.$router.push('/home')
     },
     messageClick () {
       this.$router.push('/message')
-    } 
+    }
   }
 }
 </script>
