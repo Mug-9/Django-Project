@@ -68,28 +68,6 @@ def login(request):
         return HttpResponse(info)
 
 
-# @csrf_exempt
-# def login(request):
-#     if request.method == 'POST':
-#         account = request.POST.get('account', '')
-#         password = request.POST.get('password', '')
-#         response = HttpResponse()
-#         try:
-#             user = User.objects.get(account=account)
-#             if user.password == password:
-#                 response.content = "登录成功"
-#                 request.session['login'] = account
-#                 request.session['isLogin'] = True
-#                 return response
-#             else:
-#                 return HttpResponse('密码错误')
-#         except Exception as e:
-#             print(e)
-#             return HttpResponse("账户不存在")
-#     else:
-#         return HttpResponse("GET")
-
-
 @csrf_exempt
 def register(request):
     if request.method == 'POST':
@@ -114,9 +92,10 @@ def register(request):
 def online_number(request):
     if request.method == 'GET':
         date = request.GET.get('date', '')
-        print(date)
+        token = request.GET.get('token', '')
         count = OnlineNumber.objects.filter(date=date).count()
-        print(count)
+        account_encode = token.split('.')[1]
+        print(Decrypt(account_encode))
         numbers = []
         if count == 0:
             numbers = []

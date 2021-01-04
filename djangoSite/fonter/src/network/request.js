@@ -1,12 +1,11 @@
 import axios from 'axios'
 import qs from 'qs'
 
+
 export function request (config) {
   const instance = axios.create({
-    baseURL: 'http://192.168.0.105:8888/api/',
+    baseURL: 'http://123.56.252.111:8888/api/',
     timeout: 5000,
-    withCredentials: true
-    
   })
 
   instance.interceptors.request.use(config => {

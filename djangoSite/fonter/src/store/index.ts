@@ -1,6 +1,5 @@
 import { createStore } from "vuex";
 import * as func from "@/store/mutations-type";
-import { locale } from "element-plus";
 
 export default createStore({
   state: {

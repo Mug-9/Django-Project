@@ -45,7 +45,13 @@ export default {
       let query_date = this.now_date.getFullYear() + '-' + (this.now_date.getMonth() + 1) + '-'
         + this.now_date.getDate()
       
-      getOnlineNumbers({ date: query_date }).then(res => {
+      let data = {
+        date: query_date,
+      }
+      if(this.$store.state.token) {
+        data.token = this.$store.state.token
+      }
+      getOnlineNumbers(data).then(res => {
         let results = JSON.parse(res)
         for (let result of results) {
           this.onlineNumbers.dates.push(result.fields['date'])
