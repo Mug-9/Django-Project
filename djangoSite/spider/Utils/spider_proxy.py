@@ -1,5 +1,5 @@
 import requests
-import user_agent_list
+from spider.Utils import user_agent_list
 import re
 import random
 
@@ -44,7 +44,6 @@ class SpiderProxy():
                     return
             except Exception as e:
                 print("getProxy ------> ERROR", e)
-
 
     def run(self):
         for url in self.url:

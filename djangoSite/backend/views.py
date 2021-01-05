@@ -1,76 +1,45 @@
-import hashlib
+import json
 import time
-
-from django.shortcuts import render
 from django.http.response import JsonResponse, HttpResponse
-from django.core import serializers, signing
+from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
-
+from django.views.generic import View
 from .models import *
-from django.middleware.csrf import get_token
+from spider.baidu_index import spider_baidu
+from backend.backend_utils import token
+
+Token = token.Token()
+spider = spider_baidu.SpiderBaidu()
 
 
 # Create your views here.
-def books(request):
-    book = ['abcd']
-    return HttpResponse('books')
-
-
-HEADER = {
-    'type': 'JWT',
-    'alg': 'HS256'
-}
-
-
-def Encrypt(value):
-    data = signing.dumps(value)
-    data = signing.b64_encode(data.encode()).decode()
-    return data
-
-
-def Decrypt(value):
-    data = signing.b64_decode(value.encode()).decode()
-    data = signing.loads(data)
-    return data
-
-
-def Token(headers, payloads):
-    header = Encrypt(headers)
-    payload = Encrypt(payloads)
-    md5 = hashlib.md5()
-    md5.update(("%s.%s" % (header, payload)).encode())
-    signature = md5.hexdigest()
-    token = "%s.%s.%s" % (header, payload, signature)
-    return token
-
-@csrf_exempt
-def login(request):
-    if request.method == "POST":
+@method_decorator(csrf_exempt, name='dispatch')
+class Login(View):
+    def post(self, request):
         account = request.POST.get('account', '')
         password = request.POST.get('password', '')
         try:
             user = User.objects.get(account=account)
             if user.password == password:
-                headers = HEADER
+                headers = Token.HEADER
+                print(headers)
                 data = {'account': account, 'email': account}
                 payloads = {'iss': account, 'iat': time.time()}
-                token = Token(headers, payloads)
-                info = {'token': token, 'code': 200, 'data': data, 'message': "登录成功"}
+                generated_token = Token.get_token(headers, payloads)
+                info = {'token': generated_token, 'code': 200, 'data': data, 'message': "登录成功"}
                 return JsonResponse(info)
             else:
                 info = {'message': "密码错误"}
                 return JsonResponse(info)
         except Exception as e:
+            print(e, '不存在')
             info = {'message': "账户不存在"}
             return JsonResponse(info)
-    else:
-        info = {'message': "错误地址"}
-        return HttpResponse(info)
 
 
-@csrf_exempt
-def register(request):
-    if request.method == 'POST':
+@method_decorator(csrf_exempt, name='dispatch')
+class Register(View):
+    def post(self, request):
         account = request.POST.get('account', '')
         password = request.POST.get('password', '')
         print(account, password)
@@ -86,21 +55,19 @@ def register(request):
                 return response
         else:
             return HttpResponse('无效数据!')
-    return HttpResponse('注册失败!')
+
+    def get(self, request):
+        pass
+
+    def put(self, request):
+        pass
 
 
-def online_number(request):
-    if request.method == 'GET':
-        date = request.GET.get('date', '')
-        token = request.GET.get('token', '')
-        count = OnlineNumber.objects.filter(date=date).count()
-        account_encode = token.split('.')[1]
-        print(Decrypt(account_encode))
-        numbers = []
-        if count == 0:
-            numbers = []
-        elif count == 1:
-            numbers = [OnlineNumber.objects.filter(date=date)]
-        else:
-            numbers = OnlineNumber.objects.filter(date=date)
-        return JsonResponse(serializers.serialize("json", numbers), safe=False)
+class GetCrowd(View):
+    def get(self, request):
+        result = spider.get_crowd()
+        res = json.dumps(result)
+        return JsonResponse(res, safe=False)
+
+    def put(self, request):
+        pass

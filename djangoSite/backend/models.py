@@ -1,6 +1,4 @@
 from django.db import models
-
-
 # Create your models here.
 from django.utils import timezone
 
@@ -11,6 +9,7 @@ class User(models.Model):
     password = models.CharField(max_length=20)
     email = models.EmailField()
     user_header = models.ImageField(upload_to='media/headers/', default='media/headers/header.png')
+
     def __str__(self):
         return u'email: %s' % self.email
 

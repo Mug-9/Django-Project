@@ -1,8 +1,9 @@
 import pymysql
 import json
-from utils.loopRequest import LoopRequest
+import sys
 from urllib.parse import urlencode
-from urllib import parse
+sys.path.append("..")
+from spider.Utils.loopRequest import LoopRequest
 
 
 class SpiderBaidu(object):
@@ -31,12 +32,15 @@ class SpiderBaidu(object):
         print("crowd url: ", url)
         response = self.request.get(url=url, headers=self.header).content.decode('utf-8')
         response_data = json.loads(response)
-        return response_data['data']
+        result = response_data['data']['result']
+        result_b = result[0]
+        result_all = result[1]
+        return result_b, result_all
 
     def run(self):
-        return self.get_crowd()
+        self.get_crowd()
 
-#
+
 # if __name__ == "__main__":
 #     spider = SpiderBaidu()
 #     spider.run()

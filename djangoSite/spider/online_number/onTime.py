@@ -1,4 +1,4 @@
-from djangoSite.spider.online_number import spider_online_num
+import spider_online_num
 import datetime
 import threading
 

@@ -96,5 +96,8 @@ def getheaders():
     ]
     user_agent_list = user_agent_list_1 + user_agent_list_2 + user_agent_list_3;
     UserAgent = random.choice(user_agent_list)
-    header = {"User-Agent": UserAgent}
+    header = {"User-Agent": UserAgent,
+        'Connection': 'keep-alive',
+        'X-Requested-With': 'XMLHttpRequest'
+              }
     return header
