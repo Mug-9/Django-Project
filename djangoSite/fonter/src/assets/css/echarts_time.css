@@ -1,7 +1,6 @@
 .echarts-date {
-  /* padding: 30px 30px 5px; */
-  width: 100%;
-  display: flex;
+  padding: 30px 30px 5px;
+  display: inline-flex;
   position: relative;
   justify-content: center;
   /* border: 2px solid #333; */
@@ -17,4 +16,11 @@
   position: absolute;
   display: flex;
   right: 0;
+}
+
+.days-div {
+  position: absolute;
+  display: flex;
+  top: 35px;
+  right: 10%;
 }

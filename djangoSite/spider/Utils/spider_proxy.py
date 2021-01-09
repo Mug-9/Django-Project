@@ -28,12 +28,6 @@ class SpiderProxy():
         except Exception as e:
             print(e)
 
-        # for tmp_proxy in tmp_list:
-        #     proxy = eval(tmp_proxy)
-        #     response = requests.get("www.baidu.com", headers=self.header, proxies=proxy)
-        #     if response.status_code == 200:
-        #         self.proxies_list.append(tmp_proxy)
-
     def get_proxy(self):
         self.header = user_agent_list.getheaders()
         while 1:

@@ -2,14 +2,11 @@
   <div class="echarts-date">
     <div class="echarts-div">
       <echarts
-        :echarts_id="echartsTime_id"
-        :width="echartsTime_width"
-        :height="echartsTime_height"
+        :echarts_id="echartsBase_id"
+        :width="echartsBase_width"
+        :height="echartsBase_height"
         :options="options"
       ></echarts>
-    </div>
-    <div class="day-pick-div" v-show="false">
-      <day-pick :dayPick_date="now_date" @dateChange="dateChange"></day-pick>
     </div>
   </div>
 </template>
@@ -19,34 +16,30 @@ import Echarts from './Echarts'
 import DayPick from 'commons/time-pick/DayPick.vue'
 
 export default {
-  name: "EchartsTime",
+  name: "EchartsCrowdAge",
   components: {
     Echarts,
     DayPick
   },
   props: {
-    echartsTime_id: {
+    echartsBase_id: {
       type: String
     },
-    echartsTime_width: {
+    echartsBase_width: {
       type: String
     },
-    echartsTime_height: {
+    echartsBase_height: {
       type: String
     },
-    echartsTime_data: {
+    echartsBase_data: {
       type: Object
     },
-    echartsTime_date: {
-      type: Object,
-    }
   },
   data () {
     return {
-      now_date: this.echartsTime_date,
       options: {
         title: {
-          text: '性别分布'
+          text: '年龄分布'
         },
         tooltip: {
           trigger: 'axis',
@@ -69,16 +62,27 @@ export default {
           axisTick: {
             alignWithLabel: true
           },
-          data: this.echartsTime_data.age
+          data: this.echartsBase_data['desc'],
+          axisLine: {
+            lineStyle: {
+              width: 2,
+              color: '#00a1d6'
+            }
+          },
         }],
         yAxis: [{
           type: 'value',
           name: '百分比',
           max: 100,
           min: 0,
+          nameTextStyle: {//y轴上方单位的颜色
+            color: '#151515',
+          },
           axisLine: {
+            show: true,
             lineStyle: {
-              color: '#00a1d6'
+              color: '#00a1d6',
+              width: 2,
             }
           },
           axisLabel: {
@@ -90,28 +94,33 @@ export default {
           max: 200,
           min: 0,
           axisLine: {
+            show: true,
             lineStyle: {
-              color: '#d14a61'
+              color: '#d14a61',
+              width: 2,
             }
           },
-
         },
         ],
         series: [{
           name: 'b站',
           type: 'bar',
           color: '#00a1d6',
-          data: this.echartsTime_data.rate_b
+          data: this.echartsBase_data['b']
         },
         {
           name: "全网",
           type: 'bar',
-          data: this.echartsTime_data.rate_all
+          data: this.echartsBase_data['all']
         },
         {
           name: "tgi",
           type: "line",
-          data: this.echartsTime_data.tgi,
+          smooth: 1,
+          lineStyle: {
+            width: 5
+          },
+          data: this.echartsBase_data['tgi'],
           yAxisIndex: 1,
           color: '#d14a61',
         }]
@@ -119,20 +128,16 @@ export default {
     }
   },
   watch: {
-    'echartsTime_data.times': {
+    'echartsBase_data.times': {
       handler (newV, oldV) {
-        console.log(newV)
         this.options.xAxis.data = newV
-        console.log(this.options.xAxis.data)
       }
     },
-    'echartsTime_data.numbers': {
+    'echartsBase_data.numbers': {
       handler (newV, oldV) {
-        console.log(newV)
         this.options.series[0].data = newV
-        console.log(this.options.series[0].data)
       }
-    }
+    },
   },
   methods: {
     dateChange (val) {

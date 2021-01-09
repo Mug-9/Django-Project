@@ -6,9 +6,9 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import View
 from .models import *
 from spider.baidu_index import spider_baidu
-from backend.backend_utils import token
+from backend.backend_utils import Tokens
 
-Token = token.Token()
+Token = Tokens.Token()
 spider = spider_baidu.SpiderBaidu()
 
 
@@ -64,10 +64,34 @@ class Register(View):
 
 
 class GetCrowd(View):
-    def get(self, request):
-        result = spider.get_crowd()
-        res = json.dumps(result)
-        return JsonResponse(res, safe=False)
 
-    def put(self, request):
-        pass
+    def get(self, request):
+        type = request.GET.get('type')
+        try:
+            token = request.GET.get('token')
+            account = Token.decrypt(token.split('.')[1])['iss']
+        except Exception as e:
+            print(e)
+        if type == 'age':
+            result = spider.get_crowd_age()
+            res = json.dumps(result)
+            return JsonResponse(res, safe=False)
+
+
+class GetBaiduIndex(View):
+    def get(self, request):
+        type = request.GET.get('type')
+        days = request.GET.get('days')
+        try:
+            token = request.GET.get('token')
+            account = Token.decrypt(token.split('.')[1])['iss']
+        except Exception as e:
+            print(e)
+        if type == 'index':
+            result = spider.get_baidu_index(days)
+            res = json.dumps(result)
+            return JsonResponse(res, safe=False)
+        elif type == 'live':
+            result = spider.get_baidu_index_live()
+            res = json.dumps(result)
+            return JsonResponse(res, safe=False)

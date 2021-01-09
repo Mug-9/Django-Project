@@ -43,7 +43,6 @@ export default createStore({
   },
   getters: {
     isLogin(state) {
-      console.log(state.token);
       return !(state.token == "");
     },
   },

@@ -14,3 +14,19 @@
   border-left: 1px solid #333; */
   padding: 30px 30px 6px;
 }
+
+.echarts {
+  background: rgb(240, 240, 240);
+  margin: 20px auto;
+  border-radius: 4px;
+  box-shadow: 1px 10px 15px rgba(185, 175, 175, 0.7);
+  text-align: center;
+}
+
+.el-divider--vertical {
+  display: inline-block;
+  position: absolute;
+  height: 25em;
+  width: 2px;
+  margin: 10px auto;
+}

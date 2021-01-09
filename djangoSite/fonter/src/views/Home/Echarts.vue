@@ -5,7 +5,6 @@
 </template>
 
 <script>
-// const echarts = require('echarts')
 
 import { inject } from "vue"
 
@@ -56,20 +55,20 @@ export default {
   data () {
     return {
       charts: "",
+      r_width: this.width
     }
   },
   computed: {
     style () {
       return {
         height: this.height,
-        width: this.width,
+        width: this.r_width,
       }
     },
   },
   watch: {
     options: {
       handler (newV, oldV) {
-        console.log(newV)
         if (this.echarts) {
           if (newV) {
             this.echarts.clear()
@@ -84,6 +83,11 @@ export default {
       },
       deep: true,
     },
+    width: {
+      handler (newV, oldV) {
+        this.r_width = newV
+      }
+    }
   },
   methods: {
     init () {
@@ -91,6 +95,7 @@ export default {
         document.getElementById(this.echarts_id)
       )
       this.echarts.setOption(this.options)
+      window.addEventListener('resize', () => { this.echarts.resize() })
     },
   },
   mounted () {

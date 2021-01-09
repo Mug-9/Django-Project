@@ -1,13 +1,18 @@
 import { request } from './request'
 
-export function GetCrowd (data) {
+export function GetCrowdAge (data) {
   
   return request({
     method: 'get',
     url: 'GetCrowd',
-    params: data,
+    params: {
+      type: 'age',
+      token: data,
+    },
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded'
     }
   })
 }
+
+

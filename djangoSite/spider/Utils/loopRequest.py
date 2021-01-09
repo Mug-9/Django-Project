@@ -1,11 +1,11 @@
 import requests
-from spider.Utils import spider_proxy
+from spider.Utils.spider_proxy import SpiderProxy
 import time
 
 
-class LoopRequest():
+class LoopRequest(object):
     def __init__(self):
-        self.proxies = spider_proxy.SpiderProxy()
+        self.proxies = SpiderProxy()
         self.count = 0
 
     def get(self, url, **args):
@@ -24,12 +24,13 @@ class LoopRequest():
         self.get_proxy()
         if "headers" in args:
             args['headers']['User-Agent'] = self.proxies.header['User-Agent']
+            # args['Connection'] = 'keep-alive',
+            # args['X-Requested-With'] = 'XMLHttpRequest',
         else:
             args['headers'] = self.proxies.header
         args['proxies'] = self.proxies.proxy
         args['timeout'] = 5
         args['verify'] = False
-        print(args)
         loop = 50
         while loop:
             try:
@@ -44,6 +45,3 @@ class LoopRequest():
                 if loop == 0:
                     return "get error"
             loop -= 1
-
-
-# request = LoopRequest()
