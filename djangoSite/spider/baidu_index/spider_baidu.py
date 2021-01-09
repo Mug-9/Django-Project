@@ -77,7 +77,7 @@ class SpiderBaidu(object):
         encrypt_data = []
         for single_data in response_data['data']['userIndexes']:
             encrypt_data.append(single_data)
-        key = utils.get_key(uniqid, self.cookies)
+        key = utils.get_key(uniqid, self.header)
         decrypt_data = []
         start_date = ""
         end_date = ""
@@ -89,12 +89,7 @@ class SpiderBaidu(object):
                     end_date = data[kind]['endDate']
                     data[kind]['data'] = utils.decrypt_func(key, data[kind]['data'])
                     data_dict[kind] = data[kind]['data']
-        begin_date = datetime.strptime(start_date, '%Y-%m-%d')
-        ended_date = datetime.strptime(end_date, '%Y-%m-%d')
-        dates = []
-        while begin_date <= ended_date:
-            dates.append(begin_date.strftime('%Y-%m-%d'))
-            begin_date = begin_date + timedelta(days=1)
+        dates = utils.splice_day(start_date, end_date)
         data_dict['date'] = dates
         decrypt_data.append(data_dict)
         return decrypt_data
@@ -116,7 +111,7 @@ class SpiderBaidu(object):
         encrypt_data = []
         for single_data in response_data['data']['result']:
             encrypt_data.append(single_data)
-        key = utils.get_key(uniqid, self.cookies)
+        key = utils.get_key(uniqid, self.header)
         decrypt_data = []
         index_data = encrypt_data[0]['index'][0]
         data_dict = {}
@@ -125,11 +120,8 @@ class SpiderBaidu(object):
                 data = utils.decrypt_func(key, index_data[kind])
                 data_dict[kind[1:]] = data
             else:
-                begin_datetime = datetime.strptime(index_data[kind].split('|')[0], '%Y-%m-%d %H:%M:%S')
-                dateTime = [begin_datetime.strftime('%Y-%m-%d %H:%M:%S'),]
-                for index in range(1, 24):
-                    dateTime.append((begin_datetime + timedelta(hours=index)).strftime('%Y-%m-%d %H:%M:%S'))
-                data_dict['date'] = dateTime
+                times = utils.splice_time(index_data[kind].split('|')[0])
+                data_dict['date'] = times
         decrypt_data.append(data_dict)
         return decrypt_data
 
