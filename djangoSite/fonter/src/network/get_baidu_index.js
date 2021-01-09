@@ -11,13 +11,13 @@ export function GetBaiduIndex (data) {
     }
   })
 }
-export function GetBaiduIndexLive (data) {
-  
+
+export function GetCrowd (data) {
+
   return request({
     method: 'get',
-    url: 'GetBaiduIndex',
+    url: 'GetCrowd',
     params: {
-      type: 'live',
       token: data,
     },
     headers: {
@@ -25,4 +25,5 @@ export function GetBaiduIndexLive (data) {
     }
   })
 }
+
 

@@ -72,10 +72,9 @@ class GetCrowd(View):
             account = Token.decrypt(token.split('.')[1])['iss']
         except Exception as e:
             print(e)
-        if type == 'age':
-            result = spider.get_crowd_age()
-            res = json.dumps(result)
-            return JsonResponse(res, safe=False)
+        result = spider.get_crowd_age()
+        res = json.dumps(result)
+        return JsonResponse(res, safe=False)
 
 
 class GetBaiduIndex(View):

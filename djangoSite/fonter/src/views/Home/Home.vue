@@ -37,8 +37,7 @@
 </template>
 
 <script>
-import { GetCrowdAge } from 'network/get_crowd.js'
-import { GetBaiduIndex } from 'network/get_baidu_index.js'
+import { GetBaiduIndex, GetCrowd } from 'network/get_baidu_index.js'
 import EchartsBaiduIndex from './EchartsBaiduIndex.vue'
 import EchartsCrowdAge from './EchartsCrowdAge.vue'
 import * as func from '@/store/mutations-type.ts'
@@ -87,7 +86,7 @@ export default {
     EchartsCrowdSex
   },
   methods: {
-    getCrowdAge () {
+    getCrowd () {
       this.crowdAge.age = []
       this.crowdAge.rate_b = []
       this.crowdAge.rate_all = []
@@ -95,7 +94,7 @@ export default {
       if (this.$store.state.token) {
         data.token = this.$store.state.token
       }
-      GetCrowdAge(data).then(res => {
+      GetCrowd(data).then(res => {
         let results = JSON.parse(res)
         console.log(results)
         for (let index in results) {
@@ -142,7 +141,7 @@ export default {
     }
   },
   created () {
-    this.getCrowdAge()
+    this.getCrowd()
     this.getBaiduIndex()
   },
   mounted () {
