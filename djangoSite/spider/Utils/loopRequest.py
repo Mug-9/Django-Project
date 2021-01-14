@@ -29,7 +29,7 @@ class LoopRequest(object):
         else:
             args['headers'] = self.proxies.header
         args['proxies'] = self.proxies.proxy
-        args['timeout'] = 5
+        args['timeout'] = 2
         args['verify'] = False
         loop = 50
         while loop:

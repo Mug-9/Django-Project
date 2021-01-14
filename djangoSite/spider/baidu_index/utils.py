@@ -5,7 +5,7 @@ import json
 from spider.Utils.loopRequest import LoopRequest
 request = LoopRequest()
 
-
+keywords = ['b站']
 """
 传入日期时间（字符串）
 """
@@ -40,6 +40,7 @@ def get_key(uniqid, header):
     html_data = json.loads(html)
     key = html_data['data']
     return key
+
 
 
 def decrypt_func(key, data):

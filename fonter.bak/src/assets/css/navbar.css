@@ -1,0 +1,41 @@
+#nav-bar {
+  display: flex;
+  align-items: center;
+  font-size: 1.1em;
+  white-space: nowrap;
+  background-color: #324157;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.75);
+  position: fixed;
+  height: 50px;
+  width: 100%;
+  min-width: 640px;
+  z-index: 200;
+}
+
+.el-menu-demo {
+  display: flex;
+  flex-grow: 1;
+  margin-left: 1px;
+  align-items: center;
+}
+
+.el-menu-demo img {
+  width: 50px;
+  height: 50px;
+  margin-left: 10px;
+  border-bottom: none;
+}
+
+.el-submenu-title:hover {
+  background-color: rgba(50, 65, 87, 0) !important;
+}
+
+.el-menu-item:hover {
+  background-color: rgba(50, 65, 87, 0) !important;
+}
+
+.nav-user {
+  display: flex;
+  align-items: center;
+  
+}

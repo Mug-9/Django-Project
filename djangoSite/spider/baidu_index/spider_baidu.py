@@ -22,15 +22,15 @@ class SpiderBaidu(object):
         self.type['crowd'] = 'https://index.baidu.com/api/SocialApi/baseAttributes?'
         self.type['index'] = 'https://index.baidu.com/api/SearchApi/index?'
         self.type['live'] = 'https://index.baidu.com/api/LiveApi/getLive?'
+        self.type['interest'] = 'https://index.baidu.com/api/SocialApi/interest?'
         self.header = {
             'Host': 'index.baidu.com',
             'Cookie': self.cookies
         }
 
     def get_crowd_age(self):
-        keywords = ['b站']
         request_args = {
-            'wordlist[]': keywords[0]
+            'wordlist[]': utils.keywords[0]
         }
         url = self.type['crowd'] + urlencode(request_args)
         response = self.request.get(url=url, headers=self.header).content.decode('utf-8')
@@ -60,10 +60,8 @@ class SpiderBaidu(object):
         return age_dict, sex_dict
 
     def get_baidu_index(self, days=7):
-        keywords = ['b站']
         word_list = [
-            [{'name': keyword, 'wordType': 1} for keyword in keyword_list]
-            for keyword_list in keywords
+            [{'name': keyword, 'wordType': 1} for keyword in utils.keywords]
         ]
         request_args = {
             'area': 0,
@@ -75,8 +73,15 @@ class SpiderBaidu(object):
         response_data = json.loads(response)
         uniqid = response_data['data']['uniqid']
         encrypt_data = []
+
         for single_data in response_data['data']['userIndexes']:
             encrypt_data.append(single_data)
+        general_data = []
+        for single_data in response_data['data']['generalRatio']:
+            general_data.append(single_data)
+        general_data = general_data[0]
+        general_data['word'] = "general"
+
         key = utils.get_key(uniqid, self.header)
         decrypt_data = []
         start_date = ""
@@ -92,18 +97,20 @@ class SpiderBaidu(object):
         dates = utils.splice_day(start_date, end_date)
         data_dict['date'] = dates
         decrypt_data.append(data_dict)
+        data_dict['word'] = 'index'
+        decrypt_data.append(general_data)
         return decrypt_data
 
     def get_baidu_index_live(self):
-        keywords = [['b站']]
         word_list = [
-            [{'name': keyword, 'wordType': 1} for keyword in keyword_list]
-            for keyword_list in keywords
+            [{'name': keyword, 'wordType': 1} for keyword in utils.keywords]
         ]
+        print(word_list)
         request_args = {
             'area': 0,
             'word': json.dumps(word_list),
         }
+        print(request_args)
         url = self.type['live'] + urlencode(request_args)
         response = self.request.get(url=url, headers=self.header).content.decode('utf-8')
         response_data = json.loads(response)
