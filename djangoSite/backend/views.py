@@ -94,3 +94,15 @@ class GetBaiduIndex(View):
             result = spider.get_baidu_index_live()
             res = json.dumps(result)
             return JsonResponse(res, safe=False)
+
+
+class GetInterest(View):
+    def get(self, request):
+        try:
+            token = request.GET.get('token')
+            account = Token.decrypt(token.split('.')[1])['iss']
+        except Exception as e:
+            print(e)
+        result = spider.get_interest()
+        res = json.dumps(result)
+        return JsonResponse(res, safe=False)

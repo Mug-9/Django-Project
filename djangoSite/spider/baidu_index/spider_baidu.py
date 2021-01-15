@@ -129,11 +129,35 @@ class SpiderBaidu(object):
             else:
                 times = utils.splice_time(index_data[kind].split('|')[0])
                 data_dict['date'] = times
+        data_dict['word'] = 'index'
         decrypt_data.append(data_dict)
         return decrypt_data
 
+    def get_interest(self):
+        request_args = {
+            'wordlist[]': utils.keywords[0]
+        }
+        url = self.type['interest'] + urlencode(request_args)
+        response = self.request.get(url, headers = self.header).content.decode('utf-8')
+        response_data = json.loads(response)
+        results = response_data['data']['result']
+        interest_b, interest_all, tgi, desc = [], [], [], []
+        index = 0
+        for result in results:
+            if index == 0:
+                for interest in result['interest']:
+                    desc.append(interest['desc'])
+                    tgi.append(interest['tgi'])
+                    interest_b.append(interest['rate'])
+            else:
+                for interest in result['interest']:
+                    interest_all.append(interest['rate'])
+            index += 1
+        interest_dict = {'b': interest_b, 'all': interest_all, 'tgi': tgi, 'desc': desc, 'word': 'interest'}
+        return interest_dict
+
     def run(self):
-        self.get_baidu_index()
+        self.get_interest()
 
 
 if __name__ == "__main__":

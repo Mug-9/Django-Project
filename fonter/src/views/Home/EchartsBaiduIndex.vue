@@ -80,14 +80,11 @@ export default {
           }
         },
         legend: {
-          data: ['all', 'pc', 'wise'],
+          data: ['整体', 'PC端', '移动端'],
         },
         xAxis: [{
           show: true,
           type: 'category',
-          // min: this.echartsBaiduIndex_data.date[0],
-          // max: this.echartsBaiduIndex_data.date[6],
-          //data: this.echartsBaiduIndex_data.date,
           data: this.echartsBaiduIndex_data.date,
           axisTick: {
             alignWithLabel: true
@@ -95,7 +92,7 @@ export default {
           axisLine: {
             lineStyle: {
               width: 2,
-              color: '#ff7f50'
+              color: '#8a2be2'
             }
           },
         }],
@@ -117,7 +114,7 @@ export default {
         ],
         series: [
           {
-            name: "all",
+            name: "整体",
             type: "line",
             color: '#0000ff',
             smooth: 0.6,
@@ -127,7 +124,7 @@ export default {
             data: this.echartsBaiduIndex_data.userIndexes['all'],
           },
           {
-            name: "pc",
+            name: 'PC端',
             type: "line",
             color: '#6495ed',
             smooth: 0.6,
@@ -137,7 +134,7 @@ export default {
             data: this.echartsBaiduIndex_data.userIndexes['pc'],
           },
           {
-            name: "wise",
+            name: "移动端",
             type: "line",
             color: '#d14a61',
             smooth: 0.6,
@@ -168,7 +165,7 @@ export default {
       deep: true
     },
     echartsBaiduIndex_width: {
-      handler(newV, oldV) {
+      handler (newV, oldV) {
         this.echarts_width = newV
       },
       deep: true

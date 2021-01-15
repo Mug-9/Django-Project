@@ -1,7 +1,7 @@
 import { request } from './request'
 
 export function GetBaiduIndex (data) {
-  
+
   return request({
     method: 'get',
     url: 'GetBaiduIndex',
@@ -26,4 +26,17 @@ export function GetCrowd (data) {
   })
 }
 
+export function GetInterest (data) {
+
+  return request({
+    method: 'get',
+    url: 'GetInterest',
+    params: {
+      token: data,
+    },
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded'
+    }
+  })
+}
 

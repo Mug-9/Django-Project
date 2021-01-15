@@ -13,13 +13,11 @@
 
 <script>
 import Echarts from './Echarts'
-import DayPick from 'commons/time-pick/DayPick.vue'
 
 export default {
-  name: "EchartsCrowdAge",
+  name: "EchartsInterest",
   components: {
     Echarts,
-    DayPick
   },
   props: {
     echartsBase_id: {
@@ -37,9 +35,11 @@ export default {
   },
   data () {
     return {
+      echarts_width: this.echartsBase_width,
       options: {
+
         title: {
-          text: '性别分布'
+          text: '兴趣分布'
         },
         tooltip: {
           trigger: 'axis',
@@ -55,24 +55,25 @@ export default {
           }
         },
         legend: {
-          data: ['b站', '全网', 'tgi'],
+          data: ['b站', '全网', 'TGI指数'],
         },
         xAxis: [{
+          show: true,
           type: 'category',
+          data: this.echartsBase_data['desc'],
           axisTick: {
             alignWithLabel: true
           },
-          data: this.echartsBase_data['desc'],
           axisLine: {
             lineStyle: {
               width: 2,
-              color: '#00a1d6'
+              color: '#8a2be2'
             }
           },
         }],
         yAxis: [{
           type: 'value',
-          name: '百分比',
+          name: '人群占比',
           max: 100,
           min: 0,
           nameTextStyle: {//y轴上方单位的颜色
@@ -83,67 +84,77 @@ export default {
             lineStyle: {
               color: '#00a1d6',
               width: 2,
+              type: 'solid'
             }
           },
           axisLabel: {
             formatter: '{value} %'
           }
-        }, {
+        },
+        {
           type: 'value',
           name: 'TGI指数',
           max: 200,
           min: 0,
+          // nameTextStyle: {//y轴上方单位的颜色
+          //   color: '#151515',
+          // },
           axisLine: {
             show: true,
             lineStyle: {
               color: '#d14a61',
               width: 2,
+              type: 'solid'
             }
           },
         },
         ],
-        series: [{
-          name: 'b站',
-          type: 'bar',
-          color: '#00a1d6',
-          data: this.echartsBase_data['b']
-        },
-        {
-          name: "全网",
-          type: 'bar',
-          data: this.echartsBase_data['all']
-        },
-        {
-          name: "tgi",
-          type: "line",
-          smooth: 1,
-          lineStyle: {
-            width: 5
+        series: [
+          {
+            name: "b站",
+            type: "bar",
+            color: '#00a1d6',
+            smooth: 0.6,
+            lineStyle: {
+              width: 5
+            },
+            data: this.echartsBase_data['b'],
           },
-          data: this.echartsBase_data['tgi'],
-          yAxisIndex: 1,
-          color: '#d14a61',
-        }]
+          {
+            name: '全网',
+            type: "bar",
+            color: '#6495ed',
+            smooth: 0.6,
+            lineStyle: {
+              width: 5
+            },
+            data: this.echartsBase_data['all'],
+          },
+          {
+            name: "TGI指数",
+            type: "line",
+            color: '#d14a61',
+            smooth: 0.6,
+            lineStyle: {
+              width: 5
+            },
+            yAxisIndex: 1,
+            data: this.echartsBase_data['tgi'],
+          },
+        ]
       }
     }
   },
   watch: {
-    'echartsBase_data.times': {
+    echartsBase_width: {
       handler (newV, oldV) {
-        this.options.xAxis.data = newV
-      }
-    },
-    'echartsBase_data.numbers': {
-      handler (newV, oldV) {
-        this.options.series[0].data = newV
-      }
-    },
+        this.echarts_width = newV
+      },
+      deep: true
+    }
   },
   methods: {
-    dateChange (val) {
-      this.now_date = val
-      this.$emit('dateChange', val)
-    },
+
   },
   mounted () {
   }

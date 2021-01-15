@@ -39,7 +39,7 @@ export default {
     return {
       options: {
         title: {
-          text: '年龄分布'
+          text: '性别分布'
         },
         tooltip: {
           trigger: 'axis',
@@ -66,7 +66,7 @@ export default {
           axisLine: {
             lineStyle: {
               width: 2,
-              color: '#00a1d6'
+              color: '#8a2be2'
             }
           },
         }],
@@ -128,16 +128,6 @@ export default {
     }
   },
   watch: {
-    'echartsBase_data.times': {
-      handler (newV, oldV) {
-        this.options.xAxis.data = newV
-      }
-    },
-    'echartsBase_data.numbers': {
-      handler (newV, oldV) {
-        this.options.series[0].data = newV
-      }
-    },
   },
   methods: {
     dateChange (val) {
