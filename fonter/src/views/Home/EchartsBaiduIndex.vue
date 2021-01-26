@@ -2,18 +2,19 @@
   <div class="echarts-date">
     <div class="echarts-div">
       <echarts
-        :echarts_id="echartsBaiduIndex_id"
+        v-loading="echartsBase_data['loading']"
+        v-if="!echartsBase_data['loading']"
+        :echarts_id="echartsBase_id"
         :width="echarts_width"
-        :height="echartsBaiduIndex_height"
+        :height="echartsBase_height"
         :options="options"
       ></echarts>
     </div>
     <div class="days-div">
-      <el-dropdown @command="dateChange">
+      <el-dropdown @command="baiduIndex_dateChange">
         <el-button type="primary">
           {{ days + "   " }}<i class="el-icon-arrow-down el-icon--right"></i>
         </el-button>
-
         <template #dropdown>
           <el-dropdown-menu>
             <el-dropdown-item command="0">实时</el-dropdown-item>
@@ -25,44 +26,55 @@
           </el-dropdown-menu>
         </template>
       </el-dropdown>
+      <city-pick @cityChange="cityChange" class="city-pick"> </city-pick>
     </div>
+  </div>
+
+  <div>
+    <baidu-index-general
+      v-loading="echartsBase_data['loading']"
+      v-if="!echartsBase_data['loading']"
+      :general_table="echartsBase_data['general']"
+    >
+    </baidu-index-general>
   </div>
 </template>
 
 <script>
 import Echarts from './Echarts'
-import DayPick from 'commons/time-pick/DayPick.vue'
+import CityPick from '@/components/commons/select-city/city-pick.vue'
+import BaiduIndexGeneral from './baiduIndexGeneral.vue'
+import { GetBaiduIndex } from 'network/get_baidu_index.js'
+
 
 export default {
   name: "EchartsBaiduIndex",
   components: {
     Echarts,
-    DayPick
+    CityPick,
+    BaiduIndexGeneral
   },
   props: {
-    echartsBaiduIndex_id: {
+    echartsBase_id: {
       type: String
     },
-    echartsBaiduIndex_width: {
+    echartsBase_width: {
       type: String
     },
-    echartsBaiduIndex_height: {
+    echartsBase_height: {
       type: String
-    },
-    echartsBaiduIndex_data: {
-      type: Object
-    },
-    echartsBaiduIndex_date: {
-      type: Object,
     },
   },
   data () {
     return {
-      echarts_width: this.echartsBaiduIndex_width,
+      echartsBase_data: {
+        days: 7,
+        area: '全国',
+        loading: true,
+      },
+      echarts_width: this.echartsBase_width,
       days: "近7天",
-      now_date: this.echartsBaiduIndex_date,
       options: {
-
         title: {
           text: '百度搜索指数'
         },
@@ -85,7 +97,7 @@ export default {
         xAxis: [{
           show: true,
           type: 'category',
-          data: this.echartsBaiduIndex_data.date,
+          data: null,
           axisTick: {
             alignWithLabel: true
           },
@@ -121,7 +133,7 @@ export default {
             lineStyle: {
               width: 5
             },
-            data: this.echartsBaiduIndex_data.userIndexes['all'],
+            data: null,
           },
           {
             name: 'PC端',
@@ -131,7 +143,7 @@ export default {
             lineStyle: {
               width: 5
             },
-            data: this.echartsBaiduIndex_data.userIndexes['pc'],
+            data: null,
           },
           {
             name: "移动端",
@@ -141,30 +153,16 @@ export default {
             lineStyle: {
               width: 5
             },
-            data: this.echartsBaiduIndex_data.userIndexes['wise'],
+            data: null,
           },
         ]
       }
     }
   },
+  computed: {
+  },
   watch: {
-    'echartsBaiduIndex_data.userIndexes': {
-      handler (newV, oldV) {
-        this.options.series[0].data = newV['all']
-        this.options.series[1].data = newV['pc']
-        this.options.series[2].data = newV['wise']
-        this.echartsBaiduIndex_data.userIndexes = newV
-      },
-      deep: true
-    },
-    'echartsBaiduIndex_data.date': {
-      handler (newV, oldV) {
-        this.echartsBaiduIndex_data.date = newV
-        this.options.xAxis[0].data = newV
-      },
-      deep: true
-    },
-    echartsBaiduIndex_width: {
+    echartsBase_width: {
       handler (newV, oldV) {
         this.echarts_width = newV
       },
@@ -172,7 +170,40 @@ export default {
     }
   },
   methods: {
-    dateChange (command) {
+    getBaiduIndex () {
+      let data = {
+        type: this.echartsBase_data['days'] == 0 ? 'live' : 'index',
+        days: this.echartsBase_data['days'],
+        area: this.echartsBase_data['area'],
+      }
+      if (this.$store.state.token) {
+        data.token = this.$store.state.token
+      }
+      this.echartsBase_data['userIndex'] = {}
+      this.echartsBase_data['general'] = {}
+      GetBaiduIndex(data).then(res => {
+        let results = JSON.parse(res)
+        let kinds = ['all', 'pc', 'wise']
+        for (let result of results) {
+          if (result['word'] == 'index') {
+            for (let kind of kinds) {
+              this.echartsBase_data['userIndex'][kind] = result[kind]
+            }
+            this.echartsBase_data['date'] = result['date']
+          } else {
+            for (let kind of kinds) {
+              this.echartsBase_data['general'][kind] = result[kind]
+            }
+          }
+        }
+        this.options.series[0].data = this.echartsBase_data['userIndex']['all']
+        this.options.series[1].data = this.echartsBase_data['userIndex']['pc']
+        this.options.series[2].data = this.echartsBase_data['userIndex']['wise']
+        this.options.xAxis[0].data = this.echartsBase_data['date']
+        this.echartsBase_data['loading'] = false
+      })
+    },
+    baiduIndex_dateChange (command) {
       if (command == '0') {
         this.days = "实时"
       } else if (command == '180') {
@@ -180,9 +211,17 @@ export default {
       } else {
         this.days = '近' + command + '天'
       }
-      this.$emit('dateChange', command)
+      this.echartsBase_data['days'] = command
+      this.getBaiduIndex()
+    },
+    cityChange (val) {
+      this.echartsBase_data['area'] = val
+      this.getBaiduIndex()
     }
   },
+  mounted () {
+    this.getBaiduIndex()
+  }
 }
 </script>
 

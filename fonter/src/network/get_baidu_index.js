@@ -40,3 +40,35 @@ export function GetInterest (data) {
   })
 }
 
+export function GetFeedIndex (data) {
+  return request({
+    method: 'get',
+    url: 'GetFeedIndex',
+    params: data,
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded'
+    }
+  })
+}
+
+export function GetNewIndex (data) {
+  return request({
+    method: 'get',
+    url: 'GetNewIndex',
+    params: data,
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded'
+    }
+  })
+}
+
+export function GetRegion(data) {
+  return request({
+    method: 'get',
+    url: 'GetRegion',
+    params: data,
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded'
+    }
+  })
+}

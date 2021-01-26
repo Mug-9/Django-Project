@@ -81,17 +81,18 @@ class GetBaiduIndex(View):
     def get(self, request):
         type = request.GET.get('type')
         days = request.GET.get('days')
+        area = request.GET.get('area')
         try:
             token = request.GET.get('token')
             account = Token.decrypt(token.split('.')[1])['iss']
         except Exception as e:
             print(e)
         if type == 'index':
-            result = spider.get_baidu_index(days)
+            result = spider.get_baidu_index(days, area)
             res = json.dumps(result)
             return JsonResponse(res, safe=False)
         elif type == 'live':
-            result = spider.get_baidu_index_live()
+            result = spider.get_baidu_index_live(area)
             res = json.dumps(result)
             return JsonResponse(res, safe=False)
 
@@ -104,5 +105,47 @@ class GetInterest(View):
         except Exception as e:
             print(e)
         result = spider.get_interest()
+        res = json.dumps(result)
+        return JsonResponse(res, safe=False)
+
+
+class GetFeedIndex(View):
+    def get(self, request):
+        days = request.GET.get('days')
+        area = request.GET.get('area')
+        try:
+            token = request.GET.get('token')
+            account = Token.decrypt(token.split('.')[1])['iss']
+        except Exception as e:
+            print(e)
+        result = spider.get_feed_index(days, area)
+        res = json.dumps(result)
+        return JsonResponse(res, safe=False)
+
+
+class GetNewIndex(View):
+    def get(self, request):
+        days = request.GET.get('days')
+        try:
+            token = request.GET.get('token')
+            account = Token.decrypt(token.split('.')[1])['iss']
+        except Exception as e:
+            print(e)
+        result = spider.get_new_index(days)
+        print(result)
+        res = json.dumps(result)
+        return JsonResponse(res, safe=False)
+
+
+class GetRegion(View):
+    def get(self, request):
+        days = request.GET.get('days')
+        try:
+            token = request.GET.get('token')
+            account = Token.decrypt(token.split('.')[1])['iss']
+        except Exception as e:
+            print(e)
+        result = spider.spider_region(days)
+        print(result)
         res = json.dumps(result)
         return JsonResponse(res, safe=False)

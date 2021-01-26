@@ -23,6 +23,9 @@ class SpiderBaidu(object):
         self.type['index'] = 'https://index.baidu.com/api/SearchApi/index?'
         self.type['live'] = 'https://index.baidu.com/api/LiveApi/getLive?'
         self.type['interest'] = 'https://index.baidu.com/api/SocialApi/interest?'
+        self.type['feedIndex'] = 'https://index.baidu.com/api/FeedSearchApi/getFeedIndex?'
+        self.type['newIndex'] = 'https://index.baidu.com/api/NewsApi/getNewsIndex?'
+        self.type['region'] = 'https://index.baidu.com/api/SearchApi/region?'
         self.header = {
             'Host': 'index.baidu.com',
             'Cookie': self.cookies
@@ -59,12 +62,13 @@ class SpiderBaidu(object):
         age_dict = {'b': age_b, 'all': age_all, 'tgi': age_tgi, 'desc': age_desc}
         return age_dict, sex_dict
 
-    def get_baidu_index(self, days=7):
+    def get_baidu_index(self, days=7, area='全国'):
         word_list = [
             [{'name': keyword, 'wordType': 1} for keyword in utils.keywords]
         ]
+        area = utils.get_area(area)
         request_args = {
-            'area': 0,
+            'area': area,
             'word': json.dumps(word_list),
             'days': days,
         }
@@ -72,11 +76,10 @@ class SpiderBaidu(object):
         response = self.request.get(url=url, headers=self.header).content.decode('utf-8')
         response_data = json.loads(response)
         uniqid = response_data['data']['uniqid']
-        encrypt_data = []
+        encrypt_data, general_data = [], []
 
         for single_data in response_data['data']['userIndexes']:
             encrypt_data.append(single_data)
-        general_data = []
         for single_data in response_data['data']['generalRatio']:
             general_data.append(single_data)
         general_data = general_data[0]
@@ -101,17 +104,17 @@ class SpiderBaidu(object):
         decrypt_data.append(general_data)
         return decrypt_data
 
-    def get_baidu_index_live(self):
+    def get_baidu_index_live(self, area='全国'):
+        area = utils.get_area(area)
         word_list = [
             [{'name': keyword, 'wordType': 1} for keyword in utils.keywords]
         ]
-        print(word_list)
         request_args = {
-            'area': 0,
+            'region': area,
             'word': json.dumps(word_list),
         }
-        print(request_args)
         url = self.type['live'] + urlencode(request_args)
+        print(url)
         response = self.request.get(url=url, headers=self.header).content.decode('utf-8')
         response_data = json.loads(response)
         uniqid = response_data['data']['uniqid']
@@ -120,7 +123,7 @@ class SpiderBaidu(object):
             encrypt_data.append(single_data)
         key = utils.get_key(uniqid, self.header)
         decrypt_data = []
-        index_data = encrypt_data[0]['index'][0]
+        index_data = encrypt_data[0]['index'][area]
         data_dict = {}
         for kind in index_data:
             if kind[0] == '_':
@@ -156,10 +159,81 @@ class SpiderBaidu(object):
         interest_dict = {'b': interest_b, 'all': interest_all, 'tgi': tgi, 'desc': desc, 'word': 'interest'}
         return interest_dict
 
+    def get_feed_index(self, days=7, area='全国'):
+        area = utils.get_area(area)
+        word_list = [
+            [{'name': keyword, 'wordType': 1} for keyword in utils.keywords]
+        ]
+        request_args = {
+            'area': area,
+            'word': json.dumps(word_list),
+            'days': days,
+        }
+        url = self.type['feedIndex'] + urlencode(request_args)
+        response = self.request.get(url=url, headers=self.header).content.decode('utf-8')
+        response_data = json.loads(response)
+        uniqid = response_data['data']['uniqid']
+        key = utils.get_key(uniqid, self.header)
+        encrypt_data = response_data['data']['index'][0]['data']
+        general_data = response_data['data']['index'][0]['generalRatio']
+        decrypt_data = utils.decrypt_func(key, encrypt_data)
+        dates = utils.splice_day(response_data['data']['index'][0]['startDate'], response_data['data']['index'][0]['endDate'])
+        feedIndex = decrypt_data
+        general_data['word'] = 'general'
+        feed_index_dict = {'date': dates, 'feedIndex': feedIndex, 'word': 'feedIndex'}
+        return feed_index_dict, general_data
+
+    def get_new_index(self, days):
+        word_list = [
+            [{'name': keyword, 'wordType': 1} for keyword in utils.keywords]
+        ]
+        request_args = {
+            'area': 0,
+            'word': json.dumps(word_list),
+            'days': days,
+        }
+        url = self.type['newIndex'] + urlencode(request_args)
+        response = self.request.get(url=url, headers=self.header).content.decode('utf-8')
+        response_data = json.loads(response)
+        uniqid = response_data['data']['uniqid']
+        key = utils.get_key(uniqid, self.header)
+        encrypt_data = response_data['data']['index'][0]['data']
+        general_data = response_data['data']['index'][0]['generalRatio']
+        decrypt_data = utils.decrypt_func(key, encrypt_data)
+        feedIndex = decrypt_data
+        general_data['word'] = 'general'
+        feed_index_dict = {'newIndex': feedIndex, 'word': 'newIndex'}
+        return feed_index_dict, general_data
+
+    def spider_region(self, days=7):
+        request_args = {
+            'region': 0,
+            'word': utils.keywords[0],
+            'days': days,
+        }
+        url = self.type['region'] + urlencode(request_args)
+        response = self.request.get(url, headers = self.header).content.decode('utf-8')
+        response_data = json.loads(response)
+        prov = response_data['data']['region'][0]['prov']
+        prov_list = utils.replace_citys(prov)
+        value_list = utils.value_index(prov_list)
+        prov_dict_list_index, prov_dict_list = [], []
+        sum = 0
+        for pro in prov_list:
+            sum += prov_list[pro]
+            prov_dict_list.append({'name': pro, 'value': prov_list[pro]})
+            prov_dict_list_index.append({'name': pro, 'value': value_list[prov_list[pro]]})
+        return {'word': 'index', 'data': prov_dict_list_index}, {'word': 'real', 'data': prov_dict_list}
+
+
     def run(self):
-        self.get_interest()
+        self.spider_region()
 
 
 if __name__ == "__main__":
     spider = SpiderBaidu()
     spider.run()
+"""
+
+https://index.baidu.com/api/SearchApi/region?region=0&word=b%5Cu7ad9&days=7
+"""

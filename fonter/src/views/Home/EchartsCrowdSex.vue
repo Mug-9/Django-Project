@@ -39,7 +39,7 @@ export default {
     return {
       options: {
         title: {
-          text: '性别分布'
+          text: '年龄分布'
         },
         tooltip: {
           trigger: 'axis',
