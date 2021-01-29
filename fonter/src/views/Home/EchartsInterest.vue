@@ -2,16 +2,20 @@
   <div class="echarts-date">
     <div class="echarts-div">
       <echarts
+        v-if="!echartsBase_data['loading']"
         :echarts_id="echartsBase_id"
         :width="echartsBase_width"
         :height="echartsBase_height"
         :options="options"
       ></echarts>
     </div>
+    
   </div>
 </template>
 
 <script>
+import { GetInterest } from 'network/get_baidu_index.js'
+
 import Echarts from './Echarts'
 
 export default {
@@ -29,15 +33,14 @@ export default {
     echartsBase_height: {
       type: String
     },
-    echartsBase_data: {
-      type: Object
-    },
   },
   data () {
     return {
+      echartsBase_data: {
+        loading: true
+      },
       echarts_width: this.echartsBase_width,
       options: {
-
         title: {
           text: '兴趣分布'
         },
@@ -60,7 +63,7 @@ export default {
         xAxis: [{
           show: true,
           type: 'category',
-          data: this.echartsBase_data['desc'],
+          data: null,
           axisTick: {
             alignWithLabel: true
           },
@@ -118,7 +121,7 @@ export default {
             lineStyle: {
               width: 5
             },
-            data: this.echartsBase_data['b'],
+            data: null,
           },
           {
             name: '全网',
@@ -128,7 +131,7 @@ export default {
             lineStyle: {
               width: 5
             },
-            data: this.echartsBase_data['all'],
+            data: null,
           },
           {
             name: "TGI指数",
@@ -139,7 +142,7 @@ export default {
               width: 5
             },
             yAxisIndex: 1,
-            data: this.echartsBase_data['tgi'],
+            data: null,
           },
         ]
       }
@@ -154,9 +157,27 @@ export default {
     }
   },
   methods: {
-
+    getInterest () {
+      let data = {}
+      if (this.$store.state.token) {
+        data.token = this.$store.state.token
+      }
+      GetInterest(data).then(res => {
+        let results = JSON.parse(res)
+        let kinds = ['all', 'b', 'desc', 'tgi']
+        for (let kind of kinds) {
+          this.echartsBase_data[kind] = results[kind]
+        }
+        this.options.xAxis[0].data = this.echartsBase_data['desc']
+        this.options.series[0].data = this.echartsBase_data['b']
+        this.options.series[1].data = this.echartsBase_data['all']
+        this.options.series[2].data = this.echartsBase_data['tgi']
+        this.echartsBase_data['loading'] = false
+      })
+    },
   },
   mounted () {
+    this.getInterest()
   }
 }
 </script>

@@ -1,6 +1,6 @@
 .echarts-date {
   padding: 30px 30px 5px;
-  display: inline-flex;
+  display: flex;
   position: relative;
   justify-content: center;
   /* border: 2px solid #333; */
@@ -9,6 +9,7 @@
 }
 
 .echarts-div {
+  position: relative;
   display: flex;
   /* border: 2px solid #000; */
 }

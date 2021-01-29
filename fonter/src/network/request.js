@@ -31,3 +31,6 @@ export function request (config) {
   return instance(config)
 }
 
+export function requestAll (config) {
+  return axios.all(config)
+}

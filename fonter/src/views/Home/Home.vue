@@ -17,13 +17,9 @@
           </div>
           <div class="echarts">
             <echarts-feed-index
-              v-if="baiduFeedIndex_flag"
               echartsBase_id="echarts_baidu_feedIndex"
               :echartsBase_width="baiduIndexWidth"
               echartsBase_height="600px"
-              :echartsBase_data="baidu_feedIndex"
-              @feedIndex_dateChange="feedIndex_dateChange"
-              @feedIndex_cityChange="feedIndex_cityChange"
             >
             </echarts-feed-index>
           </div>
@@ -51,11 +47,9 @@
           </div>
           <div class="echarts">
             <echarts-interest
-              v-if="interest_flag"
               echartsBase_id="echarts_interest"
               :echartsBase_width="baiduIndexWidth"
               echartsBase_height="600px"
-              :echartsBase_data="crowd_interests"
             >
             </echarts-interest>
           </div>
@@ -66,7 +60,6 @@
 </template>
 
 <script>
-import { GetCrowd, GetInterest, GetFeedIndex, GetNewIndex } from 'network/get_baidu_index.js'
 import EchartsBaiduIndex from './EchartsBaiduIndex.vue'
 import EchartsCrowd from './EchartsCrowd.vue'
 import EchartsInterest from './EchartsInterest.vue'
@@ -88,23 +81,9 @@ export default {
       isIndivdual: true,
       screenWidth: document.body.clientWidth - 200,
       days: 7,
-      crowdAge: {
-      },
       general: {
       },
-      crowdSex: {
-      },
       crowd_interests: {
-      },
-      baidu_feedIndex: {
-        days: 7,
-        area: '全国',
-
-      },
-      feedIndex_general: {
-      },
-      newIndex_general: {
-
       },
       crowdAge_flag: false,
       baiduIndex_flag: false,
@@ -115,86 +94,27 @@ export default {
   },
   computed: {
     crowd_width () {
-      if ((this.screenWidth - 100) / 2 < 700) {
+      if ((this.screenWidth - 100) / 2 < 300) {
         this.isIndivdual = false
-        return Math.max(500, this.screenWidth) + 'px'
+        return Math.max(300, (this.screenWidth - 100) / 2 < 300) + 'px'
       } else {
         this.isIndivdual = true
         return ((this.screenWidth - 100) / 2) + 'px'
       }
     },
     baiduIndexWidth () {
-      return Math.max(500, this.screenWidth) + 'px'
+      return Math.max(600, this.screenWidth) + 'px'
     }
   },
   methods: {
 
-    getInterest () {
-      let data = {}
-      if (this.$store.state.token) {
-        data.token = this.$store.state.token
-      }
-      GetInterest(data).then(res => {
-        let results = JSON.parse(res)
-        let kinds = ['all', 'b', 'desc', 'tgi']
-        for (let kind of kinds) {
-          this.crowd_interests[kind] = results[kind]
-        }
-        this.interest_flag = true
-      })
-    },
-    getFeedIndex () {
-      let data = {
-        days: this.baidu_feedIndex['days'],
-        area: this.baidu_feedIndex['area'],
-      }
-      if (this.$store.state.token) {
-        data.token = this.$store.state.token
-      }
-      GetFeedIndex(data).then(res => {
-        GetNewIndex(data).then(res => {
-          let results = JSON.parse(res)
-          for (let result of results) {
-            if (result['word'] == 'newIndex') {
-              this.baidu_feedIndex['newIndex'] = result['newIndex']
-            } else {
-              this.baidu_feedIndex['newIndex_general'] = result
-              this.baidu_feedIndex['newIndex_general']['title'] = '新闻指数'
-            }
-          }
-          this.baiduFeedIndex_flag = true
-        })
-        let results = JSON.parse(res)
-        for (let result of results) {
-          if (result['word'] == 'feedIndex') {
-            this.baidu_feedIndex['date'] = result['date']
-            this.baidu_feedIndex['feedIndex'] = result['feedIndex']
-          } else {
-            this.baidu_feedIndex['feedIndex_general'] = result
-            this.baidu_feedIndex['feedIndex_general']['title'] = '资讯指数'
-          }
-        }
 
-      })
-
-
-    },
-    feedIndex_dateChange (val) {
-      this.baidu_feedIndex['days'] = val
-      this.getFeedIndex()
-    },
-    feedIndex_cityChange (val) {
-      this.baidu_feedIndex['area'] = val
-      this.getFeedIndex()
-    },
     region_dateChange (val) {
       this.baidu_region['days'] = val
       this.getRegion()
     }
   },
   created () {
-    this.getInterest()
-    this.getFeedIndex()
   },
   mounted () {
     window.onresize = () => {

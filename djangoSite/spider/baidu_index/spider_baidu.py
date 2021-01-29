@@ -179,7 +179,7 @@ class SpiderBaidu(object):
         decrypt_data = utils.decrypt_func(key, encrypt_data)
         dates = utils.splice_day(response_data['data']['index'][0]['startDate'], response_data['data']['index'][0]['endDate'])
         feedIndex = decrypt_data
-        general_data['word'] = 'general'
+        general_data['word'] = 'feedIndex_general'
         feed_index_dict = {'date': dates, 'feedIndex': feedIndex, 'word': 'feedIndex'}
         return feed_index_dict, general_data
 
@@ -201,7 +201,7 @@ class SpiderBaidu(object):
         general_data = response_data['data']['index'][0]['generalRatio']
         decrypt_data = utils.decrypt_func(key, encrypt_data)
         feedIndex = decrypt_data
-        general_data['word'] = 'general'
+        general_data['word'] = 'newIndex_general'
         feed_index_dict = {'newIndex': feedIndex, 'word': 'newIndex'}
         return feed_index_dict, general_data
 

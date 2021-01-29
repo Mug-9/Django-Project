@@ -7,42 +7,44 @@
         :height="echartsBase_height"
         :options="options"
       ></echarts>
+      <div class="days-div">
+        <el-dropdown @command="region_dateChange">
+          <el-button type="primary">
+            {{ days + "   " }}<i class="el-icon-arrow-down el-icon--right"></i>
+          </el-button>
+          <template #dropdown>
+            <el-dropdown-menu>
+              <el-dropdown-item command="0">实时</el-dropdown-item>
+              <el-dropdown-item command="7">近7天</el-dropdown-item>
+              <el-dropdown-item command="30">近30天</el-dropdown-item>
+              <el-dropdown-item command="60">近60天</el-dropdown-item>
+              <el-dropdown-item command="90">近90天</el-dropdown-item>
+              <el-dropdown-item command="180">近半年</el-dropdown-item>
+            </el-dropdown-menu>
+          </template>
+        </el-dropdown>
+      </div>
     </div>
-    <div class="days-div">
-      <el-dropdown @command="region_dateChange">
-        <el-button type="primary">
-          {{ days + "   " }}<i class="el-icon-arrow-down el-icon--right"></i>
-        </el-button>
-        <template #dropdown>
-          <el-dropdown-menu>
-            <el-dropdown-item command="0">实时</el-dropdown-item>
-            <el-dropdown-item command="7">近7天</el-dropdown-item>
-            <el-dropdown-item command="30">近30天</el-dropdown-item>
-            <el-dropdown-item command="60">近60天</el-dropdown-item>
-            <el-dropdown-item command="90">近90天</el-dropdown-item>
-            <el-dropdown-item command="180">近半年</el-dropdown-item>
-          </el-dropdown-menu>
-        </template>
-      </el-dropdown>
+    <div class="div-progress">
+      <ul>
+        <li
+          v-for="(item, index) in echartsBase_data['real']"
+          :key="item['name']"
+        >
+          <div class="progress-item" v-if="index < 10">
+            {{ item["name"] }}
+            <el-progress
+              :percentage="get_percent(item['value'])"
+              :format="format"
+              :stroke-width="16"
+              :color="customColors"
+              class="progress"
+              :text-inside="true"
+            ></el-progress>
+          </div>
+        </li>
+      </ul>
     </div>
-  </div>
-
-  <div class="div-progress">
-    <ul>
-      <li v-for="(item, index) in echartsBase_data['real']" :key="item['name']">
-        <div class="progress-item" v-if="index < 10">
-          {{ item["name"] }}
-          <el-progress
-            :percentage="get_percent(item['value'])"
-            :format="format"
-            :stroke-width="16"
-            :color="customColors"
-            class="progress"
-            :text-inside="true"
-          ></el-progress>
-        </div>
-      </li>
-    </ul>
   </div>
 </template>
 
@@ -182,17 +184,16 @@ ul li {
   list-style-type: none;
 }
 .div-progress {
-  margin: 0 auto;
-  width: 80%;
+  display: table;
   flex: 1;
 }
 .progress-item {
-  width: 100%;
-  flex: 1;
-  margin: 10px auto;
+  display: flex;
+  margin: 16px auto;
+  width: auto;
 }
 .progress {
-  display: inline-flex;
-  width: 80%;
+  display: flex;
+  width: 90%;
 }
 </style>

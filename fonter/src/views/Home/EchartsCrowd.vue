@@ -8,7 +8,6 @@
         :height="echartsBase_height"
         :options="options['Age']"
       ></echarts>
-      <el-divider v-show="isIndivdual" direction="vertical"></el-divider>
       <echarts
         v-if="!echartsBase_data['loading']"
         echarts_id="echartsSex"
