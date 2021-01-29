@@ -28,8 +28,4 @@ export default {
 
 <style>
 @import "assets/css/base.css";
-.app {
-  position: relative;
-  min-height: 100%;
-}
 </style>

@@ -34,7 +34,7 @@
             <echarts-region
               echartsBase_id="echarts_region"
               :echartsBase_width="crowd_width"
-              echartsBase_height="400px"
+              echartsBase_height="350px"
             >
             </echarts-region>
           </div>
@@ -57,6 +57,9 @@
       </el-tabs>
     </div>
   </div>
+
+  <div class="circle1"></div>
+  <div class="circle2"></div>
 </template>
 
 <script>
@@ -78,28 +81,17 @@ export default {
   },
   data () {
     return {
-      isIndivdual: true,
-      screenWidth: document.body.clientWidth - 200,
+      screenWidth: document.body.clientWidth * 0.7,
       days: 7,
-      general: {
-      },
-      crowd_interests: {
-      },
-      crowdAge_flag: false,
-      baiduIndex_flag: false,
-      interest_flag: false,
-      baiduFeedIndex_flag: false,
       now_date: new Date()
     }
   },
   computed: {
     crowd_width () {
-      if ((this.screenWidth - 100) / 2 < 300) {
-        this.isIndivdual = false
-        return Math.max(300, (this.screenWidth - 100) / 2 < 300) + 'px'
+      if ((this.screenWidth) / 2 < 300) {
+        return Math.max(300, (this.screenWidth) / 2 < 300) + 'px'
       } else {
-        this.isIndivdual = true
-        return ((this.screenWidth - 100) / 2) + 'px'
+        return ((this.screenWidth) / 2) + 'px'
       }
     },
     baiduIndexWidth () {
@@ -107,19 +99,13 @@ export default {
     }
   },
   methods: {
-
-
-    region_dateChange (val) {
-      this.baidu_region['days'] = val
-      this.getRegion()
-    }
   },
   created () {
   },
   mounted () {
     window.onresize = () => {
       return (() => {
-        this.screenWidth = (document.body.clientWidth - 200)
+        this.screenWidth = document.body.clientWidth * 0.7
       })()
     }
   }

@@ -22,3 +22,53 @@ body {
   font-family: "Cascadia Code";
   user-select: none;
 }
+
+.main {
+  padding: 30px 30px 5px;
+  position: absolute;
+  min-height: 100vh;
+  min-width: 100%;
+  border-color: #000;
+  transition: 0.15s border-top-width;
+  display: flex;
+  background: linear-gradient(to right top, #65dfc9, #6cdbeb);
+  justify-content: center;
+}
+.content {
+  /* border-right: 1px solid #333;
+  border-left: 1px solid #333; */
+  background: white;
+  min-height: 80vh;
+  width: 75%;
+  background: linear-gradient(
+    to right bottom,
+    rgba(255, 255, 255, 0.7),
+    rgba(255, 255, 255, 0.3)
+  );
+  border-radius: 2rem;
+  margin-top: 31px;
+  z-index: 3;
+  backdrop-filter: blur(2rem);
+}
+.circle1,
+.circle2 {
+  background: white;
+  background: linear-gradient(
+    to right bottom,
+    rgba(255, 255, 255, 1),
+    rgba(255, 255, 255, 0.5)
+  );
+  height: 20rem;
+  width: 20rem;
+
+  position: fixed;
+  border-radius: 50%;
+}
+.circle1 {
+  top: 10%;
+  right: 5%;
+}
+.circle2 {
+  bottom: 5%;
+  left: 5%;
+}
