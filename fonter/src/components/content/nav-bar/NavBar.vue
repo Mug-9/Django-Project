@@ -36,10 +36,6 @@ export default {
   components: { LoginNavBar, UnLoginNavBar },
   name: "NavBar",
   methods: {
-    handleSelect (key, keyPath) {
-      console.log(key, keyPath)
-      console.log(this.$route)
-    }
   },
   data () {
     return {

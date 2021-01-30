@@ -29,7 +29,7 @@ STATIC_ROOT = '/root/djangoSite/static'
 
 ALLOWED_HOSTS = [
     '123.56.252.111',
-    '192.168.0.105',
+    '192.168.0.104',
     '127.0.0.1',
     '0.0.0.0:8000',
     'localhost',

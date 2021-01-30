@@ -1,14 +1,18 @@
 <template>
   <div class="main">
-    <div class="content"></div>
+    <div class="content">
+      <online-list></online-list>
+    </div>
   </div>
-  <div class="circle1"></div>
-  <div class="circle2"></div>
 </template>
 
 <script>
+import OnlineList from './OnlineList.vue'
 export default {
-  name: "RankList"
+  name: "RankList",
+  components: {
+    OnlineList
+  },
 }
 </script>
 

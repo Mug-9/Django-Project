@@ -6,10 +6,12 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import View
 from .models import *
 from spider.baidu_index import spider_baidu
+from spider.bili_index import spider_bili
 from backend.backend_utils import Tokens
 
 Token = Tokens.Token()
 spider = spider_baidu.SpiderBaidu()
+bili = spider_bili.SpiderBili()
 
 
 # Create your views here.
@@ -146,6 +148,19 @@ class GetRegion(View):
         except Exception as e:
             print(e)
         result = spider.spider_region(days)
-        print(result)
         res = json.dumps(result)
+        return JsonResponse(res, safe=False)
+
+
+class OnlineList(View):
+    def get(self, request):
+        try:
+            token = request.GET.get('token')
+            account = Token.decrypt(token.split('.')[1])['iss']
+        except Exception as e:
+            print(e)
+        res = bili.online_list()
+        # print(result)
+        # res = json.dumps(result)
+        # print(res)
         return JsonResponse(res, safe=False)

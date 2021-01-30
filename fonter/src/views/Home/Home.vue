@@ -57,9 +57,6 @@
       </el-tabs>
     </div>
   </div>
-
-  <div class="circle1"></div>
-  <div class="circle2"></div>
 </template>
 
 <script>
@@ -95,7 +92,7 @@ export default {
       }
     },
     baiduIndexWidth () {
-      return Math.max(600, this.screenWidth) + 'px'
+      return Math.max(700, this.screenWidth) + 'px'
     }
   },
   methods: {
@@ -113,5 +110,5 @@ export default {
 </script>
 
 <style scoped>
-@import "~@/assets/css/home.css";
+@import "~@/assets/css/views/Home/home.css";
 </style>

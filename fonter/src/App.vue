@@ -3,6 +3,8 @@
     <nav-bar></nav-bar>
     <router-view></router-view>
   </div>
+  <div class="circle1"></div>
+  <div class="circle2"></div>
 </template>
 
 <script>

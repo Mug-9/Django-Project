@@ -18,7 +18,7 @@ class SpiderBaidu(object):
         self.init()
 
     def init(self):
-        self.cookies = "BDUSS=2ptTjI3OEpYMVNpOVpQY0ZCT2Ftd1NCb0tWdlhTWXM4RVFxMmtSSm5QWklXaHRnRVFBQUFBJCQAAAAAAAAAAAEAAAAelm82tcu66sHBusPRp8n6AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEjN819IzfNfc"
+        self.cookies = "BDUSS=nk0MTB-SVF5VTQzZFF6dTJWSjIwWE9DSlZPZ1BKRVhpek9GMGk0MGlqV216VFJnRVFBQUFBJCQAAAAAAAAAAAEAAABhP7ExtsDO6Ozh1MbS3TAwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKZADWCmQA1gQ"
         self.type['crowd'] = 'https://index.baidu.com/api/SocialApi/baseAttributes?'
         self.type['index'] = 'https://index.baidu.com/api/SearchApi/index?'
         self.type['live'] = 'https://index.baidu.com/api/LiveApi/getLive?'
@@ -114,7 +114,6 @@ class SpiderBaidu(object):
             'word': json.dumps(word_list),
         }
         url = self.type['live'] + urlencode(request_args)
-        print(url)
         response = self.request.get(url=url, headers=self.header).content.decode('utf-8')
         response_data = json.loads(response)
         uniqid = response_data['data']['uniqid']
@@ -233,7 +232,3 @@ class SpiderBaidu(object):
 if __name__ == "__main__":
     spider = SpiderBaidu()
     spider.run()
-"""
-
-https://index.baidu.com/api/SearchApi/region?region=0&word=b%5Cu7ad9&days=7
-"""

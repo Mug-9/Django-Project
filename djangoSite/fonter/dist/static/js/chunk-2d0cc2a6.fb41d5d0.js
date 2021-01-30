@@ -1,2 +1,0 @@
-(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["chunk-2d0cc2a6"],{"4d88":function(c,n,e){"use strict";e.r(n);var a=e("7a23"),t=Object(a["eb"])("data-v-03c865c7"),d=t((function(c,n,e,t,d,i){return Object(a["D"])(),Object(a["i"])("div",null," 排行榜 ")})),i={name:"RankList"};i.render=d,i.__scopeId="data-v-03c865c7";n["default"]=i}}]);
-//# sourceMappingURL=chunk-2d0cc2a6.fb41d5d0.js.map

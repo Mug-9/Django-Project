@@ -9,5 +9,6 @@ urlpatterns = [
     path('GetInterest', view=views.GetInterest.as_view(), name="GetInterest"),
     path('GetFeedIndex', view=views.GetFeedIndex.as_view(), name="GetFeedIndex"),
     path('GetNewIndex', view=views.GetNewIndex.as_view(), name="GetNewIndex"),
-    path('GetRegion', view=views.GetRegion.as_view(), name="GetRegion")
+    path('GetRegion', view=views.GetRegion.as_view(), name="GetRegion"),
+    path('OnlineList', view=views.OnlineList.as_view(), name="OnlineList")
 ]

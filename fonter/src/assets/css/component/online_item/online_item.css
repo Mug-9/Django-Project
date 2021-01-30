@@ -1,0 +1,79 @@
+.online-item {
+  position: relative;
+  margin: 20px auto;
+  width: 90%;
+  display: flex;
+  min-width: 700px;
+  background: linear-gradient(
+    to right bottom,
+    rgba(255, 255, 255, 0.7),
+    rgba(255, 255, 255, 0.3)
+  );
+  border-radius: 1rem;
+  align-items: center;
+}
+.online-item img {
+  width: 20px;
+  height: 20px;
+  vertical-align: middle;
+}
+.slot-items {
+  flex: 1;
+  margin: 10px;
+  color: #696969;
+}
+.div-title {
+  font-size: 1.5em;
+  margin: 5px auto;
+}
+.tname_bv {
+  display: flex;
+  margin: 5px auto;
+}
+.div-tname {
+  display: inline-flex;
+  background: #1296db;
+  color: white;
+  border-radius: 1rem;
+  padding: 5px 15px;
+}
+.div-bv {
+  width: 50%;
+  display: inline-flex;
+  margin: auto 5px;
+}
+.like_coin_favorite {
+  display: flex;
+  margin: 5px auto;
+}
+.reply-danmu_share {
+  display: flex;
+  margin: 5px auto;
+}
+.div-like {
+  display: inline-flex;
+  width: 33%;
+}
+.div-coin {
+  display: inline-flex;
+  width: 33%;
+}
+.div-favorite {
+  display: inline-flex;
+  width: 33%;
+}
+.div-reply {
+  display: inline-flex;
+  width: 33%;
+}
+.div-danmu {
+  display: inline-flex;
+  width: 33%;
+}
+.div-share {
+  display: inline-flex;
+  width: 33%;
+}
+.div-author {
+  margin: 5px auto;
+}

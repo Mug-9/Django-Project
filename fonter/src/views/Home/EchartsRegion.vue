@@ -189,11 +189,12 @@ ul li {
 }
 .progress-item {
   display: flex;
-  margin: 16px auto;
+  margin: 2% auto;
   width: auto;
 }
 .progress {
   display: flex;
   width: 90%;
+  margin-left: 10px;
 }
 </style>
