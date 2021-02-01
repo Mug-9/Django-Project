@@ -64,15 +64,11 @@ export default {
   name: "online-item",
   data () {
     return {
-      screenWidth: document.body.clientWidth * 0.7,
     }
   },
   computed: {
   },
   props: {
-    cpnWidth: {
-
-    }
   },
   mounted () {
   }

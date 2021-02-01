@@ -1,0 +1,24 @@
+.tabs {
+  margin-top: 10px;
+}
+.tabs-title {
+  margin: 10px 20px;
+  line-height: 45px;
+  font-size: 1.5em;
+  text-align: center;
+  color: #dc143c;
+}
+.tabs-title img {
+  width: 35px;
+  height: 35px;
+  vertical-align: middle;
+  margin: 5px;
+}
+.el-divider--horizontal {
+  display: block;
+  height: 2px;
+  width: 100%;
+}
+.el-divider {
+  background-color: rgb(64, 158, 255);
+}

@@ -13,30 +13,3 @@
   width: 2px;
   margin: 10px auto;
 }
-
-.el-tabs--border-card {
-  background: white;
-  background: linear-gradient(
-    to right bottom,
-    rgba(255, 255, 255, 0.7),
-    rgba(255, 255, 255, 0.3)
-  );
-
-  border: none;
-  border-radius: 2rem;
-}
-
-.el-tabs__item {
-  height: 50px;
-  width: 150px;
-  font-size: 1.1em;
-  line-height: 50px;
-  vertical-align: middle;
-}
-
-.el-tabs__item img {
-  height: 1.5em;
-  width: 1.5em;
-  vertical-align: middle;
-  margin-right: 10px;
-}

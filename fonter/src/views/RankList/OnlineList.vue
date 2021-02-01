@@ -2,7 +2,6 @@
   <div class="online-list" v-if="!onlineItems['loading']">
     <!-- <img src="https://wx4.sinaimg.cn/mw690/0083TyOJly1gm1p4h5rt8j31hc0r4n68.jpg" alt=""> -->
     <online-item v-for="item in onlineItems['list']" :key="item">
-      {{ item }}
       <template v-slot:slot-img>
         <a :href="get_url(item)"><img :src="item['pic']" alt="" /></a>
       </template>
@@ -15,7 +14,7 @@
       <template v-slot:item-desc>
         <el-input
           type="textarea"
-          :autosize="{ minRows: 2, maxRows: 3 }"
+          :autosize="{ minRows: 2, maxRows: 2 }"
           v-model="item['desc']"
           :disabled="true"
         >

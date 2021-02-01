@@ -1,7 +1,7 @@
 .online-item {
   position: relative;
-  margin: 20px auto;
-  width: 90%;
+  margin: 15px auto;
+  width: 95%;
   display: flex;
   min-width: 700px;
   background: linear-gradient(
@@ -25,10 +25,12 @@
 .div-title {
   font-size: 1.5em;
   margin: 5px auto;
+  color: black;
 }
 .tname_bv {
   display: flex;
   margin: 5px auto;
+  color: rgb(64, 158, 255);
 }
 .div-tname {
   display: inline-flex;

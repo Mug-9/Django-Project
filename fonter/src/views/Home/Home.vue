@@ -111,4 +111,5 @@ export default {
 
 <style scoped>
 @import "~@/assets/css/views/Home/home.css";
+@import "~@/assets/css/component/el-tab/el-tab.css";
 </style>
