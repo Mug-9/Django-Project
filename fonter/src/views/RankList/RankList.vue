@@ -43,7 +43,7 @@
             <span style="vertical-align=middle">热门视频</span>
           </div>
           <el-divider> </el-divider>
-          <online-list></online-list>
+          <hot-list></hot-list>
         </el-tab-pane>
       </el-tabs>
     </div>
@@ -52,10 +52,12 @@
 
 <script>
 import OnlineList from './OnlineList.vue'
+import HotList from './HotList.vue'
 export default {
   name: "RankList",
   components: {
-    OnlineList
+    OnlineList,
+    HotList
   },
 }
 </script>

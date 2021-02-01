@@ -4,7 +4,8 @@ import qs from 'qs'
 
 export function request (config) {
   const instance = axios.create({
-    baseURL: 'http://localhost:8888/api/',
+    // baseURL: 'http://localhost:8888/api/',
+    baseURL: 'http://123.56.252.111:8888/api/',
     timeout: 10000,
   })
 

@@ -25,5 +25,7 @@
   height: 1.5em;
   width: 1.5em;
   vertical-align: middle;
-  margin-right: 10px;
+}
+.el-tabs--left .el-tabs__header.is-left {
+  margin-right: 5px;
 }

@@ -85,8 +85,8 @@ export default {
   },
   computed: {
     crowd_width () {
-      if ((this.screenWidth) / 2 < 300) {
-        return Math.max(300, (this.screenWidth) / 2 < 300) + 'px'
+      if ((this.screenWidth) / 2 < 500) {
+        return Math.max(500, (this.screenWidth) / 2 < 300) + 'px'
       } else {
         return ((this.screenWidth) / 2) + 'px'
       }

@@ -4,6 +4,9 @@
       <slot name="slot-img">
         <img src="~@/assets/img/online/default.png" alt="" />
       </slot>
+      <div class="div-duration">
+        <slot name="duration"></slot>
+      </div>
     </div>
     <div class="slot-items">
       <div class="div-title">
@@ -17,11 +20,18 @@
           <slot name="item-tname"></slot>
         </div>
       </div>
-      <slot name="item-desc"></slot>
-      <div class="div-author">
-        <slot name="item-author"> </slot>
+      <div class="author-time">
+        <div class="div-author">
+          <slot name="item-author"> </slot>
+        </div>
+        <div class="pubupdate">
+          <img src="~@/assets/img/online-icons/time.svg" alt="" />
+          <slot name="pubupdate"></slot>
+        </div>
       </div>
-      <div>
+      <slot name="item-desc"></slot>
+
+      <div class="div-view">
         <img src="~@/assets/img/online-icons/view.svg" alt="" />
         <slot name="item-view"></slot>
       </div>

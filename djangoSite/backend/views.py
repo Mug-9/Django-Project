@@ -134,7 +134,6 @@ class GetNewIndex(View):
         except Exception as e:
             print(e)
         result = spider.get_new_index(days)
-        print(result)
         res = json.dumps(result)
         return JsonResponse(res, safe=False)
 
@@ -160,7 +159,18 @@ class OnlineList(View):
         except Exception as e:
             print(e)
         res = bili.online_list()
-        # print(result)
-        # res = json.dumps(result)
-        # print(res)
         return JsonResponse(res, safe=False)
+
+
+class HotList(View):
+    def get(self, request):
+        ps = request.GET.get('ps')
+        pn = request.GET.get('pn')
+        try:
+            token = request.GET.get('token')
+            account = Token.decrypt(token.split('.')[1])['iss']
+        except Exception as e:
+            print(e)
+        res = bili.hot_list(ps, pn)
+        return JsonResponse(res, safe=False)
+

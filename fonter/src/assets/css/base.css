@@ -48,8 +48,10 @@ body {
   );
   border-radius: 2rem;
   margin-top: 31px;
+  margin-bottom: 31px;
   z-index: 3;
   backdrop-filter: blur(2rem);
+  padding: 10px;
 }
 .circle1,
 .circle2 {

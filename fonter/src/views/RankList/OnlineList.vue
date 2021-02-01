@@ -1,5 +1,5 @@
 <template>
-  <div class="online-list" v-if="!onlineItems['loading']">
+  <div v-if="!onlineItems['loading']">
     <!-- <img src="https://wx4.sinaimg.cn/mw690/0083TyOJly1gm1p4h5rt8j31hc0r4n68.jpg" alt=""> -->
     <online-item v-for="item in onlineItems['list']" :key="item">
       <template v-slot:slot-img>
@@ -9,7 +9,9 @@
         <p>{{ item["title"] }}</p>
       </template>
       <template v-slot:item-bv>
-        {{ item["bvid"] }}
+        <el-link type="primary" :href="get_url(item)" :underline="false">
+          {{ item["bvid"] }}</el-link
+        >
       </template>
       <template v-slot:item-desc>
         <el-input
@@ -37,6 +39,8 @@
       <template v-slot:item-online>
         在线人数:{{ item["online_count"] }}</template
       >
+      <template v-slot:pubupdate>:{{ item["pubdate"] }} </template>
+      <template v-slot:duration>{{ item["duration"] }}</template>
     </online-item>
   </div>
 </template>
@@ -58,14 +62,16 @@ export default {
   methods: {
     getOnlineList () {
       OnlineList().then(res => {
-        this.onlineItems['list'] = res['onlineList']
-        console.log(this.onlineItems)
+        this.onlineItems['list'] = res
         this.onlineItems['loading'] = false
       })
     },
     get_url (item) {
       let bv = item['bvid']
       return item['redirect_url'] == undefined ? "https://www.bilibili.com/video/" + bv : item["redirect_url"]
+    },
+    relieve_num (num) {
+      console.log(num)
     }
   },
   mounted () {
@@ -84,9 +90,7 @@ export default {
   width: 35px;
   height: 35px;
   border-radius: 50%;
-}
-.online-list {
-  margin: 10px auto;
+  vertical-align: middle;
 }
 .el-textarea.is-disabled :deep() .el-textarea__inner {
   cursor: default;
