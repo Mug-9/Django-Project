@@ -23,6 +23,11 @@ body {
   user-select: none;
 }
 
+#app {
+  display: flex;
+  min-height: 100vh;
+}
+
 .main {
   padding: 30px 30px 5px;
   position: absolute;
@@ -31,6 +36,7 @@ body {
   border-color: #000;
   transition: 0.15s border-top-width;
   display: flex;
+  flex: 1;
   background: linear-gradient(to right top, #65dfc9, #6cdbeb);
   justify-content: center;
 }
@@ -39,8 +45,7 @@ body {
   border-left: 1px solid #333; */
   background: white;
   min-height: 80vh;
-  width: 75%;
-  min-width: 1000px;
+  min-width: 80vw;
   background: linear-gradient(
     to right bottom,
     rgba(255, 255, 255, 0.7),

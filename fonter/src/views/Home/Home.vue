@@ -66,6 +66,7 @@ import EchartsInterest from './EchartsInterest.vue'
 import * as func from '@/store/mutations-type.ts'
 import EchartsFeedIndex from './EchartsFeedIndex.vue'
 import EchartsRegion from './EchartsRegion.vue'
+import { ElLoading } from 'element-plus'
 
 export default {
   name: "Home",
@@ -100,9 +101,11 @@ export default {
   created () {
   },
   mounted () {
+    console.log(document.documentElement.clientHeight, document.documentElement.scrollHeight)
     window.onresize = () => {
       return (() => {
         this.screenWidth = document.body.clientWidth * 0.7
+
       })()
     }
   }
