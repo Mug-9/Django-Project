@@ -19,6 +19,6 @@ module.exports = {
       }
     },
   },
-
+  outputDir: '../djangoSite/fonter/dist',
   assetsDir: 'static'
 }

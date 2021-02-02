@@ -1,7 +1,6 @@
 <template>
   <div class="infinite-list-wrapper" style="overflow: auto">
     <ul
-      style="height: 1000px"
       v-infinite-scroll="load"
       infinite-scroll-disabled="disabled"
       infinite-scroll-immediate="false"
@@ -78,6 +77,9 @@ export default {
     disabled () {
       return this.status['loading'] || this.status['noMore']
     },
+    screenHeight () {
+      return document.documentElement.clientHeight
+    },
   },
   methods: {
     getHotList () {
@@ -101,9 +103,25 @@ export default {
         this.status['noMore'] = true
       }
     },
+    handleScroll () {
+      let scrollTop =
+        window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
+      let windowHeight =
+        document.documentElement.clientHeight || document.body.clientHeight
+      let scrollHeight =
+        document.documentElement.scrollHeight || document.body.scrollHeight
+      console.log(scrollHeight, scrollTop, windowHeight)
+      console.log(scrollHeight - scrollTop - windowHeight)
+      if (scrollTop + windowHeight == scrollHeight) {
+        this.load()
+      } else {
+        this.status['noMore'] = false
+      }
+    },
   },
   mounted () {
     this.getHotList()
+    window.addEventListener('scroll', this.handleScroll, true)
 
   }
 }
