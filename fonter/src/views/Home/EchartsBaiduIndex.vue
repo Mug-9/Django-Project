@@ -38,11 +38,15 @@
     >
     </baidu-index-general>
   </div>
+  <div>
+    <comments> </comments>
+  </div>
 </template>
 
 <script>
 import Echarts from './Echarts'
 import CityPick from '@/components/commons/select-city/city-pick.vue'
+import Comments from '@/components/commons/coments/Coment.vue'
 import BaiduIndexGeneral from './baiduIndexGeneral.vue'
 import { GetBaiduIndex } from 'network/get_baidu_index.js'
 
@@ -52,7 +56,8 @@ export default {
   components: {
     Echarts,
     CityPick,
-    BaiduIndexGeneral
+    BaiduIndexGeneral,
+    Comments
   },
   props: {
     echartsBase_id: {

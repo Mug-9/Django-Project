@@ -1,0 +1,25 @@
+.touch_icon {
+  text-align: center;
+  display: flex;
+}
+.touch_icon img {
+  width: 25px;
+  height: 25px;
+}
+.like:hover {
+  cursor: pointer;
+}
+
+.like {
+  display: flex;
+  flex: 1;
+  text-align: center;
+  justify-content: center;
+  line-height: 25px;
+}
+
+.hidden_content {
+  height: 0px;
+  overflow: hidden;
+  transition: height .3s;
+}
