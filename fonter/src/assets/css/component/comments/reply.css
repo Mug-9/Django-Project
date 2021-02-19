@@ -1,0 +1,38 @@
+.reply-item {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  width: 90%;
+  margin: 10px auto;
+}
+.reply-item img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  margin: auto 0;
+}
+.reply_content {
+  display: flex;
+  text-align: left;
+  flex-direction: column;
+  border-top: 1.5px solid #85898f;
+  flex: 1;
+  margin: 10px;
+}
+.user_name {
+  margin: 10px;
+  color: #6d757a;
+}
+.text {
+  margin: 10px;
+}
+.like_unlike {
+  display: inline-flex;
+  margin: 0 10px;
+}
+.time_like {
+  color: #99a2aa;
+}
+.like_unlike:hover {
+  cursor: pointer;
+}

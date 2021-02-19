@@ -34,6 +34,9 @@
     <feed-index-general :general_table="echartsBase_data['newIndex_general']">
     </feed-index-general>
   </div>
+  <div>
+    <comments></comments>
+  </div>
 </template>
 
 <script>
@@ -41,6 +44,7 @@ import { GetFeedIndex, GetNewIndex } from 'network/get_baidu_index.js'
 import { requests } from 'network/requestAll.js'
 import Echarts from './Echarts'
 import CityPick from '@/components/commons/select-city/city-pick.vue'
+import Comments from '@/components/commons/coments/Coment.vue'
 
 import FeedIndexGeneral from './feedIndexGeneral.vue'
 export default {
@@ -48,7 +52,8 @@ export default {
   components: {
     Echarts,
     CityPick,
-    FeedIndexGeneral
+    FeedIndexGeneral,
+    Comments
   },
   props: {
     echartsBase_id: {

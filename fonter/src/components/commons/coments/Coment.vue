@@ -21,21 +21,36 @@
       </div>
     </div>
     <div class="hidden_content" ref="liCon">
-      <div>测试111</div>
-      <div>测试111</div>
-      <div>测试111</div>
-      <div>测试111</div>
-      <div>测试111</div>
-      <div>测试111</div>
-      <div>测试111</div>
-      <div>测试111</div>
+      <div class="userReply">
+        <img src="~assets/img/online/default.png" alt="" />
+        <el-input
+          :value="userReply"
+          type="textarea"
+          rows="4"
+          resize="none"
+          placeholder="请输入您的评论"
+          class="reply_input"
+        >
+        </el-input>
+        <el-button type="primary" class="reply_button">发表评论</el-button>
+      </div>
+      <div>
+        <reply :reply="reply_data"></reply>
+        <reply :reply="reply_data"></reply>
+        <reply :reply="reply_data"></reply>
+        <reply :reply="reply_data"></reply>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import Reply from './Reply.vue'
 export default {
   name: "Coments",
+  components: {
+    Reply
+  },
   data () {
     return {
       touch: {
@@ -46,27 +61,25 @@ export default {
         favorite: 0,
         reply: 0,
       },
+      reply_data: {
+        img: 'https://t7.baidu.com/it/u=1595072465,3644073269&fm=193&f=GIF',
+        name: 'abcd',
+        msg: 'adgasdfasdfas',
+        time: '4分钟',
+        like: 4,
+        dislike: 5,
+      },
+      userReply: '',
       liConHeight: 0, // 折叠面板内容初始高度
-      proLists: [
-        {
-          name: '测试1',
-        },
-        {
-          name: '测试2',
-        },
-      ],
     }
   },
   methods: {
     favorite_click () {
-      this.touch['favorite'] = true
-      this.touch['reply'] = false
+      this.touch['favorite'] = !this.touch['favorite']
     },
     like_click () {
-      this.touch['favorite'] = false
-      this.touch['reply'] = true
+      this.touch['reply'] = !this.touch['reply']
       const liCon = this.$refs.liCon
-      console.log(liCon)
       let height = liCon.offsetHeight
       if (height === this.liConHeight) { // 展开
         liCon.style.height = 'auto'
@@ -83,6 +96,7 @@ export default {
 
   },
   mounted () {
+    // console.log(reply_data)
   }
 }
 </script>

@@ -1,6 +1,7 @@
 .touch_icon {
   text-align: center;
   display: flex;
+  margin: 10px;
 }
 .touch_icon img {
   width: 25px;
@@ -21,5 +22,28 @@
 .hidden_content {
   height: 0px;
   overflow: hidden;
-  transition: height .3s;
+  transition: height 0.3s;
+}
+.hidden_content img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  margin: auto 0;
+}
+.userReply {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  margin: 10px auto;
+  width: 90%;
+}
+.reply_input {
+  margin: auto 10px;
+}
+.reply_button {
+  margin: 10px 5px;
+}
+.like_unlike img {
+  width: 18px;
+  height: 18px;
 }
