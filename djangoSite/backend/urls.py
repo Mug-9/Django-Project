@@ -11,5 +11,7 @@ urlpatterns = [
     path('GetNewIndex', view=views.GetNewIndex.as_view(), name="GetNewIndex"),
     path('GetRegion', view=views.GetRegion.as_view(), name="GetRegion"),
     path('OnlineList', view=views.OnlineList.as_view(), name="OnlineList"),
-    path('HotList', view=views.HotList.as_view(), name="HotListList")
+    path('HotList', view=views.HotList.as_view(), name="HotListList"),
+    path('GetInfo', view=views.getInfo.as_view(), name="getInfo"),
+    path('UpdateInfo', view=views.UpdateInfo.as_view(), name="updateInfo")
 ]

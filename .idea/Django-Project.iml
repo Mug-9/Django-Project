@@ -8,6 +8,7 @@
       <sourceFolder url="file://$MODULE_DIR$/djangoSite/backend" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/djangoSite/backend/Views" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/djangoSite/backend/backend_utils" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/djangoSite/backend/migrations" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

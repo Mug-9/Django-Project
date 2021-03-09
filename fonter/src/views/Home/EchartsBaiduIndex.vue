@@ -1,9 +1,10 @@
 <template>
-  <div class="echarts-date">
+  <div class="echarts-date" v-loading="echartsBase_data['loading']" 
+    element-loading-spinner="el-icon-loading"
+    element-loading-background="rgba(0, 0, 0, 0.8)"
+    element-loading-text="拼命加载中">
     <div class="echarts-div">
       <echarts
-        v-loading="echartsBase_data['loading']"
-        v-if="!echartsBase_data['loading']"
         :echarts_id="echartsBase_id"
         :width="echarts_width"
         :height="echartsBase_height"
@@ -32,7 +33,6 @@
 
   <div>
     <baidu-index-general
-      v-loading="echartsBase_data['loading']"
       v-if="!echartsBase_data['loading']"
       :general_table="echartsBase_data['general']"
     >
@@ -188,6 +188,7 @@ export default {
       this.echartsBase_data['general'] = {}
       GetBaiduIndex(data).then(res => {
         let results = JSON.parse(res)
+
         let kinds = ['all', 'pc', 'wise']
         for (let result of results) {
           if (result['word'] == 'index') {
@@ -206,6 +207,7 @@ export default {
         this.options.series[2].data = this.echartsBase_data['userIndex']['wise']
         this.options.xAxis[0].data = this.echartsBase_data['date']
         this.echartsBase_data['loading'] = false
+      }, err => {
       })
     },
     baiduIndex_dateChange (command) {
@@ -222,9 +224,16 @@ export default {
     cityChange (val) {
       this.echartsBase_data['area'] = val
       this.getBaiduIndex()
-    }
+    },
+    init () {
+      this.options.series[0].data = ''
+      this.options.series[1].data = ''
+      this.options.series[2].data = ''
+      this.options.xAxis[0].data = ''
+    },
   },
   mounted () {
+    this.init()
     this.getBaiduIndex()
   }
 }

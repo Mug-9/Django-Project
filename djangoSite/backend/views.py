@@ -1,5 +1,7 @@
 import json
 import time
+
+from django.http import QueryDict
 from django.http.response import JsonResponse, HttpResponse
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
@@ -23,12 +25,12 @@ class Login(View):
         try:
             user = User.objects.get(account=account)
             if user.password == password:
+                name = user.name
                 headers = Token.HEADER
-                print(headers)
-                data = {'account': account, 'email': account}
+                data = {'account': account, 'email': account, 'name': name}
                 payloads = {'iss': account, 'iat': time.time()}
                 generated_token = Token.get_token(headers, payloads)
-                info = {'token': generated_token, 'code': 200, 'data': data, 'message': "登录成功"}
+                info = {'token': generated_token, 'code': 200, 'data': data, 'message': "登录成功", }
                 return JsonResponse(info)
             else:
                 info = {'message': "密码错误"}
@@ -36,6 +38,21 @@ class Login(View):
         except Exception as e:
             print(e, '不存在')
             info = {'message': "账户不存在"}
+            return JsonResponse(info)
+
+
+@method_decorator(csrf_exempt, name='dispatch')
+class getInfo(View):
+    def get(self, request):
+        try:
+            token = request.GET.get('token')
+            account = Token.decrypt(token.split('.')[1])['iss']
+            user = User.objects.get(account=account)
+            data = {'account': account, 'email': user.email, 'password': user.password, 'name': user.name}
+            info = {'code': 200, 'data': data}
+            return JsonResponse(info)
+        except Exception as e:
+            info = {'message': "没有token"}
             return JsonResponse(info)
 
 
@@ -64,6 +81,31 @@ class Register(View):
     def put(self, request):
         pass
 
+
+class UpdateInfo(View):
+    def get(self, request):
+        try:
+            data = request.GET.get('data')
+            data = eval(data)
+            nickName = data['nickName']
+            account = data['account']
+            password = data['password']
+            email = data['email']
+            try:
+                user = User.objects.get(account=account)
+                user.name = nickName
+                user.password = password
+                user.email = email
+                user.save()
+                Info = {'message': '成功'}
+                return JsonResponse(Info)
+            except Exception as e:
+                print(e)
+                return HttpResponse('无效数据!')
+        except Exception as e:
+            print(e)
+            info = {'message': "错误"}
+            return JsonResponse(info)
 
 class GetCrowd(View):
 
@@ -173,4 +215,5 @@ class HotList(View):
             print(e)
         res = bili.hot_list(ps, pn)
         return JsonResponse(res, safe=False)
+
 

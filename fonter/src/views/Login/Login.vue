@@ -107,9 +107,12 @@ export default {
           localStorage.setItem('token', res.token)
           let date = new Date()
           date.setDate(date.getDate() + 14)
-          console.log(date)
           localStorage.setItem('expires', JSON.stringify(date))
           this.$store.commit(func.SETTOKEN, res.token)
+          this.$store.commit(func.SETACCOUNT, res.data['account'])
+          this.$store.commit(func.SETEMAIL, res.data['email'])
+          this.$store.commit(func.SETNAME, res.data['name'])
+          this.$store.commit(func.SETPASSWORD, this.rulerForm.password)
           ElMessage.success({
             message: res.message,
             type: 'success'

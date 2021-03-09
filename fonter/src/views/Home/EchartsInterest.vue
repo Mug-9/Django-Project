@@ -1,15 +1,16 @@
 <template>
-  <div class="echarts-date">
+  <div class="echarts-date" v-loading="echartsBase_data['loading']" 
+    element-loading-spinner="el-icon-loading"
+    element-loading-background="rgba(0, 0, 0, 0.8)"
+    element-loading-text="拼命加载中">
     <div class="echarts-div">
       <echarts
-        v-if="!echartsBase_data['loading']"
         :echarts_id="echartsBase_id"
         :width="echartsBase_width"
         :height="echartsBase_height"
         :options="options"
       ></echarts>
     </div>
-    
   </div>
 </template>
 
@@ -175,8 +176,15 @@ export default {
         this.echartsBase_data['loading'] = false
       })
     },
+    init () {
+      this.options.xAxis[0].data = ''
+      this.options.series[0].data = ''
+      this.options.series[1].data = ''
+      this.options.series[2].data = ''
+    }
   },
   mounted () {
+    this.init()
     this.getInterest()
   }
 }

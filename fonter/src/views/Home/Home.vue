@@ -101,7 +101,6 @@ export default {
   created () {
   },
   mounted () {
-    console.log(document.documentElement.clientHeight, document.documentElement.scrollHeight)
     window.onresize = () => {
       return (() => {
         this.screenWidth = document.body.clientWidth * 0.7

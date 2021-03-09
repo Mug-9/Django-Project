@@ -7,6 +7,7 @@ class User(models.Model):
     id = models.AutoField(primary_key=True)
     account = models.CharField(max_length=20, default="account")
     password = models.CharField(max_length=20)
+    name = models.CharField(max_length=20, default='name')
     email = models.EmailField()
     user_header = models.ImageField(upload_to='media/headers/', default='media/headers/header.png')
 
@@ -27,4 +28,20 @@ class OnlineNumber(models.Model):
 
     def __str__(self):
         return u'time: %s' % self.time
+
+
+class UsersOfB(models.Model):
+    user_b_id = models.AutoField(primary_key=True)
+    mid = models.CharField(max_length=20,  default='None', unique= True)
+    name = models.CharField(max_length=20, default='None')
+    fans = models.IntegerField(default=0)
+    face = models.CharField(max_length=30, default='None')
+
+    def __str__(self):
+        return u'mid: %s' % self.mid
+
+
+class proxies(models.Model):
+    id = models.AutoField(primary_key=True)
+    iport = models.CharField(max_length=20)
 

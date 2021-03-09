@@ -9,6 +9,7 @@
 <script>
 import NavBar from 'content/nav-bar/NavBar.vue'
 import * as func from '@/store/mutations-type.ts'
+import { getStore } from 'network/login.js'
 
 export default {
   name: 'App',
@@ -17,12 +18,21 @@ export default {
     }
   },
   methods: {
+    setStore (token) {
+      getStore(token).then(res => {
+        this.$store.commit(func.SETACCOUNT, res.data['account'])
+        this.$store.commit(func.SETEMAIL, res.data['email'])
+        this.$store.commit(func.SETNAME, res.data['name'])
+        this.$store.commit(func.SETPASSWORD, res.data['password'])
+      })
+    }
   },
   components: {
     NavBar,
   },
   created () {
     this.$store.commit(func.GETTOKEN)
+    this.setStore({ 'token': this.$store.state.token })
   }
 }
 </script>

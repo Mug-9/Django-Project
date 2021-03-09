@@ -18,7 +18,7 @@ class SpiderBaidu(object):
         self.init()
 
     def init(self):
-        self.cookies = "BDUSS=nk0MTB-SVF5VTQzZFF6dTJWSjIwWE9DSlZPZ1BKRVhpek9GMGk0MGlqV216VFJnRVFBQUFBJCQAAAAAAAAAAAEAAABhP7ExtsDO6Ozh1MbS3TAwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKZADWCmQA1gQ"
+        self.cookies = "BDUSS=Y3c1ZGV3JaYVVXSThNdWtqRXg4dzdRLUdqTUgtU0JBfkE0bG5wN1Z5anBtbTVnRVFBQUFBJCQAAAAAAAAAAAEAAAAelm82tcu66sHBusPRp8n6AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAOkNR2DpDUdgcm"
         self.type['crowd'] = 'https://index.baidu.com/api/SocialApi/baseAttributes?'
         self.type['index'] = 'https://index.baidu.com/api/SearchApi/index?'
         self.type['live'] = 'https://index.baidu.com/api/LiveApi/getLive?'
@@ -226,7 +226,7 @@ class SpiderBaidu(object):
 
 
     def run(self):
-        self.spider_region()
+        self.get_baidu_index()
 
 
 if __name__ == "__main__":

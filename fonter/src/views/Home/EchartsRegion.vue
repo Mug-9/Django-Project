@@ -1,5 +1,11 @@
 <template>
-  <div class="echarts-date">
+  <div
+    class="echarts-date"
+    v-loading="echartsBase_data['loading']"
+    element-loading-spinner="el-icon-loading"
+    element-loading-background="rgba(0, 0, 0, 0.8)"
+    element-loading-text="拼命加载中"
+  >
     <div class="echarts-div">
       <echarts
         :echarts_id="echartsBase_id"
@@ -167,12 +173,16 @@ export default {
         for (let result of results) {
           this.echartsBase_data[result['word']] = result['data']
         }
-        this.echartsBase_data['loading'] = false
         this.options.series[0].data = this.echartsBase_data['index']
+        this.echartsBase_data['loading'] = false
       })
     },
+    init () {
+      this.options.series[0].data = ''
+    }
   },
   mounted () {
+    this.init()
     this.getRegion()
   }
 }

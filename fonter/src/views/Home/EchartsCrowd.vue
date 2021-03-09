@@ -1,15 +1,16 @@
 <template>
-  <div class="echarts-date">
+  <div class="echarts-date" v-loading="echartsBase_data['loading']" 
+    element-loading-spinner="el-icon-loading"
+    element-loading-background="rgba(0, 0, 0, 0.8)"
+    element-loading-text="拼命加载中">
     <div class="echarts-div">
       <echarts
-        v-if="!echartsBase_data['loading']"
         echarts_id="echartsAge"
         :width="echartsBase_width"
         :height="echartsBase_height"
         :options="options['Age']"
       ></echarts>
       <echarts
-        v-if="!echartsBase_data['loading']"
         echarts_id="echartsSex"
         :width="echartsBase_width"
         :height="echartsBase_height"
@@ -263,8 +264,29 @@ export default {
         this.echartsBase_data['loading'] = false
       })
     },
+    init () {
+      this.options['Age'].title.text = "年龄分布"
+      this.options['Age'].xAxis[0].data = ''
+      this.options['Age'].series[0].data = ''
+      this.options['Age'].series[1].data = ''
+      this.options['Age'].series[2].data = ''
+      this.options['Sex'].title.text = "性别分布"
+      this.options['Sex'].xAxis[0].data = ''
+      this.options['Sex'].series[0].data = ''
+      this.options['Sex'].series[1].data = ''
+      this.options['Sex'].series[2].data = ''
+      this.echartsBase_data['crowdSex']['b'] = ''
+      this.echartsBase_data['crowdSex']['all'] = ''
+      this.echartsBase_data['crowdSex']['tgi'] = ''
+      this.echartsBase_data['crowdSex']['desc'] = ''
+      this.echartsBase_data['crowdAge']['b'] = ''
+      this.echartsBase_data['crowdAge']['all'] = ''
+      this.echartsBase_data['crowdAge']['tgi'] = ''
+      this.echartsBase_data['crowdAge']['desc'] = ''
+    }
   },
   mounted () {
+    this.init()
     this.getCrowd()
   }
 }

@@ -5,7 +5,7 @@ import qs from 'qs'
 export function request (config) {
   const instance = axios.create({
     baseURL: process.env.VUE_APP_API_URL,
-    timeout: 10000,
+    timeout: 15000,
   })
 
   instance.interceptors.request.use(config => {
@@ -18,15 +18,20 @@ export function request (config) {
     }
     return config
   }, err => {
-    console.log(err)
+    return err
   })
 
   instance.interceptors.response.use(res => {
     return res.data
-
-  }, err => {
-    console.log(err)
   })
+
+  // , err => {
+  //   let data = {
+  //     'message': 'error',
+  //     'error': err
+  //   }
+  //   return data
+  // }
 
   return instance(config)
 }

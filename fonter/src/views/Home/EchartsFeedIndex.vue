@@ -1,8 +1,10 @@
 <template>
-  <div class="echarts-date">
+  <div class="echarts-date" v-loading="echartsBase_data['loading']" 
+    element-loading-spinner="el-icon-loading"
+    element-loading-background="rgba(0, 0, 0, 0.8)"
+    element-loading-text="拼命加载中">
     <div class="echarts-div">
       <echarts
-        v-if="!echartsBase_data['loading']"
         :echarts_id="echartsBase_id"
         :width="echartsBase_width"
         :height="echartsBase_height"
@@ -28,7 +30,7 @@
     </div>
   </div>
 
-  <div class="table-div">
+  <div class="table-div" v-if="!echartsBase_data['loading']">
     <feed-index-general :general_table="echartsBase_data['feedIndex_general']">
     </feed-index-general>
     <feed-index-general :general_table="echartsBase_data['newIndex_general']">
@@ -201,7 +203,6 @@ export default {
             }
           }
         }
-
         this.options.xAxis[0].data = this.echartsBase_data['date']
         this.options.series[0].data = this.echartsBase_data['feedIndex']
         this.options.series[1].data = this.echartsBase_data['newIndex']
@@ -221,9 +222,18 @@ export default {
     cityChange (val) {
       this.echartsBase_data['area'] = val
       this.getFeedIndex()
+    },
+    init () {
+      this.options.xAxis[0].data = ''
+      this.options.series[0].data = ''
+      this.options.series[1].data = ''
+      this.echartsBase_data['newIndex'] = ''
+      this.echartsBase_data['date'] = ''
+      this.echartsBase_data['feedIndex'] = ''
     }
   },
   mounted () {
+    this.init()
     this.getFeedIndex()
     window.onresize = () => {
       return (() => {

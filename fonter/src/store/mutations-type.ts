@@ -4,3 +4,5 @@ export const SETACCOUNT = 'setAccount'
 export const SETTOKEN = 'setToken'
 export const GETTOKEN = 'getToken'
 export const CLEARTOKEN = 'clearToken'
+export const SETNAME = 'setName'
+

@@ -8,6 +8,7 @@ export default createStore({
     cookies: "",
     account: "",
     token: "",
+    name: "",
   },
   mutations: {
     [func.SETEMAIL](state, config) {
@@ -18,6 +19,9 @@ export default createStore({
     },
     [func.SETACCOUNT](state, config) {
       state.account = config;
+    },
+    [func.SETNAME](state, config) {
+      state.name = config;
     },
     [func.SETTOKEN](state, config) {
       state.token = config;
