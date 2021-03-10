@@ -1,8 +1,11 @@
 <template>
-  <div class="echarts-date" v-loading="echartsBase_data['loading']" 
+  <div
+    class="echarts-date"
+    v-loading="echartsBase_data['loading']"
     element-loading-spinner="el-icon-loading"
     element-loading-background="rgba(0, 0, 0, 0.8)"
-    element-loading-text="拼命加载中">
+    element-loading-text="拼命加载中"
+  >
     <div class="echarts-div">
       <echarts
         :echarts_id="echartsBase_id"

@@ -6,13 +6,13 @@ import time
 def get_online_list(response):
     links = re.findall(r'<script>window.__INITIAL_STATE__=(.*?);\(function\(\)', response, re.S)[0]
     links = json.loads(links)
-    return parse_data(links['onlineList'])
+    return links['onlineList']
 
 
 def get_hot_list(response):
     res = json.loads(response)
     list = res['data']['list']
-    return parse_data(list)
+    return list
 
 
 def parse_data(response):
@@ -42,6 +42,7 @@ def relieve_num(num):
 def parse_time(sec):
     time_local = time.localtime(sec)
     return time.strftime('%Y-%m-%d %H:%M:%S', time_local)
+
 
 def cal_time(sec):
     hour = int(sec / 3600)

@@ -42,7 +42,7 @@ def splice_day(start_day, end_day):
 
 def get_key(uniqid, header):
     url = 'http://index.baidu.com/Interface/api/ptbk?uniqid=%s' % uniqid
-    html = request.get(url, headers=header).content.decode('utf-8')
+    html = request.get(url, headers=header, isProxy=False).content.decode('utf-8')
     html_data = json.loads(html)
     key = html_data['data']
     return key

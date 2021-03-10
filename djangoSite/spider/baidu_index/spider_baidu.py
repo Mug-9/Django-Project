@@ -18,7 +18,7 @@ class SpiderBaidu(object):
         self.init()
 
     def init(self):
-        self.cookies = "BDUSS=Y3c1ZGV3JaYVVXSThNdWtqRXg4dzdRLUdqTUgtU0JBfkE0bG5wN1Z5anBtbTVnRVFBQUFBJCQAAAAAAAAAAAEAAAAelm82tcu66sHBusPRp8n6AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAOkNR2DpDUdgcm"
+        self.cookies = "BDUSS=1pHMUhsNjA2Vk9Wd2dnY3dqd0hUMFVkYkowdHNaQjVDaHlDcmV5MU1VYndVbkJnRVFBQUFBJCQAAAAAAAAAAAEAAACr7bPPeHg5NTI3cXEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPDFSGDwxUhgV"
         self.type['crowd'] = 'https://index.baidu.com/api/SocialApi/baseAttributes?'
         self.type['index'] = 'https://index.baidu.com/api/SearchApi/index?'
         self.type['live'] = 'https://index.baidu.com/api/LiveApi/getLive?'
@@ -36,7 +36,7 @@ class SpiderBaidu(object):
             'wordlist[]': utils.keywords[0]
         }
         url = self.type['crowd'] + urlencode(request_args)
-        response = self.request.get(url=url, headers=self.header).content.decode('utf-8')
+        response = self.request.get(url=url, headers=self.header, isProxy=False).content.decode('utf-8')
         response_data = json.loads(response)
         results = response_data['data']['result']
         sex_tgi, sex_b, sex_all = [], [], []
@@ -73,7 +73,7 @@ class SpiderBaidu(object):
             'days': days,
         }
         url = self.type['index'] + urlencode(request_args)
-        response = self.request.get(url=url, headers=self.header).content.decode('utf-8')
+        response = self.request.get(url=url, headers=self.header, isProxy=False).content.decode('utf-8')
         response_data = json.loads(response)
         uniqid = response_data['data']['uniqid']
         encrypt_data, general_data = [], []
@@ -114,7 +114,7 @@ class SpiderBaidu(object):
             'word': json.dumps(word_list),
         }
         url = self.type['live'] + urlencode(request_args)
-        response = self.request.get(url=url, headers=self.header).content.decode('utf-8')
+        response = self.request.get(url=url, headers=self.header, isProxy=False).content.decode('utf-8')
         response_data = json.loads(response)
         uniqid = response_data['data']['uniqid']
         encrypt_data = []
@@ -140,7 +140,7 @@ class SpiderBaidu(object):
             'wordlist[]': utils.keywords[0]
         }
         url = self.type['interest'] + urlencode(request_args)
-        response = self.request.get(url, headers = self.header).content.decode('utf-8')
+        response = self.request.get(url, headers = self.header, isProxy=False).content.decode('utf-8')
         response_data = json.loads(response)
         results = response_data['data']['result']
         interest_b, interest_all, tgi, desc = [], [], [], []
@@ -169,7 +169,7 @@ class SpiderBaidu(object):
             'days': days,
         }
         url = self.type['feedIndex'] + urlencode(request_args)
-        response = self.request.get(url=url, headers=self.header).content.decode('utf-8')
+        response = self.request.get(url=url, headers=self.header, isProxy=False).content.decode('utf-8')
         response_data = json.loads(response)
         uniqid = response_data['data']['uniqid']
         key = utils.get_key(uniqid, self.header)
@@ -192,7 +192,7 @@ class SpiderBaidu(object):
             'days': days,
         }
         url = self.type['newIndex'] + urlencode(request_args)
-        response = self.request.get(url=url, headers=self.header).content.decode('utf-8')
+        response = self.request.get(url=url, headers=self.header, isProxy=False).content.decode('utf-8')
         response_data = json.loads(response)
         uniqid = response_data['data']['uniqid']
         key = utils.get_key(uniqid, self.header)
@@ -211,7 +211,7 @@ class SpiderBaidu(object):
             'days': days,
         }
         url = self.type['region'] + urlencode(request_args)
-        response = self.request.get(url, headers = self.header).content.decode('utf-8')
+        response = self.request.get(url, headers = self.header, isProxy=False).content.decode('utf-8')
         response_data = json.loads(response)
         prov = response_data['data']['region'][0]['prov']
         prov_list = utils.replace_citys(prov)

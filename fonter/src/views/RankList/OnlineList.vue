@@ -1,6 +1,5 @@
 <template>
   <div v-if="!onlineItems['loading']">
-    <!-- <img src="https://wx4.sinaimg.cn/mw690/0083TyOJly1gm1p4h5rt8j31hc0r4n68.jpg" alt=""> -->
     <online-item v-for="item in onlineItems['list']" :key="item">
       <template v-slot:slot-img>
         <a :href="get_url(item)"><img :src="item['pic']" alt="" /></a>
@@ -49,7 +48,7 @@
 import { OnlineList } from 'network/get_bili.js'
 import onlineItem from 'commons/online-list/online-item.vue'
 export default {
-  components: { onlineItem },
+  components: { onlineItem},
   name: "OnlineList",
 
   data () {

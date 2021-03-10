@@ -20,14 +20,20 @@ class Class(models.Model):
     name = models.CharField(max_length=20)
 
 
-class OnlineNumber(models.Model):
+class VideosData(models.Model):
     id = models.AutoField(primary_key=True)
-    date = models.DateField(default=timezone.now)
-    time = models.TimeField(default=timezone.now)
-    number = models.IntegerField()
+    bvid = models.CharField(max_length=20,  default='None')
+    dateTime = models.DateTimeField(default=timezone.now)
+    view = models.IntegerField(default=0)
+    coin = models.IntegerField(default=0)
+    danmaku = models.IntegerField(default=0)
+    reply = models.IntegerField(default=0)
+    share = models.IntegerField(default=0)
+    love = models.IntegerField(default=0)
+    favorite = models.IntegerField(default=0)
 
     def __str__(self):
-        return u'time: %s' % self.time
+        return u'time: %s' % self.dateTime
 
 
 class UsersOfB(models.Model):

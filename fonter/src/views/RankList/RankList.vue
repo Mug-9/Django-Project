@@ -45,6 +45,19 @@
           <el-divider> </el-divider>
           <hot-list></hot-list>
         </el-tab-pane>
+        <el-tab-pane>
+          <template #label
+            ><img src="~@/assets/img/online-icons/fans_red.svg" alt="" />
+            <span>粉丝排行</span>
+          </template>
+
+          <div class="tabs-title">
+            <img src="~@/assets/img/online-icons/fans_red.svg" alt="" />
+            <span style="vertical-align=middle">粉丝排行</span>
+          </div>
+          <el-divider> </el-divider>
+          <fans-list></fans-list>
+        </el-tab-pane>
       </el-tabs>
     </div>
   </div>
@@ -53,11 +66,13 @@
 <script>
 import OnlineList from './OnlineList.vue'
 import HotList from './HotList.vue'
+import FansList from './FansList.vue'
 export default {
   name: "RankList",
   components: {
     OnlineList,
-    HotList
+    HotList,
+    FansList
   },
 }
 </script>

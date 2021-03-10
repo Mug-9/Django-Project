@@ -10,6 +10,14 @@
         <img v-else src="~assets/img/online-icons/favorite_untouch.svg" />
         {{ number["favorite"] }}
       </div>
+      <div class="like" @click="trend_click" v-if="isShowTrend">
+        <img
+          v-if="touch['trend']"
+          src="~assets/img/online-icons/trend_red.svg"
+          alt=""
+        />
+        <img v-else src="~assets/img/online-icons/trend.svg" />
+      </div>
       <div class="like" @click="like_click">
         <img
           v-if="touch['reply']"
@@ -41,6 +49,7 @@
         <reply :reply="reply_data"></reply>
       </div>
     </div>
+    <div class="hidden_content" ref="showTrend"></div>
   </div>
 </template>
 
@@ -49,13 +58,19 @@ import Reply from './Reply.vue'
 export default {
   name: "Coments",
   components: {
-    Reply
+    Reply,
+  },
+  props: {
+    isShowTrend: false
   },
   data () {
     return {
+
+      screenWidth: document.body.clientWidth * 0.7,
       touch: {
         favorite: false,
         reply: false,
+        trend: false,
       },
       number: {
         favorite: 0,
@@ -73,6 +88,11 @@ export default {
       liConHeight: 0, // 折叠面板内容初始高度
     }
   },
+  computed: {
+    baiduIndexWidth () {
+      return Math.max(700, this.screenWidth) + 'px'
+    }
+  },
   methods: {
     favorite_click () {
       this.touch['favorite'] = !this.touch['favorite']
@@ -81,22 +101,75 @@ export default {
       this.touch['reply'] = !this.touch['reply']
       const liCon = this.$refs.liCon
       let height = liCon.offsetHeight
-      if (height === this.liConHeight) { // 展开
-        liCon.style.height = 'auto'
-        height = liCon.offsetHeight
-        liCon.style.height = this.liConHeight + 'px'
-        // eslint-disable-next-line no-unused-vars
-        let f = document.body.offsetHeight // 必加
-        liCon.style.height = height + 'px'
-      } else { // 收缩
+      if (this.touch['reply']) {
+        if (this.touch['trend']) {
+          this.trend_click()
+        }
+        if (height === this.liConHeight) { // 展开
+          liCon.style.height = 'auto'
+          height = liCon.offsetHeight
+          liCon.style.height = this.liConHeight + 'px'
+          // eslint-disable-next-line no-unused-vars
+          let f = document.body.offsetHeight // 必加
+          liCon.style.height = height + 'px'
+        } else { // 收缩
+          liCon.style.height = this.liConHeight + 'px'
+        }
+      } else {
+        if (height === this.liConHeight) { // 展开
+          liCon.style.height = 'auto'
+          height = liCon.offsetHeight
+          liCon.style.height = this.liConHeight + 'px'
+          // eslint-disable-next-line no-unused-vars
+          let f = document.body.offsetHeight // 必加
+          liCon.style.height = height + 'px'
+        } else { // 收缩
+          liCon.style.height = this.liConHeight + 'px'
+        }
         liCon.style.height = this.liConHeight + 'px'
       }
     },
+    trend_click () {
+      this.touch['trend'] = !this.touch['trend']
+      const liCon = this.$refs.showTrend
+      let height = liCon.offsetHeight
+      if (this.touch['trend']) {
+        if (this.touch['reply']) {
+          this.like_click()
+        }
+        if (height === this.liConHeight) { // 展开
+          liCon.style.height = 'auto'
+          height = liCon.offsetHeight
+          liCon.style.height = this.liConHeight + 'px'
+          // eslint-disable-next-line no-unused-vars
+          let f = document.body.offsetHeight // 必加
+          liCon.style.height = height + 'px'
+        } else { // 收缩
+          liCon.style.height = this.liConHeight + 'px'
+        }
+      } else {
+        if (height === this.liConHeight) { // 展开
+          liCon.style.height = 'auto'
+          height = liCon.offsetHeight
+          liCon.style.height = this.liConHeight + 'px'
+          // eslint-disable-next-line no-unused-vars
+          let f = document.body.offsetHeight // 必加
+          liCon.style.height = height + 'px'
+        } else { // 收缩
+          liCon.style.height = this.liConHeight + 'px'
+        }
+      }
 
+    }
 
   },
   mounted () {
-    // console.log(reply_data)
+    window.onresize = () => {
+      return (() => {
+        this.screenWidth = document.body.clientWidth * 0.7
+
+      })()
+    }
   }
 }
 </script>

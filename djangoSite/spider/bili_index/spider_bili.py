@@ -18,12 +18,12 @@ class SpiderBili(object):
 
     def online_list(self):
         url = self.url['online']
-        response = self.request.get(url).content.decode('utf-8')
+        response = self.request.get(url, isProxy=False).content.decode('utf-8')
         return utils.get_online_list(response)
 
     def hot_list(self, ps=20, pn=1):
         url = self.url['popular'] + 'ps=%s&pn=%s' % (ps, pn)
-        response = self.request.get(url).content.decode('utf-8')
+        response = self.request.get(url, isProxy=False).content.decode('utf-8')
         return utils.get_hot_list(response)
 
     def run(self):

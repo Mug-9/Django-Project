@@ -67,14 +67,22 @@
       <slot name="item-online"></slot>
     </div>
   </div>
+  <div>
+    <comments :isShowTrend="true"></comments>
+  </div>
 </template>
 
 <script>
+
+import Comments from '@/components/commons/coments/Coment.vue'
 export default {
   name: "online-item",
   data () {
     return {
     }
+  },
+  components: {
+    Comments,
   },
   computed: {
   },

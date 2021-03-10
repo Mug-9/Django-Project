@@ -1,6 +1,7 @@
 import json
 import time
 
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.http import QueryDict
 from django.http.response import JsonResponse, HttpResponse
 from django.utils.decorators import method_decorator
@@ -9,6 +10,7 @@ from django.views.generic import View
 from .models import *
 from spider.baidu_index import spider_baidu
 from spider.bili_index import spider_bili
+from spider.bili_index import utils
 from backend.backend_utils import Tokens
 
 Token = Tokens.Token()
@@ -61,7 +63,6 @@ class Register(View):
     def post(self, request):
         account = request.POST.get('account', '')
         password = request.POST.get('password', '')
-        print(account, password)
         if account and password:
             try:
                 User.objects.get(account=account)
@@ -97,14 +98,15 @@ class UpdateInfo(View):
                 user.password = password
                 user.email = email
                 user.save()
-                Info = {'message': '成功'}
+                Info = {'code': 200, 'message': '更新成功'}
                 return JsonResponse(Info)
             except Exception as e:
                 print(e)
-                return HttpResponse('无效数据!')
+                Info = {'code': 400, 'message': '更新失败'}
+                return JsonResponse(Info)
         except Exception as e:
             print(e)
-            info = {'message': "错误"}
+            info = {'code': 400, 'message': "出现错误"}
             return JsonResponse(info)
 
 class GetCrowd(View):
@@ -216,4 +218,23 @@ class HotList(View):
         res = bili.hot_list(ps, pn)
         return JsonResponse(res, safe=False)
 
+
+class GetUpInfo(View):
+    def get(self, request):
+        ps = request.GET.get('ps', 1)
+        pn = request.GET.get('pn', 20)
+        n = int(ps)
+        Ups = UsersOfB.objects.order_by('fans').reverse()
+        pager = Paginator(Ups, pn)
+        try:
+            perpger_data = pager.page(n)
+        except PageNotAnInteger:
+            perpager_data = pager.page(1)
+        except EmptyPage:
+            perpager_data = pager.page(pager.num_pages)
+        ups = perpger_data.object_list
+        up_list = []
+        for up in ups:
+            up_list.append({'name': up.name, 'fans': utils.relieve_num(up.fans), 'face': up.face, 'mid': up.mid})
+        return JsonResponse(up_list, safe=False)
 

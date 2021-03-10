@@ -59,11 +59,14 @@
         ></el-input>
       </div>
     </div>
-    <el-button class="saveButton" type="primary" @click="saveChange">保存</el-button>
+    <el-button class="saveButton" type="primary" @click="saveChange"
+      >保存</el-button
+    >
   </div>
 </template>
 
 <script>
+import { ElMessage } from 'element-plus'
 import { updateStore } from 'network/login.js'
 export default {
   name: "UserInfo",
@@ -80,7 +83,7 @@ export default {
     showChange () {
       this.changeImg = !this.changeImg
     },
-    saveChange() {
+    saveChange () {
       let data = {
         'token': this.$store.state.token,
         'data': {
@@ -90,8 +93,15 @@ export default {
           'email': this.email
         }
       }
-      updateStore(data).then(res=>{
-        console.log(res);
+      updateStore(data).then(res => {
+        if (res['code'] == 200) {
+          ElMessage.success({
+            message: res.message,
+            type: 'success'
+          })
+        } else {
+          ElMessage.error(res.message)
+        }
       })
     }
   },
