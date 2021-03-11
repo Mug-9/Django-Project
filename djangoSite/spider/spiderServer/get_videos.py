@@ -105,6 +105,13 @@ class SpiderBili(object):
                 cur = self.db_pool[thread_id].cursor()
                 cur.execute(insert)
                 self.db_pool[thread_id].commit()
+            check = "select * from backend_videosdata where(bvid='%s' and dateTime='%s');" % (bvid, now_time)
+            self.check_conn(thread_id)
+            cur = self.db_pool[thread_id].cursor()
+            cur.execute(check)
+            if cur.fetchone() is not None:
+                print('%s 已存在' % bvid)
+                continue
             insert = "insert into backend_videosdata(bvid, dateTime, view, coin, danmaku, reply, share, love, favorite) values('%s', '%s', %s, %s, %s, %s, %s, %s, %s);" % (
             video['bvid'], now_time, video['stat']['view'], video['stat']['coin'], video['stat']['danmaku'],
             video['stat']['reply'], video['stat']['share'], video['stat']['like'], video['stat']['favorite'])
@@ -126,12 +133,13 @@ class SpiderBili(object):
         for th in thread_list:
             th.join()
 
+
 if __name__ == '__main__':
     spider = SpiderBili()
     while True:
         now_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         hour = now_time[11:13]
-        print(datetime)
+        print(now_time)
         if now_time[14:] == '00:00':
             if int(hour) % 2 == 0:
                 spider.run(now_time)

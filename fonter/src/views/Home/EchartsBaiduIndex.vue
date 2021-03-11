@@ -47,7 +47,7 @@
 </template>
 
 <script>
-import Echarts from './Echarts'
+import Echarts from '@/components/commons/Echarts/Echarts.vue'
 import CityPick from '@/components/commons/select-city/city-pick.vue'
 import Comments from '@/components/commons/coments/Coment.vue'
 import BaiduIndexGeneral from './baiduIndexGeneral.vue'

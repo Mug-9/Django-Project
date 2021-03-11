@@ -68,7 +68,7 @@
     </div>
   </div>
   <div>
-    <comments :isShowTrend="true"></comments>
+    <comments :isShowTrend="true" :videoID="videoBV" :comment_echarts_data="videoData"></comments>
   </div>
 </template>
 
@@ -81,12 +81,16 @@ export default {
     return {
     }
   },
+  props: {
+    videoBV: String,
+    videoData: {
+      type: Object
+    }
+  },
   components: {
     Comments,
   },
   computed: {
-  },
-  props: {
   },
   mounted () {
   }

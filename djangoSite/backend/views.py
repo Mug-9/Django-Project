@@ -1,5 +1,8 @@
+
 import json
-import time
+import threading
+
+from datetime import datetime, time
 
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.http import QueryDict
@@ -196,6 +199,87 @@ class GetRegion(View):
 
 
 class OnlineList(View):
+    def threading_cal(self, video, result):
+        video_trend = VideosData.objects.filter(bvid=video['bvid']).order_by('dateTime')
+        dateTime = []
+        view_d, danmaku_d, coin_d, reply_d, share_d, like_d, favorite_d = [0, ], [0, ], [0, ], [0, ], [0, ], [0, ], [
+            0, ]
+        view, danmaku, coin, reply, share, like, favorite = [0, ], [0, ], [0, ], [0, ], [0, ], [0, ], [0, ]
+        if video_trend.count() == 0:
+            dateTime.append(video['pubdate'])
+            dateTime.append(datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
+            coin_d.append(video['stat']['coin'])
+            view_d.append(video['stat']['view'])
+            danmaku_d.append(video['stat']['danmaku'])
+            reply_d.append(video['stat']['reply'])
+            share_d.append(video['stat']['share'])
+            like_d.append(video['stat']['like'])
+            favorite_d.append(video['stat']['coin'])
+            view.append(video['stat']['view'])
+            danmaku.append(video['stat']['danmaku'])
+            coin.append(video['stat']['coin'])
+            reply.append(video['stat']['reply'])
+            share.append(video['stat']['share'])
+            like.append(video['stat']['like'])
+            favorite.append(video['stat']['favorite'])
+            echarts_data = {
+                'coin_d': coin_d,
+                'view_d': view_d,
+                'danmaku_d': danmaku_d,
+                'reply_d': reply_d,
+                'share_d': share_d,
+                'like_d': like_d,
+                'favorite_d': favorite_d,
+                'dateTime': dateTime,
+                'coin': coin,
+                'view': view,
+                'danmaku': danmaku,
+                'reply': reply,
+                'share': share,
+                'like': like,
+                'favorite': favorite,
+            }
+            video['echarts_data'] = echarts_data
+            result.append(video)
+            return
+        dateTime.append(str(video_trend[0].dateTime)[:-6])
+        for i in range(1, len(video_trend)):
+            coin_d.append(video_trend[i].coin - video_trend[i - 1].coin)
+            view_d.append(video_trend[i].view - video_trend[i - 1].view)
+            danmaku_d.append(video_trend[i].danmaku - video_trend[i - 1].danmaku)
+            reply_d.append(video_trend[i].reply - video_trend[i - 1].reply)
+            share_d.append(video_trend[i].share - video_trend[i - 1].share)
+            like_d.append(video_trend[i].love - video_trend[i - 1].love)
+            favorite_d.append(video_trend[i].favorite - video_trend[i - 1].favorite)
+            dateTime.append(str(video_trend[i].dateTime)[:-6])
+            view.append(video_trend[i].view)
+            danmaku.append(video_trend[i].danmaku)
+            coin.append(video_trend[i].coin)
+            reply.append(video_trend[i].reply)
+            share.append(video_trend[i].share)
+            like.append(video_trend[i].love)
+            favorite.append(video_trend[i].favorite)
+        echarts_data = {
+            'coin_d': coin_d,
+            'view_d': view_d,
+            'danmaku_d': danmaku_d,
+            'reply_d': reply_d,
+            'share_d': share_d,
+            'like_d': like_d,
+            'favorite_d': favorite_d,
+            'dateTime': dateTime,
+            'coin': coin,
+            'view': view,
+            'danmaku': danmaku,
+            'reply': reply,
+            'share': share,
+            'like': like,
+            'favorite': favorite,
+        }
+        video['echarts_data'] = echarts_data
+        result.append(video)
+
+
     def get(self, request):
         try:
             token = request.GET.get('token')
@@ -203,10 +287,98 @@ class OnlineList(View):
         except Exception as e:
             print(e)
         res = bili.online_list()
-        return JsonResponse(res, safe=False)
+        result = []
+        th_list = []
+        for video in res:
+            m = threading.Thread(target=self.threading_cal, args=[video, result])
+            m.start()
+            th_list.append(m)
+        for th in th_list:
+            th.join()
+        return JsonResponse(result, safe=False)
 
 
 class HotList(View):
+    def threading_cal(self, video, result):
+        video_trend = VideosData.objects.filter(bvid=video['bvid']).order_by('dateTime')
+        dateTime = []
+        view_d, danmaku_d, coin_d, reply_d, share_d, like_d, favorite_d = [0, ], [0, ], [0, ], [0, ], [0, ], [0, ], [
+            0, ]
+        view, danmaku, coin, reply, share, like, favorite = [0, ], [0, ], [0, ], [0, ], [0, ], [0, ], [0, ]
+        if video_trend.count() == 0:
+            dateTime.append(video['pubdate'])
+            dateTime.append(datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
+            coin_d.append(video['stat']['coin'])
+            view_d.append(video['stat']['view'])
+            danmaku_d.append(video['stat']['danmaku'])
+            reply_d.append(video['stat']['reply'])
+            share_d.append(video['stat']['share'])
+            like_d.append(video['stat']['like'])
+            favorite_d.append(video['stat']['coin'])
+            view.append(video['stat']['view'])
+            danmaku.append(video['stat']['danmaku'])
+            coin.append(video['stat']['coin'])
+            reply.append(video['stat']['reply'])
+            share.append(video['stat']['share'])
+            like.append(video['stat']['like'])
+            favorite.append(video['stat']['favorite'])
+            echarts_data = {
+                'coin_d': coin_d,
+                'view_d': view_d,
+                'danmaku_d': danmaku_d,
+                'reply_d': reply_d,
+                'share_d': share_d,
+                'like_d': like_d,
+                'favorite_d': favorite_d,
+                'dateTime': dateTime,
+                'coin': coin,
+                'view': view,
+                'danmaku': danmaku,
+                'reply': reply,
+                'share': share,
+                'like': like,
+                'favorite': favorite,
+            }
+            video['echarts_data'] = echarts_data
+            result.append(video)
+            return
+        dateTime.append(str(video_trend[0].dateTime)[:-6])
+        for i in range(1, len(video_trend)):
+            coin_d.append(video_trend[i].coin - video_trend[i - 1].coin)
+            view_d.append(video_trend[i].view - video_trend[i - 1].view)
+            danmaku_d.append(video_trend[i].danmaku - video_trend[i - 1].danmaku)
+            reply_d.append(video_trend[i].reply - video_trend[i - 1].reply)
+            share_d.append(video_trend[i].share - video_trend[i - 1].share)
+            like_d.append(video_trend[i].love - video_trend[i - 1].love)
+            favorite_d.append(video_trend[i].favorite - video_trend[i - 1].favorite)
+            dateTime.append(str(video_trend[i].dateTime)[:-6])
+            view.append(video_trend[i].view)
+            danmaku.append(video_trend[i].danmaku)
+            coin.append(video_trend[i].coin)
+            reply.append(video_trend[i].reply)
+            share.append(video_trend[i].share)
+            like.append(video_trend[i].love)
+            favorite.append(video_trend[i].favorite)
+        echarts_data = {
+            'coin_d': coin_d,
+            'view_d': view_d,
+            'danmaku_d': danmaku_d,
+            'reply_d': reply_d,
+            'share_d': share_d,
+            'like_d': like_d,
+            'favorite_d': favorite_d,
+            'dateTime': dateTime,
+            'coin': coin,
+            'view': view,
+            'danmaku': danmaku,
+            'reply': reply,
+            'share': share,
+            'like': like,
+            'favorite': favorite,
+        }
+        video['echarts_data'] = echarts_data
+        result.append(video)
+
     def get(self, request):
         ps = request.GET.get('ps')
         pn = request.GET.get('pn')
@@ -216,7 +388,15 @@ class HotList(View):
         except Exception as e:
             print(e)
         res = bili.hot_list(ps, pn)
-        return JsonResponse(res, safe=False)
+        result = []
+        th_list = []
+        for video in res:
+            m = threading.Thread(target=self.threading_cal, args=[video, result])
+            m.start()
+            th_list.append(m)
+        for th in th_list:
+            th.join()
+        return JsonResponse(result, safe=False)
 
 
 class GetUpInfo(View):

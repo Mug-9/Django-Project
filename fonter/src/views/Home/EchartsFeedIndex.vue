@@ -44,7 +44,7 @@
 <script>
 import { GetFeedIndex, GetNewIndex } from 'network/get_baidu_index.js'
 import { requests } from 'network/requestAll.js'
-import Echarts from './Echarts'
+import Echarts from '@/components/commons/Echarts/Echarts.vue'
 import CityPick from '@/components/commons/select-city/city-pick.vue'
 import Comments from '@/components/commons/coments/Coment.vue'
 

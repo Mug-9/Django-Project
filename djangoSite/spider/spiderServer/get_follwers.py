@@ -96,18 +96,24 @@ def addUser(mid, face, name):
     check = "select * from backend_usersofb where(mid='%s');" % mid
     db_pool[thread_id] = checkConn(db_pool[thread_id])
     cur = db_pool[thread_id].cursor()
-    cur.execute(check)
+    try:
+        cur.execute(check)
+    except Exception as e:
+        print(e)
+        return
 
     if cur.fetchone() is not None:
         return
     fans = getInfo(mid)[0]
-    insert1 = "insert into backend_usersofb(mid, face, fans, name) values('%s', '%s', %s, '%s');" % (mid, face, fans, name)
-
     db_pool[thread_id] = checkConn(db_pool[thread_id])
     cur = db_pool[thread_id].cursor()
-    cur.execute(insert1)
-    db_pool[thread_id] = checkConn(db_pool[thread_id])
-    db_pool[thread_id].commit()
+    insert1 = "insert into backend_usersofb(mid, face, fans, name) values('%s', '%s', %s, '%s');" % (mid, face, fans, name)
+
+    try:
+        cur.execute(insert1)
+        db_pool[thread_id].commit()
+    except Exception as e:
+        print(e)
 
     print('%s 加入' % mid)
     id_list.append(mid)
@@ -153,12 +159,14 @@ if __name__ == "__main__":
         cursor.execute(check)
         if cursor.fetchone() is None:
             ls = getInfo(id)
-            insert1 = "insert into backend_usersofb(mid, face, fans, name) values('%s', '%s', %s, '%s');" % (id, ls[2], ls[0], ls[1])
             conn = checkConn(conn)
             cursor = conn.cursor()
-            cursor.execute(insert1)
-            conn = checkConn(conn)
-            conn.commit()
+            insert1 = "insert into backend_usersofb(mid, face, fans, name) values('%s', '%s', %s, '%s');" % (id, ls[2], ls[0], ls[1])
+            try:
+                cursor.execute(insert1)
+                conn.commit()
+            except Exception as e:
+                print(e)
         for i in range(1, 6):
             params = {
                 'vmid': id,

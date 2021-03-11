@@ -1,44 +1,46 @@
 <template>
   <div>
-    <online-item v-for="item in list" :key="item">
-      <template v-slot:slot-img>
-        <a :href="get_url(item)"><img :src="item['pic']" alt="" /></a>
-      </template>
-      <template v-slot:item-title>
-        <p>{{ item["title"] }}</p>
-      </template>
-      <template v-slot:item-bv>
-        <el-link type="primary" :href="get_url(item)" :underline="false">
-          {{ item["bvid"] }}</el-link
-        >
-      </template>
-      <template v-slot:item-desc>
-        <el-input
-          type="textarea"
-          :autosize="{ minRows: 2, maxRows: 2 }"
-          v-model="item['desc']"
-          :disabled="true"
-        >
-        </el-input>
-      </template>
-      <template v-slot:item-author>
-        <a href=""></a><img :src="item['owner']['face']" alt="" />
-        {{ item["owner"]["name"] }}
-      </template>
-      <template v-slot:item-coin>:{{ item["stat"]["coin"] }} </template>
-      <template v-slot:item-like>:{{ item["stat"]["like"] }} </template>
-      <template v-slot:item-danmu>:{{ item["stat"]["danmaku"] }} </template>
-      <template v-slot:item-favorite>
-        :{{ item["stat"]["favorite"] }}
-      </template>
-      <template v-slot:item-reply>:{{ item["stat"]["reply"] }} </template>
-      <template v-slot:item-share>:{{ item["stat"]["share"] }} </template>
-      <template v-slot:item-view>:{{ item["stat"]["view"] }} </template>
-      <template v-slot:item-tname> {{ item["tname"] }} </template>
+    <div v-for="item in list" :key="item">
+      <online-item :videoBV="item['bvid']" :videoData="item['echarts_data']">
+        <template v-slot:slot-img>
+          <a :href="get_url(item)"><img :src="item['pic']" alt="" /></a>
+        </template>
+        <template v-slot:item-title>
+          <p>{{ item["title"] }}</p>
+        </template>
+        <template v-slot:item-bv>
+          <el-link type="primary" :href="get_url(item)" :underline="false">
+            {{ item["bvid"] }}</el-link
+          >
+        </template>
+        <template v-slot:item-desc>
+          <el-input
+            type="textarea"
+            :autosize="{ minRows: 2, maxRows: 2 }"
+            v-model="item['desc']"
+            :disabled="true"
+          >
+          </el-input>
+        </template>
+        <template v-slot:item-author>
+          <a href=""></a><img :src="item['owner']['face']" alt="" />
+          {{ item["owner"]["name"] }}
+        </template>
+        <template v-slot:item-coin>:{{ item["stat"]["coin"] }} </template>
+        <template v-slot:item-like>:{{ item["stat"]["like"] }} </template>
+        <template v-slot:item-danmu>:{{ item["stat"]["danmaku"] }} </template>
+        <template v-slot:item-favorite>
+          :{{ item["stat"]["favorite"] }}
+        </template>
+        <template v-slot:item-reply>:{{ item["stat"]["reply"] }} </template>
+        <template v-slot:item-share>:{{ item["stat"]["share"] }} </template>
+        <template v-slot:item-view>:{{ item["stat"]["view"] }} </template>
+        <template v-slot:item-tname> {{ item["tname"] }} </template>
 
-      <template v-slot:pubupdate>:{{ item["pubdate"] }} </template>
-      <template v-slot:duration>{{ item["duration"] }}</template>
-    </online-item>
+        <template v-slot:pubupdate>:{{ item["pubdate"] }} </template>
+        <template v-slot:duration>{{ item["duration"] }}</template>
+      </online-item>
+    </div>
   </div>
   <div v-if="status['loading']" class="loading"><p>加载中....</p></div>
   <div v-else-if="status['noMore']" class="loading"><p>没有更多了</p></div>

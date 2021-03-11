@@ -49,23 +49,36 @@
         <reply :reply="reply_data"></reply>
       </div>
     </div>
-    <div class="hidden_content" ref="showTrend"></div>
+    <div class="hidden_content" ref="showTrend" v-if="isShowTrend">
+      <video-trend
+        :echartsBase_id="videoID"
+        echartsBase_height="600px"
+        echartsBase_width="1000px"
+        :echartsBase_data="data"
+      ></video-trend>
+    </div>
   </div>
 </template>
 
 <script>
+import VideoTrend from '@/components/content/VideoTrend/VideoTrend.vue'
 import Reply from './Reply.vue'
 export default {
   name: "Coments",
   components: {
     Reply,
+    VideoTrend
   },
   props: {
-    isShowTrend: false
+    isShowTrend: false,
+    videoID: String,
+    comment_echarts_data: {
+      type: Object
+    }
   },
   data () {
     return {
-
+      data: this.comment_echarts_data,
       screenWidth: document.body.clientWidth * 0.7,
       touch: {
         favorite: false,
@@ -89,7 +102,7 @@ export default {
     }
   },
   computed: {
-    baiduIndexWidth () {
+    VideoWidth () {
       return Math.max(700, this.screenWidth) + 'px'
     }
   },
@@ -167,7 +180,6 @@ export default {
     window.onresize = () => {
       return (() => {
         this.screenWidth = document.body.clientWidth * 0.7
-
       })()
     }
   }

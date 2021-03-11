@@ -3,6 +3,7 @@ import json
 from urllib.parse import urlencode
 from spider.Utils.loopRequest import LoopRequest
 from spider.bili_index import utils
+from backend import models
 import re
 
 
@@ -27,7 +28,7 @@ class SpiderBili(object):
         return utils.get_hot_list(response)
 
     def run(self):
-        self.hot_list()
+        print(self.hot_list())
 
 
 if __name__ == '__main__':

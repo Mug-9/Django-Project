@@ -22,7 +22,7 @@
 
 <script>
 import { GetCrowd } from 'network/get_baidu_index.js'
-import Echarts from './Echarts'
+import Echarts from '@/components/commons/Echarts/Echarts.vue'
 import DayPick from 'commons/time-pick/DayPick.vue'
 
 export default {

@@ -17,7 +17,7 @@
 <script>
 import { GetInterest } from 'network/get_baidu_index.js'
 
-import Echarts from './Echarts'
+import Echarts from '@/components/commons/Echarts/Echarts.vue'
 
 export default {
   name: "EchartsInterest",

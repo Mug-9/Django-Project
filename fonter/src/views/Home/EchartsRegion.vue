@@ -56,7 +56,7 @@
 
 <script>
 
-import Echarts from './Echarts'
+import Echarts from '@/components/commons/Echarts/Echarts.vue'
 import china from '@/components/map/js/china.js'
 import { GetRegion } from 'network/get_baidu_index.js'
 
