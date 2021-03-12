@@ -10,3 +10,23 @@ export function getUpRank(config) {
     }
   })
 }
+
+export function getFansIncreRank() {
+  return request({
+    method: 'get',
+    url: 'GetFansIncre',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded'
+    }
+  })
+}
+
+export function getVideoIncreRank() {
+  return request({
+    method: 'get',
+    url: 'GetVideoIncre',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded'
+    }
+  })
+}

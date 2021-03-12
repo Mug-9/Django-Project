@@ -415,6 +415,52 @@ class GetUpInfo(View):
         ups = perpger_data.object_list
         up_list = []
         for up in ups:
-            up_list.append({'name': up.name, 'fans': utils.relieve_num(up.fans), 'face': up.face, 'mid': up.mid})
+            up_list.append({'name': up.name, 'fans': utils.relieve_num(up.fans), 'face': up.face, 'mid': up.mid,'video_count': up.video_count,
+                            'archive_like': up.archive_like, 'archive_view': up.archive_view})
         return JsonResponse(up_list, safe=False)
 
+
+class GetFansIncre(View):
+    def get(self, request):
+        Ups = UsersOfB.objects.order_by('fansd_yesterday').reverse()
+        pager = Paginator(Ups, 20)
+        perpager_data = pager.page(1)
+        ups = perpager_data.object_list
+        up_list = {'yesterday': [], 'week': [], 'month': []}
+        for up in ups:
+            up_list['yesterday'].append({'name': up.name, 'fans': utils.relieve_num(up.fans), 'face': up.face, 'mid': up.mid, 'fans_incre': up.fansd_yesterday})
+        Ups = UsersOfB.objects.order_by('fansd_week_ago').reverse()
+        pager = Paginator(Ups, 20)
+        perpager_data = pager.page(1)
+        ups = perpager_data.object_list
+        for up in ups:
+            up_list['week'].append(
+                {'name': up.name, 'fans': utils.relieve_num(up.fans), 'face': up.face, 'mid': up.mid, 'fans_incre': up.fansd_week_ago})
+        Ups = UsersOfB.objects.order_by('fansd_month_ago').reverse()
+        pager = Paginator(Ups, 20)
+        perpager_data = pager.page(1)
+        ups = perpager_data.object_list
+        for up in ups:
+            up_list['month'].append(
+                {'name': up.name, 'fans': utils.relieve_num(up.fans), 'face': up.face, 'mid': up.mid,
+                 'fans_incre': up.fansd_month_ago})
+        return JsonResponse(up_list, safe=False)
+
+
+class GetVideoIncre(View):
+    def get(self, request):
+        Ups = UsersOfB.objects.order_by('videod_week_ago').reverse()
+        pager = Paginator(Ups, 20)
+        perpager_data = pager.page(1)
+        ups = perpager_data.object_list
+        up_list = {'week': [],  'month': []}
+        for up in ups:
+            up_list['week'].append({'name': up.name, 'fans': utils.relieve_num(up.fans), 'face': up.face, 'mid': up.mid, 'video_incre': up.videod_week_ago})
+        Ups = UsersOfB.objects.order_by('videod_month_ago').reverse()
+        pager = Paginator(Ups, 20)
+        perpager_data = pager.page(1)
+        ups = perpager_data.object_list
+        for up in ups:
+            up_list['month'].append(
+                {'name': up.name, 'fans': utils.relieve_num(up.fans), 'face': up.face, 'mid': up.mid, 'video_incre': up.videod_month_ago})
+        return JsonResponse(up_list, safe=False)

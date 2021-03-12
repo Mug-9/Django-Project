@@ -26,6 +26,7 @@ class SpiderProxy():
         select = "select * from backend_proxies"
         self.cursor.execute(select)
         rets = self.cursor.fetchall()
+        self.conn.close()
         for ret in rets:
             proxy = {
                 'http': 'http://%s' % ret[1],

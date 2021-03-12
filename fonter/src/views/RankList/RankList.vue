@@ -58,6 +58,32 @@
           <el-divider> </el-divider>
           <fans-list></fans-list>
         </el-tab-pane>
+        <el-tab-pane>
+          <template #label
+            ><img src="~@/assets/img/online-icons/fans_red.svg" alt="" />
+            <span>粉丝增长</span>
+          </template>
+
+          <div class="tabs-title">
+            <img src="~@/assets/img/online-icons/fans_red.svg" alt="" />
+            <span style="vertical-align=middle">粉丝增长</span>
+          </div>
+          <el-divider> </el-divider>
+          <fans-incre-list></fans-incre-list>
+        </el-tab-pane>
+        <el-tab-pane>
+          <template #label
+            ><img src="~@/assets/img/online-icons/gan.svg" alt="" />
+            <span>肝帝排行</span>
+          </template>
+
+          <div class="tabs-title">
+            <img src="~@/assets/img/online-icons/gan.svg" alt="" />
+            <span style="vertical-align=middle">肝帝排行</span>
+          </div>
+          <el-divider> </el-divider>
+          <video-incre-list></video-incre-list>
+        </el-tab-pane>
       </el-tabs>
     </div>
   </div>
@@ -67,12 +93,17 @@
 import OnlineList from './OnlineList.vue'
 import HotList from './HotList.vue'
 import FansList from './FansList.vue'
+import FansIncreList from './FansIncreList.vue'
+import VideoIncreList from './VideoIncreList.vue'
+
 export default {
   name: "RankList",
   components: {
     OnlineList,
     HotList,
-    FansList
+    FansList,
+    FansIncreList,
+    VideoIncreList
   },
 }
 </script>

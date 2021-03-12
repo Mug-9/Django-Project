@@ -17,7 +17,7 @@ class LoopRequest(object):
     def get_proxy(self):
         if self.count <= 0:
             self.proxies.get_proxy()
-            self.count = 10
+            self.count = 5
         self.count -= 1
 
     def request(self, method, url, **args):
@@ -27,14 +27,18 @@ class LoopRequest(object):
             # args['X-Requested-With'] = 'XMLHttpRequest',
         else:
             args['headers'] = self.proxies.header
-        args['timeout'] = 5
+        args['timeout'] = 7
         # args['verify'] = False
-
+        isProxy = True
+        if 'isProxy' in args:
+            isProxy = args['isProxy']
+            del args['isProxy']
         loop = 10
         while loop:
             try:
-                self.get_proxy()
-                args['proxies'] = self.proxies.proxy
+                if isProxy:
+                    self.get_proxy()
+                    args['proxies'] = self.proxies.proxy
                 print("loopRequest: 第 %s 次尝试 %s" % (11-loop, url))
                 requests.packages.urllib3.disable_warnings()
                 response = requests.request(method, url, **args)
@@ -45,4 +49,5 @@ class LoopRequest(object):
                 time.sleep(3)
                 if loop == 0:
                     return "get error"
+            time.sleep(3)
             loop -= 1

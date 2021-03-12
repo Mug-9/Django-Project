@@ -1,7 +1,20 @@
 <template>
   <div class="tips">
-    粉丝排名前100
+    肝帝排名前20
     <div class="update_time">更新时间:02:00:00</div>
+  </div>
+  <div class="days_select">
+    <el-dropdown @command="day_change">
+      <el-button type="primary">
+        {{ days }} <i class="el-icon-arrow-down el-icon--right"></i>
+      </el-button>
+      <template #dropdown>
+        <el-dropdown-menu>
+          <el-dropdown-item command="7">上周</el-dropdown-item>
+          <el-dropdown-item command="30">上个月</el-dropdown-item>
+        </el-dropdown-menu>
+      </template>
+    </el-dropdown>
   </div>
   <div
     v-loading="loading"
@@ -21,31 +34,19 @@
           <a :href="get_url(item)"> {{ item["name"] }}</a>
         </template>
         <template v-slot:slot-fans> ：{{ item["fans"] }} </template>
-        <template v-slot:slot-videos> 总视频数：{{ item["video_count"] }} </template>
-        <template v-slot:slot-archive-like>
-          总获赞数：{{ item["archive_like"] }}
-        </template>
-        <template v-slot:slot-archive-view>
-          视频总播放数：{{ item["archive_view"] }}
+        <template v-slot:slot-videos>
+          视频增长数：{{ item["video_incre"] }}
         </template>
       </list-item>
-    </div>
-    <div class="pager">
-      <el-pagination
-        background
-        layout="prev, pager, next"
-        :total="50"
-        @current-change="handleCurrentChange"
-      ></el-pagination>
     </div>
   </div>
 </template>
 
 <script>
-import { getUpRank } from 'network/getUps.js'
+import { getVideoIncreRank } from 'network/getUps.js'
 import listItem from 'commons/up-list/list-item.vue'
 export default {
-  name: "FansList",
+  name: "VideoIncreList",
   components: {
     listItem
   },
@@ -53,28 +54,22 @@ export default {
     return {
       fanslist: [],
       loading: true,
-      currentPage: 1
+      currentPage: 1,
+      days: '上周',
+      data: {}
     }
   },
   computed: {
 
   },
   methods: {
-    UpRank (data = { 'ps': 1, 'pn': 20 }) {
+    UpRank () {
       this.fanslist = []
-      getUpRank(data).then(res => {
-        this.fanslist = res
+      getVideoIncreRank().then(res => {
+        this.data = res
+        this.fanslist = this.data['week']
         this.loading = false
       })
-    },
-    handleCurrentChange (val) {
-      this.loading = true
-      this.currentPage = val
-      let data = {
-        'ps': val,
-        'pn': 20,
-      }
-      this.UpRank(data)
     },
     indexColor (index) {
       let num = (this.currentPage - 1) * 10 + index + 1
@@ -100,6 +95,19 @@ export default {
       let mid = item['mid']
       return "https://space.bilibili.com/" + mid + '/'
     },
+    day_change (val) {
+      if (val == 7) {
+        this.days = "上一周"
+        this.fanslist = []
+        this.fanslist = this.data['week']
+        console.log(this.fanslist)
+      } else if (val == 30) {
+        this.days = "上个月"
+        this.fanslist = []
+        this.fanslist = this.data['month']
+        console.log(this.fanslist)
+      }
+    }
   },
   mounted () {
     this.UpRank()
@@ -148,5 +156,8 @@ a {
 .each_item {
   margin-left: 10px;
   flex: 1;
+}
+.days_select {
+  margin: 0 auto;
 }
 </style>

@@ -7,9 +7,23 @@
       <div class="slot-name">
         <slot name="slot-name"></slot>
       </div>
-      <div class="slot-fans">
-        <img src="~@/assets/img/online-icons/fans.svg" />
-        <slot name="slot-fans"></slot>
+      <div class="fans_videos">
+        <div class="slot-fans">
+          <img src="~@/assets/img/online-icons/fans.svg" />
+          <slot name="slot-fans"></slot>
+        </div>
+        <div class="slot-videos">
+          <slot name="slot-videos"></slot>
+        </div>
+      </div>
+
+      <div class="like_view">
+        <div class="slot-archive-like">
+          <slot name="slot-archive-like"></slot>
+        </div>
+        <div class="slot-archive-view">
+          <slot name="slot-archive-view"></slot>
+        </div>
       </div>
     </div>
   </div>
@@ -39,15 +53,45 @@ export default {
 }
 
 .user_detail {
-  margin: 10px;
+  margin: 5px 20px;
+  width: 100%;
+}
+.fans_videos {
+  display: flex;
+  margin: 2px auto;
+}
+.like_view {
+  display: flex;
+  margin: 2px auto;
 }
 .slot-fans {
+  flex: 1;
   line-height: 20px;
   align-content: center;
-  margin-top: 30px;
+  margin: 2px;
+}
+.slot-videos {
+  flex: 1;
+  line-height: 20px;
+  align-content: center;
+  margin: 2px;
 }
 
-.slot-fans img {
+.slot-archive-like {
+  flex: 1;
+  line-height: 20px;
+  align-content: center;
+  margin: 2px;
+}
+
+.slot-archive-view {
+  flex: 1;
+  line-height: 20px;
+  align-content: center;
+  margin: 2px;
+}
+
+.user_detail img {
   width: 18px;
   height: 18px;
 }

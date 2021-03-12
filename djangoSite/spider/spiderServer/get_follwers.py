@@ -23,7 +23,7 @@ id_list = ids.split('、')[1:-1]
 
 cookie = 'SESSDATA=3e018edc%2C1630047578%2Cc5952*21'
 header = {
-    'Refer': 'https://space.bilibili.com/',
+    'Referer': 'https://space.bilibili.com/',
     'Cookie': cookie,
     'Accept': '*/*',
     'Accept-Encoding': 'gzip, deflate, br',

@@ -41,10 +41,31 @@ class UsersOfB(models.Model):
     mid = models.CharField(max_length=20,  default='None', unique= True)
     name = models.CharField(max_length=20, default='None')
     fans = models.IntegerField(default=0)
+    fans_yesterday = models.IntegerField(default=0)
+    fansd_yesterday = models.IntegerField(default=0)
+    fans_week_ago = models.IntegerField(default=0)
+    fansd_week_ago = models.IntegerField(default=0)
+    fans_month_ago = models.IntegerField(default=0)
+    fansd_month_ago = models.IntegerField(default=0)
     face = models.CharField(max_length=30, default='None')
+    archive_view = models.IntegerField(default=0)
+    archive_like = models.IntegerField(default=0)
+    video_count = models.IntegerField(default=0)
+    video_count_week_ago = models.IntegerField(default=0)
+    videod_week_ago = models.IntegerField(default=0)
+    video_count_month_ago = models.IntegerField(default=0)
+    videod_month_ago = models.IntegerField(default=0)
 
     def __str__(self):
         return u'mid: %s' % self.mid
+
+
+class UserTimeInfo(models.Model):
+    user_time_info_id = models.AutoField(primary_key=True)
+    mid = models.CharField(max_length=20, default='None')
+    fans = models.IntegerField(default=0)
+    archive_view = models.IntegerField(default=0)
+    archive_like = models.IntegerField(default=0)
 
 
 class proxies(models.Model):

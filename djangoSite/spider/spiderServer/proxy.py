@@ -1,6 +1,6 @@
 import json
 import time
-from Utils import user_agent_list
+import user_agent_list
 import MySQLdb as md
 import requests
 

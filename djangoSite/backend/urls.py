@@ -15,5 +15,7 @@ urlpatterns = [
     path('GetInfo', view=views.getInfo.as_view(), name="getInfo"),
     path('UpdateInfo', view=views.UpdateInfo.as_view(), name="updateInfo"),
     path('GetUpInfo', view=views.GetUpInfo.as_view(), name="GetUpInfo"),
+    path('GetFansIncre', view=views.GetFansIncre.as_view(), name="GetFansIncre"),
+    path('GetVideoIncre', view=views.GetVideoIncre.as_view(), name="GetVideoIncre"),
 
 ]

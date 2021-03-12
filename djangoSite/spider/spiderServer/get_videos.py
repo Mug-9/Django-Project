@@ -17,7 +17,7 @@ cursor = conn.cursor()
 
 cookie = 'SESSDATA=3e018edc%2C1630047578%2Cc5952*21'
 header = {
-    'Refer': 'https://www.bilibili.com/',
+    'Referer': 'https://www.bilibili.com/',
     'Origin': 'https://www.bilibili.com',
     'Cookie': cookie,
     'Accept': '*/*',
