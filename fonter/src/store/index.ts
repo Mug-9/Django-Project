@@ -9,6 +9,7 @@ export default createStore({
     account: "",
     token: "",
     name: "",
+    activeName: "profile",
   },
   mutations: {
     [func.SETEMAIL](state, config) {
@@ -44,6 +45,9 @@ export default createStore({
     [func.CLEARTOKEN](state) {
       state.token = "";
     },
+    [func.SETACTIVENAME](state, config) {
+      state.activeName = config
+    }
   },
   getters: {
     isLogin(state) {

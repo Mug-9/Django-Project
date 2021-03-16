@@ -68,7 +68,12 @@
     </div>
   </div>
   <div>
-    <comments :isShowTrend="true" :videoID="videoBV" :comment_echarts_data="videoData"></comments>
+    <comments
+      :isShowTrend="true"
+      :videoID="videoBV"
+      :comment_echarts_data="videoData"
+      :comment_data="commentData"
+    ></comments>
   </div>
 </template>
 
@@ -85,10 +90,15 @@ export default {
     videoBV: String,
     videoData: {
       type: Object
+    },
+    commentData: {
+      type: Object
     }
   },
   components: {
     Comments,
+  },
+  methods: {
   },
   computed: {
   },

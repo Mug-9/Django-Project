@@ -31,9 +31,13 @@ def parse_data(response):
 
 
 def relieve_num(num):
-    head = int(num / 10000)
-    tail = num % 10000
-    if head > 0:
+    n = int(int(num) / 100000000)
+    last = int(num) % 100000000
+    head = int(last / 10000)
+    tail = last % 10000
+    if n > 0:
+        return "%s.%s亿" % (n, int(last / 1000000))
+    elif head > 0:
         return "%s.%s万" % (head, int(tail / 100))
     else:
         return tail
@@ -42,6 +46,7 @@ def relieve_num(num):
 def parse_time(sec):
     time_local = time.localtime(sec)
     return time.strftime('%Y-%m-%d %H:%M:%S', time_local)
+
 
 def cal_time(sec):
     hour = int(sec / 3600)

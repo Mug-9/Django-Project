@@ -36,8 +36,8 @@
     <feed-index-general :general_table="echartsBase_data['newIndex_general']">
     </feed-index-general>
   </div>
-  <div>
-    <comments></comments>
+ <div v-if="!echartsBase_data['loading']">
+    <comments :comment_data="commentData"> </comments>
   </div>
 </template>
 
@@ -70,6 +70,9 @@ export default {
   },
   data () {
     return {
+      commentData: {
+
+      },
       echartsBase_data: {
         days: 7,
         area: '全国',
@@ -200,6 +203,8 @@ export default {
             } else if (result['word'] == 'feedIndex_general') {
               this.echartsBase_data['feedIndex_general'] = result
               this.echartsBase_data['feedIndex_general']['title'] = '资讯指数'
+            }if(result['word'] == 'comment') {
+              this.commentData = result
             }
           }
         }

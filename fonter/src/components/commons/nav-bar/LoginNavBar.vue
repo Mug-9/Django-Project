@@ -32,7 +32,7 @@ export default {
       this.$router.push('/profile')
     },
     storeClick () {
-      this.$router.push('/sotre')
+      this.$router.push('/store')
     },
     logClick () {
       this.$router.push('/log')

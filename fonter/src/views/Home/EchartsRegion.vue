@@ -52,6 +52,9 @@
       </ul>
     </div>
   </div>
+  <div v-if="!echartsBase_data['loading']">
+    <comments :comment_data="commentData"> </comments>
+  </div>
 </template>
 
 <script>
@@ -59,11 +62,13 @@
 import Echarts from '@/components/commons/Echarts/Echarts.vue'
 import china from '@/components/map/js/china.js'
 import { GetRegion } from 'network/get_baidu_index.js'
+import Comments from '@/components/commons/coments/Coment.vue'
 
 export default {
   name: "EchartsRegion",
   components: {
     Echarts,
+    Comments
   },
   props: {
     echartsBase_id: {
@@ -78,6 +83,7 @@ export default {
   },
   data () {
     return {
+      commentData: {},
       customColor: '#409eff',
       customColors: [
         { color: '#f56c6c', percentage: 20 },
@@ -171,7 +177,11 @@ export default {
       GetRegion(data).then(res => {
         let results = JSON.parse(res)
         for (let result of results) {
-          this.echartsBase_data[result['word']] = result['data']
+          if (result['word'] == 'comment') {
+            this.commentData = result
+          } else {
+            this.echartsBase_data[result['word']] = result['data']
+          }
         }
         this.options.series[0].data = this.echartsBase_data['index']
         this.echartsBase_data['loading'] = false

@@ -19,8 +19,13 @@
       </div>
     </el-backtop>
     <div class="content">
-      <el-tabs tab-position="left" class="tabs">
-        <el-tab-pane>
+      <el-tabs
+        tab-position="left"
+        class="tabs"
+        @tab-click="tabClick"
+        v-model="activeName"
+      >
+        <el-tab-pane name="profile">
           <template #label
             ><img src="~@/assets/img/online-icons/profile.svg" alt="" />
             <span> 信 息</span>
@@ -32,7 +37,7 @@
           <el-divider> </el-divider>
           <user-info></user-info>
         </el-tab-pane>
-        <el-tab-pane>
+        <el-tab-pane name="store">
           <template #label
             ><img src="~@/assets/img/online-icons/favorite.svg" alt="" />
             <span> 收 藏 </span>
@@ -43,7 +48,7 @@
           </div>
           <el-divider> </el-divider>
         </el-tab-pane>
-        <el-tab-pane>
+        <el-tab-pane name="log">
           <template #label
             ><img src="~@/assets/img/online-icons/log.svg" alt="" />
             <span> 记 录 </span>
@@ -61,12 +66,32 @@
 </template>
 
 <script>
+import * as func from '@/store/mutations-type.ts'
 import UserInfo from './UserInfo.vue'
 export default {
   name: "Profile",
   components: {
-    UserInfo
-  }
+    UserInfo,
+  },
+  data () {
+    return {
+      activeName: 'profile'
+    }
+  },
+  methods: {
+    tabClick (tab) {
+      if (tab['index'] == '2') {
+        this.$router.push('/log')
+      } else if (tab['index'] == '1') {
+        this.$router.push('/store')
+      } else if (tab['index'] == '0') {
+        this.$router.push('/profile')
+      }
+    }
+  },
+  mounted () {
+  },
+
 }
 </script>
 

@@ -9,7 +9,7 @@ export function request (config) {
   })
 
   instance.interceptors.request.use(config => {
-    if (config.method == "POST") {
+    if (config.method == "post") {
       config.data = qs.stringify(config.data)
     }
     if (!(/^(get|head|options|trace)$/.test(config['method']))) {

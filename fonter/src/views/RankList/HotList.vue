@@ -1,7 +1,11 @@
 <template>
   <div>
     <div v-for="item in list" :key="item">
-      <online-item :videoBV="item['bvid']" :videoData="item['echarts_data']">
+      <online-item
+        :videoBV="item['bvid']"
+        :videoData="item['echarts_data']"
+        :commentData="item['comment']"
+      >
         <template v-slot:slot-img>
           <a :href="get_url(item)"><img :src="item['pic']" alt="" /></a>
         </template>
@@ -53,7 +57,9 @@ import onlineItem from 'commons/online-list/online-item.vue'
 export default {
   components: { onlineItem },
   name: "OnlineList",
-
+  props: {
+    isIndex: 0
+  },
   data () {
     return {
       list: [],
@@ -64,7 +70,8 @@ export default {
       data: {
         ps: 20,
         pn: 1,
-      }
+        token: this.$store.state.token
+      },
     }
   },
   computed: {
@@ -104,7 +111,7 @@ export default {
         document.documentElement.clientHeight || document.body.clientHeight
       let scrollHeight =
         document.documentElement.scrollHeight || document.body.scrollHeight
-      if (scrollTop + windowHeight + 10 >= scrollHeight) {
+      if (scrollTop + windowHeight + 10 >= scrollHeight && this.isIndex == 1) {
         this.load()
       } else {
         this.status['noMore'] = false
@@ -114,7 +121,6 @@ export default {
   mounted () {
     this.getHotList()
     window.addEventListener('scroll', this.handleScroll, true)
-
   }
 }
 </script>

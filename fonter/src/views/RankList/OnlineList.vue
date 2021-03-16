@@ -6,7 +6,7 @@
     element-loading-text="拼命加载中"
   >
     <div v-for="item in onlineItems['list']" :key="item">
-      <online-item :videoBV="item['bvid']" :videoData="item['echarts_data']">
+      <online-item :videoBV="item['bvid']" :videoData="item['echarts_data']" :commentData="item['comment']">
         <template v-slot:slot-img>
           <a :href="get_url(item)"><img :src="item['pic']" alt="" /></a>
         </template>
@@ -67,7 +67,10 @@ export default {
   },
   methods: {
     getOnlineList () {
-      OnlineList().then(res => {
+      let data = {
+        token: this.$store.state.token
+      }
+      OnlineList(data).then(res => {
         this.onlineItems['list'] = res
         this.onlineItems['loading'] = false
       })

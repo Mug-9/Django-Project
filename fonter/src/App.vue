@@ -32,8 +32,9 @@ export default {
   },
   created () {
     this.$store.commit(func.GETTOKEN)
-    this.setStore({ 'token': this.$store.state.token })
-  
+    if (this.$store.state.token) {
+      this.setStore({ 'token': this.$store.state.token })
+    }
   }
 }
 </script>

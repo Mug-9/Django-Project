@@ -1,8 +1,11 @@
 <template>
-  <div class="echarts-date" v-loading="echartsBase_data['loading']" 
+  <div
+    class="echarts-date"
+    v-loading="echartsBase_data['loading']"
     element-loading-spinner="el-icon-loading"
     element-loading-background="rgba(0, 0, 0, 0.8)"
-    element-loading-text="拼命加载中">
+    element-loading-text="拼命加载中"
+  >
     <div class="echarts-div">
       <echarts
         :echarts_id="echartsBase_id"
@@ -12,17 +15,23 @@
       ></echarts>
     </div>
   </div>
+
+  <div v-if="!echartsBase_data['loading']">
+    <comments :comment_data="commentData"> </comments>
+  </div>
 </template>
 
 <script>
 import { GetInterest } from 'network/get_baidu_index.js'
 
 import Echarts from '@/components/commons/Echarts/Echarts.vue'
+import Comments from '@/components/commons/coments/Coment.vue'
 
 export default {
   name: "EchartsInterest",
   components: {
     Echarts,
+    Comments
   },
   props: {
     echartsBase_id: {
@@ -37,6 +46,7 @@ export default {
   },
   data () {
     return {
+      commentData: {},
       echartsBase_data: {
         loading: true
       },
@@ -165,9 +175,10 @@ export default {
       }
       GetInterest(data).then(res => {
         let results = JSON.parse(res)
+        this.commentData = results[1]
         let kinds = ['all', 'b', 'desc', 'tgi']
         for (let kind of kinds) {
-          this.echartsBase_data[kind] = results[kind]
+          this.echartsBase_data[kind] = results[0][kind]
         }
         this.options.xAxis[0].data = this.echartsBase_data['desc']
         this.options.series[0].data = this.echartsBase_data['b']

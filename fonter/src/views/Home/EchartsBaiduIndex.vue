@@ -41,8 +41,8 @@
     >
     </baidu-index-general>
   </div>
-  <div>
-    <comments> </comments>
+  <div v-if="!echartsBase_data['loading']">
+    <comments :comment_data="commentData"> </comments>
   </div>
 </template>
 
@@ -75,6 +75,8 @@ export default {
   },
   data () {
     return {
+      commentData: {
+      },
       echartsBase_data: {
         days: 7,
         area: '全国',
@@ -191,7 +193,6 @@ export default {
       this.echartsBase_data['general'] = {}
       GetBaiduIndex(data).then(res => {
         let results = JSON.parse(res)
-
         let kinds = ['all', 'pc', 'wise']
         for (let result of results) {
           if (result['word'] == 'index') {
@@ -199,12 +200,13 @@ export default {
               this.echartsBase_data['userIndex'][kind] = result[kind]
             }
             this.echartsBase_data['date'] = result['date']
-          } else {
+          } else if (result['word'] == 'general') {
             for (let kind of kinds) {
               this.echartsBase_data['general'][kind] = result[kind]
             }
           }
         }
+        this.commentData = results[2]
         this.options.series[0].data = this.echartsBase_data['userIndex']['all']
         this.options.series[1].data = this.echartsBase_data['userIndex']['pc']
         this.options.series[2].data = this.echartsBase_data['userIndex']['wise']

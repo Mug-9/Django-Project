@@ -17,5 +17,6 @@ urlpatterns = [
     path('GetUpInfo', view=views.GetUpInfo.as_view(), name="GetUpInfo"),
     path('GetFansIncre', view=views.GetFansIncre.as_view(), name="GetFansIncre"),
     path('GetVideoIncre', view=views.GetVideoIncre.as_view(), name="GetVideoIncre"),
-
+    path('OperatorLog', view=views.OperatorLog.as_view(), name="OperatorLog"),
+    path('GetFavorite', view=views.GetFavorite.as_view(), name="GetFavorite"),
 ]

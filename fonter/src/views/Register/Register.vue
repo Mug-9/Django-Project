@@ -117,14 +117,13 @@ export default {
         if (valid) {
           let formData = new FormData()
           let account_tmp = this.form.account
-          for (let key in this.form) {
-            formData.append(key, this.form[key])
-            console.log(key, this.form[key])
+          let data = {
+            account: this.form.account,
+            password: this.form.password
           }
           this.form.account = account_tmp + ' '
-          formRegister(formData).then(res => {
+          formRegister(data).then(res => {
             this.form.account = account_tmp
-            console.log(res)
             if (res == "账号已存在!") {
               ElMessage.error(res)
               this.formCheck.accountExits = true

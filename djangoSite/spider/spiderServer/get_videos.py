@@ -12,14 +12,12 @@ import utils
 import re
 import MySQLdb as md
 
-conn = md.connect(host='123.56.252.111', port=3306, user='root', passwd='123456', db='test', charset='utf8')
-cursor = conn.cursor()
+maxconnections = 50
+pool_sema = threading.BoundedSemaphore(value=maxconnections)
 
-cookie = 'SESSDATA=3e018edc%2C1630047578%2Cc5952*21'
 header = {
     'Referer': 'https://www.bilibili.com/',
     'Origin': 'https://www.bilibili.com',
-    'Cookie': cookie,
     'Accept': '*/*',
     'Accept-Encoding': 'gzip, deflate, br',
     'Accept-Language': 'zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6',
@@ -77,19 +75,20 @@ class SpiderBili(object):
                 self.db_pool[thread_id].ping(True)
                 break
             except Exception as e:
-                print(e)
+                print('error', e)
                 self.db_pool[thread_id] = md.connect(host='123.56.252.111', port=3306, user='root', passwd='123456', db='test',
                                  charset='utf8')
             time.sleep(5)
 
     def thread(self, index, now_time):
         thread_id = threading.currentThread().ident
+        self.db_pool[thread_id] = md.connect(host='123.56.252.111', port=3306, user='root', passwd='123456', db='test',
+                                 charset='utf8')
         print('thread: %s' % thread_id)
         if index == 0:
             res = self.online_list()
         else:
             res = self.hot_list(20, index)
-
         for video in res:
             bvid = video['bvid']
             check = "select * from backend_videosdata where(bvid='%s');" % bvid
@@ -120,6 +119,7 @@ class SpiderBili(object):
             cur.execute(insert)
             self.db_pool[thread_id].commit()
             time.sleep(1)
+        self.db_pool[thread_id].close()
 
     def run(self, now_time):
         thread_list = []

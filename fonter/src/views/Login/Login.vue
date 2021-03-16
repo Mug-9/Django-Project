@@ -85,12 +85,14 @@ export default {
       let formData = new FormData()
       let account_tmp = this.rulerForm.account
       let password_tmp = this.rulerForm.password
-      for (let key in this.rulerForm) {
-        formData.append(key, this.rulerForm[key])
+      let data = {
+        account: account_tmp,
+        password: password_tmp
       }
+      console.log(data);
       this.rulerForm.account = account_tmp + ' '
       this.rulerForm.password = password_tmp.slice(1) + ' '
-      formLogin(formData).then(res => {
+      formLogin(data).then(res => {
         console.log(res)
         this.rulerForm.account = account_tmp
         this.rulerForm.password = password_tmp

@@ -19,8 +19,13 @@
       </div>
     </el-backtop>
     <div class="content">
-      <el-tabs tab-position="left" class="tabs">
-        <el-tab-pane>
+      <el-tabs
+        tab-position="left"
+        class="tabs"
+        v-model="activeName"
+        @tab-click="handleClick"
+      >
+        <el-tab-pane name="1" lazy="true">
           <template #label
             ><img src="~@/assets/img/online-icons/online.svg" alt="" />
             <span>在线人数</span>
@@ -32,7 +37,7 @@
           <el-divider> </el-divider>
           <online-list></online-list>
         </el-tab-pane>
-        <el-tab-pane>
+        <el-tab-pane name="2" lazy="true">
           <template #label
             ><img src="~@/assets/img/online-icons/hot.svg" alt="" />
             <span>热门视频</span>
@@ -43,9 +48,9 @@
             <span style="vertical-align=middle">热门视频</span>
           </div>
           <el-divider> </el-divider>
-          <hot-list></hot-list>
+          <hot-list :isIndex="activeIndex"></hot-list>
         </el-tab-pane>
-        <el-tab-pane>
+        <el-tab-pane name="3" lazy="true">
           <template #label
             ><img src="~@/assets/img/online-icons/fans_red.svg" alt="" />
             <span>粉丝排行</span>
@@ -58,7 +63,7 @@
           <el-divider> </el-divider>
           <fans-list></fans-list>
         </el-tab-pane>
-        <el-tab-pane>
+        <el-tab-pane name="4" lazy="true">
           <template #label
             ><img src="~@/assets/img/online-icons/fans_red.svg" alt="" />
             <span>粉丝增长</span>
@@ -71,7 +76,7 @@
           <el-divider> </el-divider>
           <fans-incre-list></fans-incre-list>
         </el-tab-pane>
-        <el-tab-pane>
+        <el-tab-pane name="5" lazy="true">
           <template #label
             ><img src="~@/assets/img/online-icons/gan.svg" alt="" />
             <span>肝帝排行</span>
@@ -105,6 +110,18 @@ export default {
     FansIncreList,
     VideoIncreList
   },
+  data () {
+    return {
+      activeName: '1',
+      activeIndex: 1
+    }
+  },
+  methods: {
+    handleClick (tab, event) {
+      this.activeIndex = tab['index']
+    }
+
+  }
 }
 </script>
 

@@ -31,9 +31,14 @@ def parse_data(response):
 
 
 def relieve_num(num):
-    head = int(num / 10000)
-    tail = num % 10000
-    if head > 0:
+    n = int(int(num) / 100000000)
+    print(num, n)
+    last = int(num) % 100000000
+    head = last / 10000
+    tail = last % 10000
+    if n > 0:
+        return "%s.%s亿" % (n, int(last / 1000000))
+    elif head > 0:
         return "%s.%s万" % (head, int(tail / 100))
     else:
         return tail

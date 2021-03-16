@@ -1,8 +1,11 @@
 <template>
-  <div class="echarts-date" v-loading="echartsBase_data['loading']" 
+  <div
+    class="echarts-date"
+    v-loading="echartsBase_data['loading']"
     element-loading-spinner="el-icon-loading"
     element-loading-background="rgba(0, 0, 0, 0.8)"
-    element-loading-text="拼命加载中">
+    element-loading-text="拼命加载中"
+  >
     <div class="echarts-div">
       <echarts
         echarts_id="echartsAge"
@@ -18,18 +21,23 @@
       ></echarts>
     </div>
   </div>
+  <div v-if="!echartsBase_data['loading']">
+    <comments :comment_data="commentData"> </comments>
+  </div>
 </template>
 
 <script>
 import { GetCrowd } from 'network/get_baidu_index.js'
 import Echarts from '@/components/commons/Echarts/Echarts.vue'
 import DayPick from 'commons/time-pick/DayPick.vue'
+import Comments from '@/components/commons/coments/Coment.vue'
 
 export default {
   name: "EchartsCrowdAge",
   components: {
     Echarts,
-    DayPick
+    DayPick,
+    Comments
   },
   props: {
     echartsBase_width: {
@@ -41,6 +49,7 @@ export default {
   },
   data () {
     return {
+      commentData: {},
       echartsBase_data: {
         crowdAge: {},
         crowdSex: {},
@@ -244,11 +253,13 @@ export default {
             this.echartsBase_data['crowdAge']['all'] = result['all']
             this.echartsBase_data['crowdAge']['tgi'] = result['tgi']
             this.echartsBase_data['crowdAge']['desc'] = result['desc']
-          } else {
+          } else if (index == 1) {
             this.echartsBase_data['crowdSex']['b'] = result['b']
             this.echartsBase_data['crowdSex']['all'] = result['all']
             this.echartsBase_data['crowdSex']['tgi'] = result['tgi']
             this.echartsBase_data['crowdSex']['desc'] = result['desc']
+          } else if (index == 2) {
+            this.commentData = result
           }
         }
         this.options['Age'].title.text = "年龄分布"

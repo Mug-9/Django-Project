@@ -21,9 +21,11 @@
           <a :href="get_url(item)"> {{ item["name"] }}</a>
         </template>
         <template v-slot:slot-fans> ：{{ item["fans"] }} </template>
-        <template v-slot:slot-videos> 总视频数：{{ item["video_count"] }} </template>
+        <template v-slot:slot-videos>
+          总视频数：{{ item["video_count"] }}
+        </template>
         <template v-slot:slot-archive-like>
-          总获赞数：{{ item["archive_like"] }}
+          视频总获赞数：{{ item["archive_like"] }}
         </template>
         <template v-slot:slot-archive-view>
           视频总播放数：{{ item["archive_view"] }}

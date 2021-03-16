@@ -32,7 +32,7 @@
       <div class="userReply">
         <img src="~assets/img/online/default.png" alt="" />
         <el-input
-          :value="userReply"
+          v-model="myReply"
           type="textarea"
           rows="4"
           resize="none"
@@ -40,13 +40,18 @@
           class="reply_input"
         >
         </el-input>
-        <el-button type="primary" class="reply_button">发表评论</el-button>
+        <el-button type="primary" class="reply_button" @click="subReply"
+          >发表评论</el-button
+        >
       </div>
-      <div>
-        <reply :reply="reply_data"></reply>
-        <reply :reply="reply_data"></reply>
-        <reply :reply="reply_data"></reply>
-        <reply :reply="reply_data"></reply>
+      <div :key="key">
+        <div v-for="item in replys" :key="item">
+          <reply
+            :reply="item"
+            :comment_id="comment_data['comment_id']"
+            @deleteReply="updatePage"
+          ></reply>
+        </div>
       </div>
     </div>
     <div class="hidden_content" ref="showTrend" v-if="isShowTrend">
@@ -61,8 +66,12 @@
 </template>
 
 <script>
+import { ElMessage } from 'element-plus'
+import { ref } from 'vue'
 import VideoTrend from '@/components/content/VideoTrend/VideoTrend.vue'
 import Reply from './Reply.vue'
+import { PostComment} from '@/network/get_bili.js'
+
 export default {
   name: "Coments",
   components: {
@@ -74,30 +83,27 @@ export default {
     videoID: String,
     comment_echarts_data: {
       type: Object
+    },
+    comment_data: {
+      type: Object
     }
   },
   data () {
     return {
+      key: 0,
       data: this.comment_echarts_data,
       screenWidth: document.body.clientWidth * 0.7,
       touch: {
-        favorite: false,
-        reply: false,
+        favorite: this.comment_data['is_like'],
+        reply: 0,
         trend: false,
       },
       number: {
-        favorite: 0,
-        reply: 0,
+        favorite: this.comment_data['web_like'],
+        reply: this.comment_data['web_reply'],
       },
-      reply_data: {
-        img: 'https://t7.baidu.com/it/u=1595072465,3644073269&fm=193&f=GIF',
-        name: 'abcd',
-        msg: 'adgasdfasdfas',
-        time: '4分钟',
-        like: 4,
-        dislike: 5,
-      },
-      userReply: '',
+      replys: this.comment_data['replys'],
+      myReply: ref(''),
       liConHeight: 0, // 折叠面板内容初始高度
     }
   },
@@ -108,7 +114,57 @@ export default {
   },
   methods: {
     favorite_click () {
+        if (this.$store.state.token == '') {
+          ElMessage.error('请先登录')
+          return
+        }
       this.touch['favorite'] = !this.touch['favorite']
+      if (this.touch['favorite']) {
+        this.number['favorite']++
+
+        let data = {
+          favorite: this.number['favorite'],
+          reply: this.number['reply'],
+          token: this.$store.state.token,
+          comment_id: this.comment_data['comment_id'],
+          is_like: 1,
+          type: 'comment'
+        }
+        PostComment(data).then(res => {
+          if (res['code'] == 200) {
+            ElMessage.success({
+              message: res['msg'],
+              type: 'success'
+            })
+          } else {
+            ElMessage.error(res['msg'])
+          }
+        })
+      } else {
+        if (this.$store.state.token == '') {
+          ElMessage.error('请先登录')
+          return
+        }
+        this.number['favorite']--
+        let data = {
+          favorite: this.number['favorite'],
+          reply: this.number['reply'],
+          token: this.$store.state.token,
+          comment_id: this.comment_data['comment_id'],
+          is_like: 0,
+          type: 'comment'
+        }
+        PostComment(data).then(res => {
+          if (res['code'] == 200) {
+            ElMessage.success({
+              message: res['msg'],
+              type: 'success'
+            })
+          } else {
+            ElMessage.error(res['msg'])
+          }
+        })
+      }
     },
     like_click () {
       this.touch['reply'] = !this.touch['reply']
@@ -139,7 +195,6 @@ export default {
         } else { // 收缩
           liCon.style.height = this.liConHeight + 'px'
         }
-        liCon.style.height = this.liConHeight + 'px'
       }
     },
     trend_click () {
@@ -173,8 +228,79 @@ export default {
         }
       }
 
-    }
+    },
+    subReply () {
+      this.number['reply']++
+      let reply_id = this.getRandId()
+      let data = {
+        reply_content: this.myReply,
+        token: this.$store.state.token,
+        comment_id: this.comment_data['comment_id'],
+        type: 'reply',
+        reply_id: reply_id
+      }
+      if (this.$store.state.token == '') {
+        ElMessage.error('请先登录')
+        return
+      }
+      PostComment(data).then(res => {
+        console.log(res)
+        if (res['code'] == 200) {
+          ElMessage.success({
+            message: res['msg'],
+            type: 'success'
+          })
+          let time = new Date()
+          Date.prototype.toLocaleString = function () {   // 重写日期函数格式化日期
+              return `${this.getFullYear()}-${this.getMonth() + 1 >= 10 ? (this.getMonth() + 1) : '0' + (this.getMonth() + 1)}-${this.getDate() >= 10 ? this.getDate() : '0' + this.getDate()} ${this.getHours() >= 10 ? this.getHours() : '0' + this.getHours()}:${this.getMinutes() >= 10 ? this.getMinutes() : '0' + this.getMinutes()}:${this.getSeconds() >= 10 ? this.getSeconds() : '0' + this.getSeconds()}`;
+          };
+          this.replys.unshift({
+            img: 'https://t7.baidu.com/it/u=1595072465,3644073269&fm=193&f=GIF',
+            name: this.$store.state.name,
+            msg: this.myReply,
+            like: 0,
+            dislike: 0,
+            reply_id: reply_id,
+            reply_time: time.toLocaleString()
+          })
+          this.myReply = ref('')
+          this.key += 1
+          this.like_click()
+          setTimeout(() => {
+            this.like_click()
+          }, 500)
+        } else {
+          ElMessage.error(res['msg'])
+        }
+      })
+      data = {
+        favorite: this.number['favorite'],
+        reply: this.number['reply'],
+        token: this.$store.state.token,
+        comment_id: this.comment_data['comment_id'],
+        is_like: this.touch['favorite'] == true ? 1 : 0,
+        type: 'comment'
+      }
+      PostComment(data).then(res => {
+      })
 
+    },
+    getRandId () {
+      return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+        var r = Math.random() * 16 | 0,
+          v = c == 'x' ? r : (r & 0x3 | 0x8)
+        return v.toString(16)
+      })
+    },
+    updatePage (id) {
+      for (let idx in this.replys) {
+        if (this.replys[idx]['reply_id'] == id) {
+          this.replys.splice(idx, 1)
+          break
+        }
+      }
+      this.number['reply']--
+    }
   },
   mounted () {
     window.onresize = () => {
