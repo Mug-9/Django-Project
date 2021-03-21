@@ -67,7 +67,7 @@
       <slot name="item-online"></slot>
     </div>
   </div>
-  <div>
+  <div v-if="!isShowComment">
     <comments
       :isShowTrend="true"
       :videoID="videoBV"
@@ -93,7 +93,8 @@ export default {
     },
     commentData: {
       type: Object
-    }
+    },
+    isShowComment: false
   },
   components: {
     Comments,

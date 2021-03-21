@@ -54,3 +54,25 @@ export function FavoriteList (data) {
     }
   })
 }
+
+export function Search (data) {
+  return request({
+    method: 'get',
+    url: 'Search',
+    params: data,
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded'
+    }
+  })
+}
+
+export function rSearch (data) {
+  return request({
+    method: 'post',
+    url: 'Search',
+    data: data,
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded'
+    }
+  })
+}

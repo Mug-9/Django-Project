@@ -16,17 +16,22 @@ def get_hot_list(response):
 
 
 def parse_data(response):
-    for item in response:
-        item['ctime'] = parse_time(item['ctime'])
-        item['pubdate'] = parse_time(item['pubdate'])
-        item['duration'] = cal_time(item['duration'])
-        item['stat']['coin'] = relieve_num(item['stat']['coin'])
-        item['stat']['danmaku'] = relieve_num(item['stat']['danmaku'])
-        item['stat']['favorite'] = relieve_num(item['stat']['favorite'])
-        item['stat']['like'] = relieve_num(item['stat']['like'])
-        item['stat']['reply'] = relieve_num(item['stat']['reply'])
-        item['stat']['share'] = relieve_num(item['stat']['share'])
-        item['stat']['view'] = relieve_num(item['stat']['view'])
+    if not isinstance(response, list):
+        response['ctime'] = parse_time(response['ctime'])
+        response['pubdate'] = parse_time(response['pubdate'])
+        response['duration'] = cal_time(response['duration'])
+    else:
+        for item in response:
+            item['ctime'] = parse_time(item['ctime'])
+            item['pubdate'] = parse_time(item['pubdate'])
+            item['duration'] = cal_time(item['duration'])
+            item['stat']['coin'] = relieve_num(item['stat']['coin'])
+            item['stat']['danmaku'] = relieve_num(item['stat']['danmaku'])
+            item['stat']['favorite'] = relieve_num(item['stat']['favorite'])
+            item['stat']['like'] = relieve_num(item['stat']['like'])
+            item['stat']['reply'] = relieve_num(item['stat']['reply'])
+            item['stat']['share'] = relieve_num(item['stat']['share'])
+            item['stat']['view'] = relieve_num(item['stat']['view'])
     return response
 
 

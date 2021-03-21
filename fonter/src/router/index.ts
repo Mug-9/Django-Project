@@ -7,6 +7,8 @@ const Register = () => import("views/Register/Register.vue");
 const Profile = () => import("views/Profile/Profile.vue");
 const Log = () => import("views/LogPage/Profile.vue");
 const Store = () => import("views/Store/Profile.vue");
+const Search = () => import("views/Search/Search.vue");
+const SearchV = () => import("views/SearchV/SearchV.vue");
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -40,6 +42,14 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: "/store",
     component: Store,
+  },
+  {
+    path: "/search",
+    component: Search,
+  },
+  {
+    path: "/searchv",
+    component: SearchV,
   },
 ];
 

@@ -113,3 +113,10 @@ class UserOperator(models.Model):
     face_object_id = models.CharField(max_length=50, default='None')
     face_object_msg = models.CharField(max_length=100, default='None')
     operate_time = models.DateTimeField(default=timezone.now)
+
+
+class UserFans(models.Model):
+    id = models.AutoField(primary_key=True)
+    time = models.DateTimeField(default=timezone.now)
+    mid = models.CharField(max_length=20,  default='None')
+    fans = models.IntegerField(default=0)

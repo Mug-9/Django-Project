@@ -16,6 +16,8 @@ from spider.baidu_index import spider_baidu
 from spider.bili_index import spider_bili
 from spider.bili_index import utils
 from backend.backend_utils import Tokens
+from urllib.parse import unquote
+from django.forms.models import model_to_dict
 
 Token = Tokens.Token()
 spider = spider_baidu.SpiderBaidu()
@@ -683,4 +685,111 @@ class GetFavorite(View):
             info = {'code': 200, 'list': []}
             for favorite in favorites:
                 info['list'].append({'time': (favorite.like_time+datetime.timedelta(hours=8)).strftime('%Y-%m-%d %H:%M:%S'), 'msg': comment_info(favorite.comment_id)})
+            return JsonResponse(info, safe=False)
+
+
+@method_decorator(csrf_exempt, name='dispatch')
+class Search(View):
+    def cal(self, video):
+        video_trend = VideosData.objects.filter(bvid=video['bvid']).order_by('dateTime')
+        dateTime = []
+        view_d, danmaku_d, coin_d, reply_d, share_d, like_d, favorite_d = [0, ], [0, ], [0, ], [0, ], [0, ], [0, ], [
+            0, ]
+        view, danmaku, coin, reply, share, like, favorite = [0, ], [0, ], [0, ], [0, ], [0, ], [0, ], [0, ]
+        dateTime.append((video_trend[0].dateTime+datetime.timedelta(hours=8)).strftime('%Y-%m-%d %H:%M:%S'))
+        for i in range(1, len(video_trend)):
+            coin_d.append(video_trend[i].coin - video_trend[i - 1].coin)
+            view_d.append(video_trend[i].view - video_trend[i - 1].view)
+            danmaku_d.append(video_trend[i].danmaku - video_trend[i - 1].danmaku)
+            reply_d.append(video_trend[i].reply - video_trend[i - 1].reply)
+            share_d.append(video_trend[i].share - video_trend[i - 1].share)
+            like_d.append(video_trend[i].love - video_trend[i - 1].love)
+            favorite_d.append(video_trend[i].favorite - video_trend[i - 1].favorite)
+            dateTime.append((video_trend[i].dateTime+datetime.timedelta(hours=8)).strftime('%Y-%m-%d %H:%M:%S'))
+            view.append(video_trend[i].view)
+            danmaku.append(video_trend[i].danmaku)
+            coin.append(video_trend[i].coin)
+            reply.append(video_trend[i].reply)
+            share.append(video_trend[i].share)
+            like.append(video_trend[i].love)
+            favorite.append(video_trend[i].favorite)
+        echarts_data = {
+            'coin_d': coin_d,
+            'view_d': view_d,
+            'danmaku_d': danmaku_d,
+            'reply_d': reply_d,
+            'share_d': share_d,
+            'like_d': like_d,
+            'favorite_d': favorite_d,
+            'dateTime': dateTime,
+            'coin': coin,
+            'view': view,
+            'danmaku': danmaku,
+            'reply': reply,
+            'share': share,
+            'like': like,
+            'favorite': favorite,
+        }
+        video['echarts_data'] = echarts_data
+        return video
+
+    def get(self, request):
+        type = request.GET.get('type', '')
+        if type == 'user':
+            name = request.GET.get('name', '')
+            name = unquote(name)
+            user = UsersOfB.objects.filter(name=name)
+            if user.count() == 0:
+                info = {'code': 201, 'msg': 'UP尚不在数据库中', 'result': ''}
+                return JsonResponse(info, safe=False)
+            else:
+                res = {}
+                for u in user:
+                    res = model_to_dict(u)
+                fanslist = UserFans.objects.filter(mid=res['mid'])
+                res['fans_list'] = []
+                res['fans_time'] = []
+                res['fand_list'] = []
+                zero = 0
+                if fanslist.count() != 0:
+                    for fans in fanslist:
+                        print(fans.fans, fans.time)
+                        res['fand_list'].append(fans.fans-zero)
+                        res['fans_list'].append(fans.fans)
+                        res['fans_time'].append(fans.time.strftime('%Y-%m-%d %H:%M:%S'))
+                        zero = fans.fans
+                info = {'code': 200, 'msg': '搜索成功', 'result': res}
+                return JsonResponse(info, safe=False)
+        elif type == 'video':
+            bv = request.GET.get('bv', '')
+            video = VideosData.objects.filter(bvid=bv)
+            res = bili.search_video(bv)
+            if video.count() == 0:
+                info = {'code': 201, 'msg': '视频尚不在数据库中', 'result': res}
+                return JsonResponse(info, safe=False)
+            else:
+                res = self.cal(res)
+                info = {'code': 200, 'msg': '搜索成功', 'result': res}
+                return JsonResponse(info, safe=False)
+        info = {'code': 400, 'msg': '搜索失败'}
+        return JsonResponse(info, safe=False)
+
+    def post(self, request):
+        type = request.POST.get('type', '')
+        if type == 'user':
+            mid = request.POST.get('mid', '')
+            user = bili.search_up(mid)
+            UsersOfB.objects.create(mid=user['mid'], name=user['name'], fans=user['fans'], video_count=user['video_count'],
+                                    archive_like=user['like'], archive_view=user['views'], face=user['face'])
+            UserFans.objects.create(mid=user['mid'], fans=user['fans'])
+            info = {'code': 200, 'msg': '入库成功'}
+            return JsonResponse(info, safe=False)
+        elif type == 'video':
+            bv = request.POST.get('bv', '')
+            video = bili.search_video(bv)
+            VideosData.objects.create(bvid=video['bvid'], dateTime=video['pubdate'])
+            VideosData.objects.create(bvid=video['bvid'], view=video['stat']['view'], coin=video['stat']['coin'], danmaku=video['stat']['danmaku'],
+                                      reply=video['stat']['reply'],share=video['stat']['share'], love=video['stat']['like'],favorite=video['stat']['favorite'],
+                                      )
+            info = {'code': 200, 'msg': '入库成功'}
             return JsonResponse(info, safe=False)

@@ -170,6 +170,12 @@ class UpdateUserInfo(object):
             cur = self.db_pool[thread_id].cursor()
             cur.execute(update)
             self.db_pool[thread_id].commit()
+            nowTime = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+            insert = "insert into backend_userfans(mid, fans, time) values('%s', %s, '%s')" % (mid, fans, nowTime)
+            self.check_conn(thread_id)
+            cur = self.db_pool[thread_id].cursor()
+            cur.execute(insert)
+            self.db_pool[thread_id].commit()
             day = datetime.now().strftime('%w')
             if int(day) == 1:
                 update = "update backend_usersofb set fans_week_ago=%s, fansd_week_ago=%s where(mid='%s');" % (old_fans, old_fans-fans_week_ago, mid)

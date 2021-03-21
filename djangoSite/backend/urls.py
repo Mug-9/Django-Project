@@ -19,4 +19,6 @@ urlpatterns = [
     path('GetVideoIncre', view=views.GetVideoIncre.as_view(), name="GetVideoIncre"),
     path('OperatorLog', view=views.OperatorLog.as_view(), name="OperatorLog"),
     path('GetFavorite', view=views.GetFavorite.as_view(), name="GetFavorite"),
+    path('Search', view=views.Search.as_view(), name="Search"),
+
 ]

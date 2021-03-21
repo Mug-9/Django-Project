@@ -16,6 +16,8 @@
       <el-menu-item></el-menu-item>
       <el-menu-item index="/home">首页</el-menu-item>
       <el-menu-item index="/ranklist">排行榜</el-menu-item>
+      <el-menu-item index="/search">UP搜索</el-menu-item>
+      <el-menu-item index="/searchV">视频搜索</el-menu-item>
     </el-menu>
     <div class="nav-user">
       <div v-if="$store.getters.isLogin">

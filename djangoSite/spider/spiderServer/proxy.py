@@ -43,7 +43,6 @@ def check_conn(conn):
 
 
 if __name__ == "__main__":
-
     while True:
         conn = md.connect(host='123.56.252.111', port=3306, user='root', passwd='123456', db='test')
         check_conn(conn)
@@ -53,6 +52,7 @@ if __name__ == "__main__":
         proxies_list = json.loads(res)['proxies']
         print(proxies_list)
         for iport in proxies_list:
+            iport = iport[7:]
             select = "select id from backend_proxies where iport=\'%s\';" % iport
             check_conn(conn)
             cursor = conn.cursor()
@@ -69,6 +69,7 @@ if __name__ == "__main__":
             time.sleep(5)
 
         select = "select * from backend_proxies"
+
         check_conn(conn)
         cursor = conn.cursor()
         cursor.execute(select)

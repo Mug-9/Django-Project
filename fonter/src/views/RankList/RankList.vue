@@ -25,7 +25,7 @@
         v-model="activeName"
         @tab-click="handleClick"
       >
-        <el-tab-pane name="1" lazy="true">
+        <el-tab-pane name="1">
           <template #label
             ><img src="~@/assets/img/online-icons/online.svg" alt="" />
             <span>在线人数</span>
@@ -50,7 +50,7 @@
           <el-divider> </el-divider>
           <hot-list :isIndex="activeIndex"></hot-list>
         </el-tab-pane>
-        <el-tab-pane name="3" lazy="true">
+        <el-tab-pane name="3">
           <template #label
             ><img src="~@/assets/img/online-icons/fans_red.svg" alt="" />
             <span>粉丝排行</span>
@@ -63,7 +63,7 @@
           <el-divider> </el-divider>
           <fans-list></fans-list>
         </el-tab-pane>
-        <el-tab-pane name="4" lazy="true">
+        <el-tab-pane name="4">
           <template #label
             ><img src="~@/assets/img/online-icons/fans_red.svg" alt="" />
             <span>粉丝增长</span>
@@ -76,7 +76,7 @@
           <el-divider> </el-divider>
           <fans-incre-list></fans-incre-list>
         </el-tab-pane>
-        <el-tab-pane name="5" lazy="true">
+        <el-tab-pane name="5">
           <template #label
             ><img src="~@/assets/img/online-icons/gan.svg" alt="" />
             <span>肝帝排行</span>
