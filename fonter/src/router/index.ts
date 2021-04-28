@@ -9,6 +9,10 @@ const Log = () => import("views/LogPage/Profile.vue");
 const Store = () => import("views/Store/Profile.vue");
 const Search = () => import("views/Search/Search.vue");
 const SearchV = () => import("views/SearchV/SearchV.vue");
+const Detail = () => import("views/Detail/Detail.vue");
+const SecHot = () => import("views/SecHot/SecHot.vue");
+const HotDetail = () => import("views/HotDetail/HotDetail.vue");
+const HotAnay = () => import("views/HotAnay/HotAnay.vue");
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -50,6 +54,22 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: "/searchv",
     component: SearchV,
+  },
+  {
+    path: "/Detail",
+    component: Detail,
+  },
+  {
+    path: "/SecHot",
+    component: SecHot,
+  },
+  {
+    path: "/HotDetail",
+    component: HotDetail,
+  },
+  {
+    path: "/HotAnay",
+    component: HotAnay,
   },
 ];
 

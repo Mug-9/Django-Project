@@ -51,9 +51,9 @@
         </li>
       </ul>
     </div>
-  </div>
-  <div v-if="!echartsBase_data['loading']">
-    <comments :comment_data="commentData"> </comments>
+    <div v-if="!echartsBase_data['loading']">
+      <comments :comment_data="commentData"> </comments>
+    </div>
   </div>
 </template>
 

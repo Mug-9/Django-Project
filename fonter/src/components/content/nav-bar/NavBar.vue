@@ -18,6 +18,10 @@
       <el-menu-item index="/ranklist">排行榜</el-menu-item>
       <el-menu-item index="/search">UP搜索</el-menu-item>
       <el-menu-item index="/searchV">视频搜索</el-menu-item>
+      <el-menu-item index="/Detail">详细</el-menu-item>
+      <el-menu-item index="/SecHot">热点候选</el-menu-item>
+      <el-menu-item index="/HotDetail">热点详情</el-menu-item>
+      <el-menu-item index="/HotAnay">热榜分析</el-menu-item>
     </el-menu>
     <div class="nav-user">
       <div v-if="$store.getters.isLogin">

@@ -39,6 +39,11 @@
         ></el-input>
       </div>
       <div class="account">账号：{{ account }}</div>
+      <div class="account">
+        性别：
+        <el-radio v-model="sex" label="male">男</el-radio>
+        <el-radio v-model="sex" label="female">女</el-radio>
+      </div>
       <div class="password">
         密码：
         <el-input
@@ -72,6 +77,7 @@ export default {
   name: "UserInfo",
   data () {
     return {
+      sex: 'male',
       userName: this.$store.state.name,
       account: this.$store.state.account,
       password: this.$store.state.password,
